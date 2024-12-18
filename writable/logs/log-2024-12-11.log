@@ -1,0 +1,170 @@
+CRITICAL - 2024-12-11 21:14:45 --> Undefined variable $recebedores
+in APPPATH\Views\recebedores.php on line 9.
+ 1 APPPATH\Views\recebedores.php(9): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $recebedores', 'APPPATH\\Views\\recebedores.php', 9)
+ 2 SYSTEMPATH\View\View.php(213): include('APPPATH\\Views\\recebedores.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1177): CodeIgniter\View\View->render('recebedores', [], true)
+ 5 APPPATH\Controllers\Recebedor.php(16): view('recebedores', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Recebedor->index()
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Recebedor))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-12-11 21:15:24 --> Undefined variable $recebedores
+in APPPATH\Views\recebedores.php on line 9.
+ 1 APPPATH\Views\recebedores.php(9): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $recebedores', 'APPPATH\\Views\\recebedores.php', 9)
+ 2 SYSTEMPATH\View\View.php(213): include('APPPATH\\Views\\recebedores.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1177): CodeIgniter\View\View->render('recebedores', [], true)
+ 5 APPPATH\Controllers\Recebedor.php(16): view('recebedores', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Recebedor->index()
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Recebedor))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-12-11 21:54:22 --> Invalid file: "tiposPagamento.php"
+in SYSTEMPATH\Exceptions\FrameworkException.php on line 33.
+ 1 SYSTEMPATH\View\View.php(201): CodeIgniter\Exceptions\FrameworkException::forInvalidFile('tiposPagamento.php')
+ 2 SYSTEMPATH\Common.php(1177): CodeIgniter\View\View->render('tiposPagamento', [], true)
+ 3 APPPATH\Controllers\TipoPagamento.php(16): view('tiposPagamento', [...])
+ 4 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\TipoPagamento->index()
+ 5 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\TipoPagamento))
+ 6 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ERROR - 2024-12-11 22:00:04 --> mysqli_sql_exception: Unknown column 'descricao' in 'order clause' in C:\laragon\www\psweb\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\laragon\www\psweb\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT *\nFROM `...', 0)
+#1 C:\laragon\www\psweb\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT *\nFROM `...')
+#2 C:\laragon\www\psweb\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT *\nFROM `...')
+#3 C:\laragon\www\psweb\system\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT *\nFROM `...', Array, false)
+#4 C:\laragon\www\psweb\system\Model.php(240): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\laragon\www\psweb\system\BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\laragon\www\psweb\app\Controllers\Pagamento.php(28): CodeIgniter\BaseModel->findAll()
+#7 C:\laragon\www\psweb\system\CodeIgniter.php(934): App\Controllers\Pagamento->inserir()
+#8 C:\laragon\www\psweb\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pagamento))
+#9 C:\laragon\www\psweb\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\laragon\www\psweb\public\index.php(67): CodeIgniter\CodeIgniter->run()
+#11 {main}
+CRITICAL - 2024-12-11 22:00:04 --> Unknown column 'descricao' in 'order clause'
+in SYSTEMPATH\Database\BaseConnection.php on line 645.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `users`
+ORDER BY `descricao` ASC', [], false)
+ 2 SYSTEMPATH\Model.php(240): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Controllers\Pagamento.php(28): CodeIgniter\BaseModel->findAll()
+ 5 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Pagamento->inserir()
+ 6 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pagamento))
+ 7 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-12-11 22:30:39 --> Object of class stdClass could not be converted to string
+in APPPATH\Views\pagamentos.php on line 18.
+ 1 SYSTEMPATH\View\View.php(213): include()
+ 2 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 3 SYSTEMPATH\Common.php(1177): CodeIgniter\View\View->render('pagamentos', [], true)
+ 4 APPPATH\Controllers\Pagamento.php(27): view('pagamentos', [...])
+ 5 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Pagamento->index()
+ 6 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pagamento))
+ 7 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-12-11 22:30:52 --> Undefined property: stdClass::$pagamento
+in APPPATH\Views\pagamentos.php on line 18.
+ 1 APPPATH\Views\pagamentos.php(18): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$pagamento', 'APPPATH\\Views\\pagamentos.php', 18)
+ 2 SYSTEMPATH\View\View.php(213): include('APPPATH\\Views\\pagamentos.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1177): CodeIgniter\View\View->render('pagamentos', [], true)
+ 5 APPPATH\Controllers\Pagamento.php(27): view('pagamentos', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Pagamento->index()
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pagamento))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-12-11 22:40:18 --> Undefined property: stdClass::$desc_pagamento
+in APPPATH\Views\pagamentos.php on line 27.
+ 1 APPPATH\Views\pagamentos.php(27): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$desc_pagamento', 'APPPATH\\Views\\pagamentos.php', 27)
+ 2 SYSTEMPATH\View\View.php(213): include('APPPATH\\Views\\pagamentos.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1177): CodeIgniter\View\View->render('pagamentos', [], true)
+ 5 APPPATH\Controllers\Pagamento.php(30): view('pagamentos', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Pagamento->index()
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pagamento))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ERROR - 2024-12-11 22:40:27 --> mysqli_sql_exception: Unknown column 'tipo_pagamento.descricao' in 'field list' in C:\laragon\www\psweb\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\laragon\www\psweb\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT `pagamen...', 0)
+#1 C:\laragon\www\psweb\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `pagamen...')
+#2 C:\laragon\www\psweb\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `pagamen...')
+#3 C:\laragon\www\psweb\system\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT `pagamen...', Array, false)
+#4 C:\laragon\www\psweb\system\Model.php(240): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\laragon\www\psweb\system\BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\laragon\www\psweb\app\Controllers\Pagamento.php(27): CodeIgniter\BaseModel->findAll()
+#7 C:\laragon\www\psweb\system\CodeIgniter.php(934): App\Controllers\Pagamento->index()
+#8 C:\laragon\www\psweb\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pagamento))
+#9 C:\laragon\www\psweb\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\laragon\www\psweb\public\index.php(67): CodeIgniter\CodeIgniter->run()
+#11 {main}
+CRITICAL - 2024-12-11 22:40:27 --> Unknown column 'tipo_pagamento.descricao' in 'field list'
+in SYSTEMPATH\Database\BaseConnection.php on line 645.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT `pagamento`.*, `pagamento`.`id` as `id_pagamento`, `users`.`nome` as `nome_morador`, `recebedor`.`nome` as `nome_recebedor`, `endereco`.*, `tipo_pagamento`.`descricao` as `desc_pagamento`
+FROM `pagamento`
+JOIN `users` ON `users`.`id` = `pagamento`.`id_usuario`
+JOIN `recebedor` ON `recebedor`.`id` = `pagamento`.`id_recebedor`
+JOIN `endereco` ON `endereco`.`id_usuario` = `users`.`id`
+ORDER BY `users`.`nome` ASC', [], false)
+ 2 SYSTEMPATH\Model.php(240): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Controllers\Pagamento.php(27): CodeIgniter\BaseModel->findAll()
+ 5 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Pagamento->index()
+ 6 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pagamento))
+ 7 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+ERROR - 2024-12-11 22:41:26 --> mysqli_sql_exception: Not unique table/alias: 'pagamento' in C:\laragon\www\psweb\system\Database\MySQLi\Connection.php:295
+Stack trace:
+#0 C:\laragon\www\psweb\system\Database\MySQLi\Connection.php(295): mysqli->query('SELECT `pagamen...', 0)
+#1 C:\laragon\www\psweb\system\Database\BaseConnection.php(691): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `pagamen...')
+#2 C:\laragon\www\psweb\system\Database\BaseConnection.php(605): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `pagamen...')
+#3 C:\laragon\www\psweb\system\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT `pagamen...', Array, false)
+#4 C:\laragon\www\psweb\system\Model.php(240): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\laragon\www\psweb\system\BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+#6 C:\laragon\www\psweb\app\Controllers\Pagamento.php(27): CodeIgniter\BaseModel->findAll()
+#7 C:\laragon\www\psweb\system\CodeIgniter.php(934): App\Controllers\Pagamento->index()
+#8 C:\laragon\www\psweb\system\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pagamento))
+#9 C:\laragon\www\psweb\system\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#10 C:\laragon\www\psweb\public\index.php(67): CodeIgniter\CodeIgniter->run()
+#11 {main}
+CRITICAL - 2024-12-11 22:41:26 --> Not unique table/alias: 'pagamento'
+in SYSTEMPATH\Database\BaseConnection.php on line 645.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1602): CodeIgniter\Database\BaseConnection->query('SELECT `pagamento`.*, `pagamento`.`id` as `id_pagamento`, `users`.`nome` as `nome_morador`, `recebedor`.`nome` as `nome_recebedor`, `endereco`.*
+FROM `pagamento`
+JOIN `users` ON `users`.`id` = `pagamento`.`id_usuario`
+JOIN `recebedor` ON `recebedor`.`id` = `pagamento`.`id_recebedor`
+JOIN `endereco` ON `endereco`.`id_usuario` = `users`.`id`
+JOIN `pagamento` ON `pagamento`.`id_tipo_pagamento` = `tipo_pagamento`.`id`
+ORDER BY `users`.`nome` ASC', [], false)
+ 2 SYSTEMPATH\Model.php(240): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\BaseModel.php(618): CodeIgniter\Model->doFindAll(0, 0)
+ 4 APPPATH\Controllers\Pagamento.php(27): CodeIgniter\BaseModel->findAll()
+ 5 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Pagamento->index()
+ 6 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pagamento))
+ 7 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-12-11 22:42:05 --> Undefined property: stdClass::$desc_pagamento
+in APPPATH\Views\pagamentos.php on line 27.
+ 1 APPPATH\Views\pagamentos.php(27): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$desc_pagamento', 'APPPATH\\Views\\pagamentos.php', 27)
+ 2 SYSTEMPATH\View\View.php(213): include('APPPATH\\Views\\pagamentos.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1177): CodeIgniter\View\View->render('pagamentos', [], true)
+ 5 APPPATH\Controllers\Pagamento.php(30): view('pagamentos', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Pagamento->index()
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pagamento))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
+CRITICAL - 2024-12-11 23:05:53 --> Undefined variable $msg
+in APPPATH\Views\pagamentos.php on line 5.
+ 1 APPPATH\Views\pagamentos.php(5): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $msg', 'APPPATH\\Views\\pagamentos.php', 5)
+ 2 SYSTEMPATH\View\View.php(213): include('APPPATH\\Views\\pagamentos.php')
+ 3 SYSTEMPATH\View\View.php(216): CodeIgniter\View\View->CodeIgniter\View\{closure}()
+ 4 SYSTEMPATH\Common.php(1177): CodeIgniter\View\View->render('pagamentos', [], true)
+ 5 APPPATH\Controllers\Pagamento.php(31): view('pagamentos', [...])
+ 6 SYSTEMPATH\CodeIgniter.php(934): App\Controllers\Pagamento->index()
+ 7 SYSTEMPATH\CodeIgniter.php(499): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Pagamento))
+ 8 SYSTEMPATH\CodeIgniter.php(368): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 FCPATH\index.php(67): CodeIgniter\CodeIgniter->run()
