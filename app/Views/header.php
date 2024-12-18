@@ -4,14 +4,51 @@
     <title>
         <?php echo $titulo; ?>
     </title>
+
     <style>
         .tabela,
         .tabela td,
         .tabela tr {
             border: 1px solid;
         }
+
         .tabela {
             width: 500px;
+        }
+
+
+        /* Estilo para os links de paginação */
+        .pagination-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .pagination-container ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: inline-flex;
+        }
+
+        .pagination-container li {
+            margin: 0 5px;
+        }
+
+        .pagination-container a,
+        .pagination-container span {
+            display: block;
+            padding: 8px 12px;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            text-decoration: none;
+            color: #333;
+            border-radius: 4px;
+        }
+
+        .pagination-container a:hover,
+        .pagination-container .active {
+            background-color: #007bff;
+            color: white;
         }
     </style>
 </head>

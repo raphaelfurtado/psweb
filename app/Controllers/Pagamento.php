@@ -13,7 +13,8 @@ class Pagamento extends BaseController
     public function index()
     {
         $pagadorModel = new PagamentoModel();
-        $data['link'] = 'public/index.php/pagamento/inserir';
+
+        $data['link'] = 'pagamento/inserir';
         $data['tituloRedirect'] = '+ Inserir Novo Pagamento';
         $data['pagamentos'] = $pagadorModel
             ->select('pagamento.*, 
@@ -27,7 +28,9 @@ class Pagamento extends BaseController
             ->join('recebedor', 'recebedor.id = pagamento.id_recebedor')
             ->join('endereco', 'endereco.id_usuario = users.id')
             ->join('tipo_pagamento', 'tipo_pagamento.id = pagamento.id_tipo_pagamento')
-            ->orderBy('users.nome', 'ASC')->findAll();
+            ->orderBy('pagamento.id', 'DESC')->paginate(10);
+
+        $data['pager'] = $pagadorModel->pager;
         $data['titulo'] = 'Lista de Pagamento';
 
         echo view('pagamentos', $data);
@@ -43,7 +46,7 @@ class Pagamento extends BaseController
         $data['moradores'] = $moradorModel->orderBy('nome', 'ASC')->findAll();
         $data['tiposPagamento'] = $tipoPagamentoModel->orderBy('descricao', 'ASC')->findAll();
 
-        $data['link'] = 'public/index.php/pagamentos';
+        $data['link'] = '/pagamentos';
         $data['tituloRedirect'] = 'Voltar para Lista de Pagamentos';
         $data['titulo'] = 'Inserir Pagador';
         $data['acao'] = 'Inserir';
@@ -89,7 +92,7 @@ class Pagamento extends BaseController
         $data['titulo'] = 'Editar Pagamento ' . $id;
         $data['acao'] = 'Atualizar';
         $data['msg'] = '';
-        $data['link'] = 'public/index.php/pagamentos';
+        $data['link'] = '/pagamentos';
         $data['tituloRedirect'] = 'Voltar para Lista de Pagamentos';
 
         $pagamento = $pagadorModel->find($id);
@@ -118,6 +121,8 @@ class Pagamento extends BaseController
             } else {
                 $data['msg'] = 'Erro ao atualizar pagamento.';
             }
+
+            return redirect()->to('/pagamentos');
         }
 
         $data['pagamento'] = $pagamento;

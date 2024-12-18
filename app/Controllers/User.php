@@ -13,7 +13,7 @@ class User extends BaseController
         $userModel = new UserModel();
         $data['moradores'] = $userModel->find();
         $data['titulo'] = 'Lista de moradores';
-        $data['link'] = 'public/index.php/user/inserir';
+        $data['link'] = '/user/inserir';
         $data['tituloRedirect'] = '+ Inserir Novo Usuário';
 
         echo view('moradores', $data);
@@ -67,7 +67,7 @@ class User extends BaseController
         $data['titulo'] = 'Editar usuário ' . $id;
         $data['acao'] = 'Atualizar';
         $data['msg'] = '';
-        $data['link'] = 'public/index.php/users';
+        $data['link'] = '/users';
         $data['tituloRedirect'] = 'Voltar para Lista de Usuários';
 
         $userModel = new UserModel();
@@ -99,7 +99,7 @@ class User extends BaseController
                 $data['msg'] = 'Erro ao atualizar o endereço.';
             };
 
-            //return redirect()->to('/users');
+            return redirect()->to('/users');
         }
 
         $data['usuario'] = $usuario;

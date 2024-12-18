@@ -13,7 +13,7 @@
             <tr>
                 <td><?php echo $morador->id?></td>
                 <td><?php echo $morador->nome?></td>
-                <td><a href="<?php echo base_url('public/index.php/user/editar/' . $morador->id)?>">Editar</a></td>
+                <td><a href="<?php echo base_url('/user/editar/' . $morador->id)?>">Editar</a></td>
             </tr>
         <?php endforeach; ?>
     </table>

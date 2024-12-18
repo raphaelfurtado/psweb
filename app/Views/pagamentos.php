@@ -32,10 +32,13 @@
                 <td><?php echo $pagamento->valor ?></td>
                 <td><?php echo $pagamento->desc_pagamento ?></td>
                 <td><?php echo $pagamento->observacao ?></td>
-                <td><a href="<?php echo base_url('public/index.php/pagamento/editar/' . $pagamento->id_pagamento)?>">Editar</a></td>
+                <td><a href="<?php echo base_url('/pagamento/editar/' . $pagamento->id_pagamento) ?>">Editar</a></td>
             </tr>
         <?php endforeach; ?>
     </table>
+    <div class="pagination-container">
+        <?php echo $pager->links(); ?>
+    </div>
 </div>
 
 <?php echo $this->include('footer'); ?>
