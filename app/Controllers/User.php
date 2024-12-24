@@ -52,6 +52,8 @@ class User extends BaseController
                 'aniversario' => $this->request->getPost('aniversario'),
                 'telefone' => $this->request->getPost('telefone'),
                 'telefone_2' => $this->request->getPost('telefone_2'),
+                'senha' => password_hash($this->request->getPost('senha'), PASSWORD_DEFAULT),
+                'role' => 'user', // ou 'admin'
             ];
 
             $userId = $userModel->insert($userData, true); // `true` retorna o ID do registro inserido
@@ -114,6 +116,8 @@ class User extends BaseController
                 'aniversario' => $this->request->getPost('aniversario'),
                 'telefone' => $this->request->getPost('telefone'),
                 'telefone_2' => $this->request->getPost('telefone_2'),
+                'senha' => password_hash($this->request->getPost('senha'), PASSWORD_DEFAULT),
+                'role' => 'user', // ou 'admin'
             ])) {
                 $data['msg'] = 'Usuário e endereço atualizados com sucesso!';
             } else {

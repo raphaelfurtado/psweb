@@ -60,6 +60,14 @@
             </div>
         </div>
 
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+                <label for="senha" class="block font-medium">Senha:</label>
+                <input type="password" id="senha" name="senha" value="<?php echo (isset($usuario) ? $usuario->senha : '') ?>" 
+                       class="w-full border border-gray-300 rounded px-3 py-2" required>
+            </div>
+        </div>
+
         <div>
             <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">
                 <?php echo $acao ?>

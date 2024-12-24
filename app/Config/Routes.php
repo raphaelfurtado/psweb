@@ -55,6 +55,13 @@ $routes->get('/tipoPagamento/inserir', 'TipoPagamento::inserir');
 $routes->post('/tipoPagamento/inserir', 'TipoPagamento::inserir');
 $routes->get('/tiposPagamento', 'TipoPagamento::index');
 
+# LOGIN
+$routes->get('login', 'Auth::login');
+$routes->post('login', 'Auth::login');
+$routes->get('logout', 'Auth::logout');
+$routes->get('dashboard', 'Dashboard::index');
+
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
