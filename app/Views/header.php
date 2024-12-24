@@ -5,6 +5,21 @@
         <?php echo $titulo; ?>
     </title>
 
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1D4ED8',
+                        secondary: '#9333EA',
+                    },
+                },
+            },
+        }
+    </script>
+
     <style>
         .tabela,
         .tabela td,
@@ -53,7 +68,7 @@
     </style>
 </head>
 
-<body>
+<body class="bg-gray-100 text-gray-900">
     <div id="header">
         <h1>Sistema Porta do Sol</h1>
         <hr>
