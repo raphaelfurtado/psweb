@@ -1,3 +1,5 @@
 .env
 
 /writable
+
+/vendor

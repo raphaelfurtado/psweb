@@ -7,6 +7,12 @@ use CodeIgniter\Session\Handlers\FileHandler;
 
 class App extends BaseConfig
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->baseURL = env('app.baseURL'); // Valor padrão para fallback
+    }
+
     /**
      * --------------------------------------------------------------------------
      * Base Site URL
@@ -22,8 +28,7 @@ class App extends BaseConfig
      * explicitly and never rely on auto-guessing, especially in production
      * environments.
      */
-    #public string $baseURL = 'http://localhost/psweb/public/'; #DESENV
-    public string $baseURL = 'https://psweb.forcehub.com.br/'; #PROD
+    public string $baseURL = ''; 
 
     /**
      * Allowed Hostnames in the Site URL other than the hostname in the baseURL.
