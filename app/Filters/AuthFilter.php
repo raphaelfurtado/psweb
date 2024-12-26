@@ -10,13 +10,19 @@ class AuthFilter implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
+
         if (!session()->has('user_id')) {
-            return redirect()->to('/login');
+            return redirect()->to('/login')->with('error', 'Você precisa estar logado para acessar esta página.');;
         }
 
         // Verifica a role do usuário (admin ou user)
         if (isset($arguments[0]) && $arguments[0] === 'admin' && session()->get('user_role') !== 'admin') {
-            return redirect()->to('/dashboard');
+            return redirect()->to('/');
+        }
+        
+        // Se o usuário já estiver logado e acessar a página de login, redirecione para a dashboard
+        if (session()->get('user_id') && $request->uri->getPath() === 'login') {
+            return redirect()->to('/');
         }
     }
 

@@ -19,8 +19,9 @@ class Auth extends BaseController
                 session()->set('user_id', $user->id);
                 session()->set('user_nome', $user->nome);
                 session()->set('user_role', $user->role);
+                session()->set('logged_in', true);
 
-                return redirect()->to('/dashboard');
+                return redirect()->to('/');
             } else {
                 session()->setFlashdata('error', 'Credenciais inválidas');
             }

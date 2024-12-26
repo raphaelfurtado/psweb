@@ -3,6 +3,7 @@
 namespace Config;
 
 use App\Filters\AuthFilter;
+use App\Filters\RoleFilter;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\CSRF;
 use CodeIgniter\Filters\DebugToolbar;
@@ -23,6 +24,7 @@ class Filters extends BaseConfig
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
         'auth'          => AuthFilter::class,
+        'role'          => RoleFilter::class,
     ];
 
     /**
@@ -63,6 +65,7 @@ class Filters extends BaseConfig
      * 'isLoggedIn' => ['before' => ['account/*', 'profiles/*']]
      */
     public array $filters = [
-        'auth' => ['before' => ['dashboard', 'admin/*']],
+        'auth' => ['before' => ['']],
+        'role' => ['before' => ['']],
     ];
 }

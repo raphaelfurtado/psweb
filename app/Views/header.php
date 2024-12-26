@@ -1,3 +1,11 @@
+<?php
+// Inclua o componente de menu
+include 'menu.php';
+
+$role = session('user_role');
+
+?>
+
 <html>
 
 <head>
@@ -19,57 +27,9 @@
             },
         }
     </script>
-
-    <style>
-        .tabela,
-        .tabela td,
-        .tabela tr {
-            border: 1px solid;
-        }
-
-        .tabela {
-            width: 500px;
-        }
-
-
-        /* Estilo para os links de paginação */
-        .pagination-container {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .pagination-container ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: inline-flex;
-        }
-
-        .pagination-container li {
-            margin: 0 5px;
-        }
-
-        .pagination-container a,
-        .pagination-container span {
-            display: block;
-            padding: 8px 12px;
-            background-color: #f1f1f1;
-            border: 1px solid #ddd;
-            text-decoration: none;
-            color: #333;
-            border-radius: 4px;
-        }
-
-        .pagination-container a:hover,
-        .pagination-container .active {
-            background-color: #007bff;
-            color: white;
-        }
-    </style>
 </head>
 
-<body class="bg-gray-100 text-gray-900">
-    <div id="header">
-        <h1>Sistema Porta do Sol</h1>
-        <hr>
-    </div>
+<body class="flex flex-col min-h-screen bg-gray-100 text-gray-900">
+    
+    <?php renderMenu($role); ?>
+    <main class="flex-grow p-4">

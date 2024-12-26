@@ -29,37 +29,37 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
-$routes->get('/helloworld', 'HelloWorld::index');
 
-# MORADOR/USUARIO
-$routes->get('/user/inserir', 'User::inserir');
-$routes->post('user/inserir', 'User::inserir');
-$routes->get('/users', 'User::index');
-$routes->match(['get', 'post'], 'user/editar/(:num)', 'User::editar/$1');
+$routes->group('', ['filter' => 'role:admin'], function ($routes) {
+    # MORADOR/USUARIO
+    $routes->get('/user/inserir', 'User::inserir');
+    $routes->post('/user/inserir', 'User::inserir');
+    $routes->get('/users', 'User::index');
+    $routes->match(['get', 'post'], 'user/editar/(:num)', 'User::editar/$1');
 
+    # RECEBEDOR
+    $routes->get('/recebedor/inserir', 'Recebedor::inserir');
+    $routes->post('/recebedor/inserir', 'Recebedor::inserir');
+    $routes->get('/recebedores', 'Recebedor::index');
+    $routes->match(['get', 'post'], 'recebedor/editar/(:num)', 'Recebedor::editar/$1');
 
-# RECEBEDOR
-$routes->get('/recebedor/inserir', 'Recebedor::inserir');
-$routes->post('/recebedor/inserir', 'Recebedor::inserir');
-$routes->get('/recebedores', 'Recebedor::index');
-
-# PAGAMENTOS
-$routes->get('/pagamento/inserir', 'Pagamento::inserir');
-$routes->post('/pagamento/inserir', 'Pagamento::inserir');
-$routes->get('/pagamentos', 'Pagamento::index');
-$routes->match(['get', 'post'], 'pagamento/editar/(:num)', 'Pagamento::editar/$1');
+    # PAGAMENTOS
+    $routes->get('/pagamento/inserir', 'Pagamento::inserir');
+    $routes->post('/pagamento/inserir', 'Pagamento::inserir');
+    $routes->get('/pagamentos', 'Pagamento::index');
+    $routes->match(['get', 'post'], 'pagamento/editar/(:num)', 'Pagamento::editar/$1');
+});
 
 # TIPO DE PAGAMENTO
-$routes->get('/tipoPagamento/inserir', 'TipoPagamento::inserir');
-$routes->post('/tipoPagamento/inserir', 'TipoPagamento::inserir');
-$routes->get('/tiposPagamento', 'TipoPagamento::index');
+$routes->get('/tipoPagamento/inserir', 'TipoPagamento::inserir', ['filter' => 'auth']);
+$routes->post('/tipoPagamento/inserir', 'TipoPagamento::inserir', ['filter' => 'auth']);
+$routes->get('/tiposPagamento', 'TipoPagamento::index', ['filter' => 'auth']);
 
-# LOGIN
+# LOGIN 
 $routes->get('login', 'Auth::login');
 $routes->post('login', 'Auth::login');
 $routes->get('logout', 'Auth::logout');
-$routes->get('dashboard', 'Dashboard::index');
+$routes->get('/', 'Dashboard::index');
 
 
 /*
