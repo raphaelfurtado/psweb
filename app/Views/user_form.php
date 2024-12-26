@@ -45,17 +45,17 @@
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
                 <label for="rua" class="block font-medium">Rua:</label>
-                <input type="text" id="rua" name="rua" value="<?php echo (isset($usuario) ? $endereco->rua : '') ?>" 
+                <input type="text" id="rua" name="rua" value="<?php echo (isset($endereco) ? $endereco->rua : '') ?>" 
                        class="w-full border border-gray-300 rounded px-3 py-2">
             </div>
             <div>
                 <label for="numero" class="block font-medium">Número:</label>
-                <input type="text" id="numero" name="numero" value="<?php echo (isset($usuario) ? $endereco->numero : '') ?>" 
+                <input type="text" id="numero" name="numero" value="<?php echo (isset($endereco) ? $endereco->numero : '') ?>" 
                        class="w-full border border-gray-300 rounded px-3 py-2" required>
             </div>
             <div>
                 <label for="quadra" class="block font-medium">Quadra:</label>
-                <input type="text" id="quadra" name="quadra" value="<?php echo (isset($usuario) ? $endereco->quadra : '') ?>" 
+                <input type="text" id="quadra" name="quadra" value="<?php echo (isset($endereco) ? $endereco->quadra : '') ?>" 
                        class="w-full border border-gray-300 rounded px-3 py-2">
             </div>
         </div>
