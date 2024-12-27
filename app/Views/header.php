@@ -9,12 +9,10 @@ $role = session('user_role');
 <html>
 
 <head>
-    <title>
-        <?php echo $titulo; ?>
-    </title>
-
+    <title>Painel do Usuário</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
@@ -23,13 +21,18 @@ $role = session('user_role');
                         primary: '#1D4ED8',
                         secondary: '#9333EA',
                     },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
                 },
             },
         }
     </script>
 </head>
 
-<body class="flex flex-col min-h-screen bg-gray-100 text-gray-900">
-    
+<body class="flex flex-col min-h-screen bg-gray-50 text-gray-800 font-sans">
+
+
     <?php renderMenu($role); ?>
     <main class="flex-grow p-4">
+        <div class="container mx-auto">

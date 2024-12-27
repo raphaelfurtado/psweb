@@ -1,6 +1,7 @@
 <?php echo $this->include('header', array('titulo' => $titulo)); ?>
 
 <div class="container mx-auto px-4 py-8">
+
     <h2 class="text-2xl font-bold mb-4 text-center sm:text-left"><?php echo $titulo ?></h2>
 
     <p class="mb-4 text-center sm:text-left">
@@ -35,5 +36,6 @@
         </table>
     </div>
 </div>
+
 
 <?php echo $this->include('footer'); ?>

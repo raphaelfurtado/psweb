@@ -28,31 +28,38 @@
                     <th class="px-4 py-2 text-left">Ações</th>
                 </tr>
             </thead>
-            <?php foreach ($pagamentos as $pagamento): ?>
-                <tr class="border-t hover:bg-gray-100">
-                    <td class="px-4 py-2"><?php echo $pagamento->id_pagamento ?></td>
-                    <td class="px-4 py-2"><?php echo $pagamento->nome_morador ?></td>
-                    <td class="px-4 py-2"><?php echo $pagamento->nome_recebedor ?></td>
-                    <td class="px-4 py-2"><?php echo $pagamento->numero ?></td>
-                    <td class="px-4 py-2"><?php echo $pagamento->quadra ?></td>
-                    <td class="px-4 py-2"><?php echo date('d/m/Y', strtotime($pagamento->data_pagamento)) ?></td>
-                    <td class="px-4 py-2"><?php echo $pagamento->referencia ?></td>
-                    <td class="px-4 py-2"><?php echo $pagamento->valor ?></td>
-                    <td class="px-4 py-2"><?php echo $pagamento->desc_pagamento ?></td>
-                    <td class="px-4 py-2"><?php echo $pagamento->observacao ?></td>
-                    <td class="px-4 py-2">
-                        <a href="<?php echo base_url('/pagamento/editar/' . $pagamento->id_pagamento) ?>"
-                            class="text-blue-500 hover:underline">
-                            Editar
-                        </a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
+            <tbody>
+                <?php foreach ($pagamentos as $pagamento): ?>
+                    <tr class="border-t hover:bg-gray-100">
+                        <td class="px-4 py-2"><?php echo $pagamento->id_pagamento ?></td>
+                        <td class="px-4 py-2"><?php echo $pagamento->nome_morador ?></td>
+                        <td class="px-4 py-2"><?php echo $pagamento->nome_recebedor ?></td>
+                        <td class="px-4 py-2"><?php echo $pagamento->numero ?></td>
+                        <td class="px-4 py-2"><?php echo $pagamento->quadra ?></td>
+                        <td class="px-4 py-2"><?php echo date('d/m/Y', strtotime($pagamento->data_pagamento)) ?></td>
+                        <td class="px-4 py-2"><?php echo $pagamento->referencia ?></td>
+                        <td class="px-4 py-2"><?php echo $pagamento->valor ?></td>
+                        <td class="px-4 py-2"><?php echo $pagamento->desc_pagamento ?></td>
+                        <td class="px-4 py-2"><?php echo $pagamento->observacao ?></td>
+                        <td class="px-4 py-2">
+                            <a href="<?php echo base_url('/pagamento/editar/' . $pagamento->id_pagamento) ?>"
+                                class="text-blue-500 hover:underline">
+                                Editar
+                            </a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
         </table>
-        <div class="pagination-container">
-            <?php echo $pager->links(); ?>
+
+        <!-- Paginação -->
+        <div class="mt-4">
+            <div class="pagination-container text-center">
+                <?php echo $pager->links(); ?>
+            </div>
         </div>
     </div>
 </div>
+
 
 <?php echo $this->include('footer'); ?>

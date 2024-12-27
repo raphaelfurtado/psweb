@@ -1,36 +1,50 @@
 <?php
 function renderMenu($role)
 {
-?>
-    <header class="bg-primary text-white p-4">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 class="text-xl font-bold">Sistema Porta do Sol</h1>
-            <nav class="flex space-x-4">
+    ?>
+    <header class="bg-primary text-white shadow-md relative">
+        <div class="container mx-auto flex items-center justify-between p-4">
+            <!-- Logo -->
+            <h1 class="text-2xl font-bold">Sistema Porta do Sol</h1>
+
+            <!-- Botão Hamburguer -->
+            <button id="menu-toggle" class="lg:hidden text-white focus:outline-none transition-transform transform"
+                aria-label="Abrir Menu">
+                <svg xmlns="http://www.w3.org/2000/svg" id="menu-icon" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+
+            <!-- Navegação -->
+            <nav id="menu"
+                class="hidden flex-col lg:flex lg:flex-row items-start lg:items-center absolute lg:static top-full left-0 w-full lg:w-auto bg-primary lg:bg-transparent z-10 shadow-lg lg:shadow-none transition-all duration-300"
+                role="menu">
                 <a href="<?php echo base_url('/'); ?>"
-                    class="text-gray-200 font-medium hover:text-white">
+                    class="block text-gray-200 font-medium hover:text-white px-4 py-2 lg:py-0" role="menuitem">
                     Dashboard
                 </a>
                 <?php if ($role === 'admin'): ?>
                     <a href="<?php echo base_url('/users'); ?>"
-                        class="text-gray-200 hover:text-white font-medium">
+                        class="block text-gray-200 hover:text-white font-medium px-4 py-2 lg:py-0" role="menuitem">
                         Moradores
                     </a>
                     <a href="<?php echo base_url('/recebedores'); ?>"
-                        class="text-gray-200 hover:text-white font-medium">
+                        class="block text-gray-200 hover:text-white font-medium px-4 py-2 lg:py-0" role="menuitem">
                         Recebedores
                     </a>
                     <a href="<?php echo base_url('/pagamentos'); ?>"
-                        class="text-gray-200 hover:text-white font-medium">
+                        class="block text-gray-200 hover:text-white font-medium px-4 py-2 lg:py-0" role="menuitem">
                         Pagamentos
                     </a>
                 <?php endif; ?>
                 <a href="<?php echo base_url('/logout'); ?>"
-                    class="text-red-900 hover:text-red-700 font-medium">
+                    class="block text-red-700 hover:text-red-500 font-medium px-4 py-2 lg:py-0" role="menuitem">
                     Sair
                 </a>
             </nav>
         </div>
     </header>
-<?php
+    <?php
 }
 ?>

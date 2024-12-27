@@ -1,79 +1,91 @@
 <?php echo $this->include('header', array('titulo' => $titulo)); ?>
 
-<h2><?php echo $titulo ?></h2>
+<h2 class="text-2xl font-bold mb-4 text-center sm:text-left"><?php echo $titulo ?></h2>
 
-<strong><?php echo $msg ?></strong>
+<strong class="text-lg text-red-500 mb-4 block"><?php echo $msg ?></strong>
 
-<div id="content">
+<div id="content" class="max-w-4xl mx-auto p-4">
 
-    <p><a href="<?php echo base_url($link) ?>"><?php echo  $tituloRedirect ?> </a></p>
 
-    <form method="post">
-        <p>
-            <label for="morador">Selecione um morador:</label>
-            <select id="morador" name="morador" required <?= isset($pagamento) ? 'disabled' : ''; ?>>
+    <p class="mb-4 text-center sm:text-left">
+        <a href="<?php echo base_url($link) ?>" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+            <?php echo $tituloRedirect ?>
+        </a>
+    </p>
+    <br />
+    <form method="post" class="space-y-4">
+        <div>
+            <label for="morador" class="block text-sm font-medium">Selecione um morador:</label>
+            <select id="morador" name="morador" required class="w-full border border-gray-300 rounded px-4 py-2"
+                <?= isset($pagamento) ? 'disabled' : ''; ?>>
                 <option value="">-- Selecione --</option>
                 <?php foreach ($moradores as $morador): ?>
-                    <option value="<?= $morador->id; ?>"
-                        <?= (isset($pagamento) && $pagamento->id_usuario == $morador->id) ? 'selected' : ''; ?>>
+                    <option value="<?= $morador->id; ?>" <?= (isset($pagamento) && $pagamento->id_usuario == $morador->id) ? 'selected' : ''; ?>>
                         <?= $morador->nome; ?>
                     </option>
                 <?php endforeach; ?>
             </select>
-        </p>
+        </div>
 
-        <p>
-            <label for="recebedor">Selecione um Recebedor:</label>
-            <select id="recebedor" name="recebedor" required>
+        <div>
+            <label for="recebedor" class="block text-sm font-medium">Selecione um Recebedor:</label>
+            <select id="recebedor" name="recebedor" required class="w-full border border-gray-300 rounded px-4 py-2">
                 <option value="">-- Selecione --</option>
                 <?php foreach ($recebedores as $recebedor): ?>
-                    <option value="<?= $recebedor->id; ?>"
-                        <?= (isset($pagamento) && $pagamento->id_recebedor == $recebedor->id) ? 'selected' : ''; ?>>
+                    <option value="<?= $recebedor->id; ?>" <?= (isset($pagamento) && $pagamento->id_recebedor == $recebedor->id) ? 'selected' : ''; ?>>
                         <?= $recebedor->nome; ?>
                     </option>
                 <?php endforeach; ?>
             </select>
-        </p>
+        </div>
 
-        <p>
-            <label for="tipoPagamento">Selecione um Tipo de Pagamento:</label>
-            <select id="tipoPagamento" name="tipoPagamento" required>
+        <div>
+            <label for="tipoPagamento" class="block text-sm font-medium">Selecione um Tipo de Pagamento:</label>
+            <select id="tipoPagamento" name="tipoPagamento" required
+                class="w-full border border-gray-300 rounded px-4 py-2">
                 <option value="">-- Selecione --</option>
                 <?php foreach ($tiposPagamento as $tipoPagamento): ?>
-                    <option value="<?= $tipoPagamento->id; ?>"
-                        <?= (isset($pagamento) && $pagamento->id_tipo_pagamento == $tipoPagamento->id) ? 'selected' : ''; ?>
-                    >
+                    <option value="<?= $tipoPagamento->id; ?>" <?= (isset($pagamento) && $pagamento->id_tipo_pagamento == $tipoPagamento->id) ? 'selected' : ''; ?>>
                         <?= $tipoPagamento->descricao; ?>
                     </option>
                 <?php endforeach; ?>
             </select>
-        </p>
+        </div>
 
-        <p>
-            <label for="data_pagamento">Data Pagamento:</label>
-            <input type="date" id="data_pagamento" name="data_pagamento" value="<?php echo (isset($pagamento) ? date('Y-m-d', strtotime($pagamento->data_pagamento)) : '') ?>" required>
-        </p>
+        <div>
+            <label for="data_pagamento" class="block text-sm font-medium">Data Pagamento:</label>
+            <input type="date" id="data_pagamento" name="data_pagamento"
+                value="<?php echo (isset($pagamento) ? date('Y-m-d', strtotime($pagamento->data_pagamento)) : '') ?>"
+                required class="w-full border border-gray-300 rounded px-4 py-2">
+        </div>
 
-        <p>
-            <label for="referencia">Referência:</label>
-            <input type="text" id="referencia" name="referencia" value="<?php echo (isset($pagamento) ? $pagamento->referencia : '') ?>" required>
-        </p>
+        <div>
+            <label for="referencia" class="block text-sm font-medium">Referência:</label>
+            <input type="text" id="referencia" name="referencia"
+                value="<?php echo (isset($pagamento) ? $pagamento->referencia : '') ?>" required
+                class="w-full border border-gray-300 rounded px-4 py-2">
+        </div>
 
-        <p>
-            <label for="valor">Valor:</label>
-            <input type="text" id="valor" name="valor" value="<?php echo (isset($pagamento) ? $pagamento->valor : '') ?>">
-        </p>
+        <div>
+            <label for="valor" class="block text-sm font-medium">Valor:</label>
+            <input type="text" id="valor" name="valor"
+                value="<?php echo (isset($pagamento) ? $pagamento->valor : '') ?>"
+                class="w-full border border-gray-300 rounded px-4 py-2">
+        </div>
 
-        <p>
-            <label for="observacao">Observacao:</label>
-            <input type="text" id="observacao" name="observacao" value="<?php echo (isset($pagamento) ? $pagamento->observacao : '') ?>">
-        </p>
+        <div>
+            <label for="observacao" class="block text-sm font-medium">Observação:</label>
+            <input type="text" id="observacao" name="observacao"
+                value="<?php echo (isset($pagamento) ? $pagamento->observacao : '') ?>"
+                class="w-full border border-gray-300 rounded px-4 py-2">
+        </div>
 
-        <p>
-            <button type="submit"><?php echo $acao; ?></button>
-        </p>
-
+        <div>
+            <button type="submit" class="w-full bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-700">
+                <?php echo $acao; ?>
+            </button>
+        </div>
     </form>
 </div>
 
-<?php echo  $this->include('footer'); ?>
+<?php echo $this->include('footer'); ?>
