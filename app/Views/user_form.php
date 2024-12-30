@@ -45,7 +45,7 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
             <div>
                 <label for="rua" class="block font-medium">Rua:</label>
                 <input type="text" id="rua" name="rua" value="<?php echo (isset($endereco) ? $endereco->rua : '') ?>"
@@ -61,6 +61,12 @@
                 <label for="quadra" class="block font-medium">Quadra:</label>
                 <input type="text" id="quadra" name="quadra"
                     value="<?php echo (isset($endereco) ? $endereco->quadra : '') ?>"
+                    class="w-full border border-gray-300 rounded px-3 py-2">
+            </div>
+            <div>
+                <label for="qtd_lote" class="block font-medium">Qtd Lote:</label>
+                <input type="number" id="qtd_lote" name="qtd_lote"
+                    value="<?php echo (isset($endereco) ? $endereco->qtd_lote : '') ?>"
                     class="w-full border border-gray-300 rounded px-3 py-2">
             </div>
         </div>

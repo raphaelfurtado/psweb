@@ -64,6 +64,7 @@ class User extends BaseController
                     'rua' => $this->request->getPost('rua'),
                     'numero' => $this->request->getPost('numero'),
                     'quadra' => $this->request->getPost('quadra'),
+                    'qtd_lote' => $this->request->getPost('qtd_lote'),
                     'data_insert' => date('Y-m-d H:i:s'),
                 ];
 
@@ -109,6 +110,7 @@ class User extends BaseController
                 'rua' => $this->request->getPost('rua'),
                 'numero' => $this->request->getPost('numero'),
                 'quadra' => $this->request->getPost('quadra'),
+                'qtd_lote' => $this->request->getPost('qtd_lote'),
             ])->update();
 
             if ($userModel->update($id, [

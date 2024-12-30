@@ -8,7 +8,7 @@ class EnderecoModel extends Model
 {
     protected $table = 'endereco';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['id_usuario', 'rua', 'numero', 'quadra', 'data_insert'];
+    protected $allowedFields = ['id_usuario', 'rua', 'numero', 'quadra', 'qtd_lote','data_insert'];
     protected $returnType = 'object';
 
     public function getEnderecoByUsuarioId($usuarioId)
