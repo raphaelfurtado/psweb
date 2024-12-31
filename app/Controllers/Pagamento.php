@@ -28,7 +28,7 @@ class Pagamento extends BaseController
             ->join('users', 'users.id = pagamento.id_usuario')
             ->join('recebedor', 'recebedor.id = pagamento.id_recebedor')
             ->join('endereco', 'endereco.id_usuario = users.id')
-            ->join('tipo_pagamento', 'tipo_pagamento.id = pagamento.id_tipo_pagamento')
+            ->join('tipo_pagamento', 'tipo_pagamento.codigo = pagamento.id_tipo_pagamento')
             ->orderBy('pagamento.id', 'DESC')->paginate(10);
 
         $data['pager'] = $pagadorModel->pager;
