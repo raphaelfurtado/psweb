@@ -6,8 +6,14 @@
 
 <div id="content">
     <form method="post">
+
         <p>
-            <label for="descricao">Descrição do Pagamento:</label>
+            <label for="codigo">Código do Pagamento:</label>
+            <input type="text" id="codigo" name="codigo" required>
+        </p>
+
+        <p>
+            <label for="descricao">Descrição Tipo de Pagamento:</label>
             <input type="text" id="descricao" name="descricao" required>
         </p>
 

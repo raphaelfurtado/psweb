@@ -48,12 +48,17 @@ $routes->group('', ['filter' => 'role:admin'], function ($routes) {
     $routes->post('/pagamento/inserir', 'Pagamento::inserir');
     $routes->get('/pagamentos', 'Pagamento::index');
     $routes->match(['get', 'post'], 'pagamento/editar/(:num)', 'Pagamento::editar/$1');
-});
 
-# TIPO DE PAGAMENTO
-$routes->get('/tipoPagamento/inserir', 'TipoPagamento::inserir', ['filter' => 'auth']);
-$routes->post('/tipoPagamento/inserir', 'TipoPagamento::inserir', ['filter' => 'auth']);
-$routes->get('/tiposPagamento', 'TipoPagamento::index', ['filter' => 'auth']);
+    # TIPO DE PAGAMENTO
+    $routes->get('/tipoPagamento/inserir', 'TipoPagamento::inserir');
+    $routes->post('/tipoPagamento/inserir', 'TipoPagamento::inserir');
+    $routes->get('/tiposPagamento', 'TipoPagamento::index');
+
+    # FORMA DE PAGAMENTO
+    $routes->get('/formaPagamento/inserir', 'FormaPagamento::inserir');
+    $routes->post('/formaPagamento/inserir', 'FormaPagamento::inserir');
+    $routes->get('/formasPagamento', 'FormaPagamento::index');
+});
 
 # LOGIN 
 $routes->get('login', 'Auth::login');

@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\FormaPagamentoModel;
 use App\Models\PagamentoModel;
 use App\Models\RecebedorModel;
 use App\Models\TipoPagamentoModel;
@@ -41,10 +42,12 @@ class Pagamento extends BaseController
         $recebedoresModel = new RecebedorModel();
         $moradorModel = new UserModel();
         $tipoPagamentoModel = new TipoPagamentoModel();
+        $formaPagamentoModel = new FormaPagamentoModel();
 
         $data['recebedores'] = $recebedoresModel->orderBy('nome', 'ASC')->findAll();
         $data['moradores'] = $moradorModel->orderBy('nome', 'ASC')->findAll();
         $data['tiposPagamento'] = $tipoPagamentoModel->orderBy('descricao', 'ASC')->findAll();
+        $data['formasPagamento'] = $formaPagamentoModel->orderBy('descricao', 'ASC')->findAll();
 
         $data['link'] = '/pagamentos';
         $data['tituloRedirect'] = 'Voltar para Lista de Pagamentos';
@@ -59,6 +62,7 @@ class Pagamento extends BaseController
                 'id_usuario' => $this->request->getPost('morador'),
                 'id_recebedor' => $this->request->getPost('recebedor'),
                 'id_tipo_pagamento' => $this->request->getPost('tipoPagamento'),
+                'id_forma_pagamento' => $this->request->getPost('formaPagamento'),
                 'data_pagamento' => $this->request->getPost('data_pagamento'),
                 'referencia' => $this->request->getPost('referencia'),
                 'valor' => $this->request->getPost('valor'),
@@ -84,10 +88,12 @@ class Pagamento extends BaseController
         $moradorModel = new UserModel();
         $tipoPagamentoModel = new TipoPagamentoModel();
         $pagadorModel = new PagamentoModel();
+        $formaPagamentoModel = new FormaPagamentoModel();
 
         $data['recebedores'] = $recebedoresModel->orderBy('nome', 'ASC')->findAll();
         $data['moradores'] = $moradorModel->orderBy('nome', 'ASC')->findAll();
         $data['tiposPagamento'] = $tipoPagamentoModel->orderBy('descricao', 'ASC')->findAll();
+        $data['formasPagamento'] = $formaPagamentoModel->orderBy('descricao', 'ASC')->findAll();
 
         $data['titulo'] = 'Editar Pagamento ' . $id;
         $data['acao'] = 'Atualizar';
@@ -107,6 +113,7 @@ class Pagamento extends BaseController
             $pagadorData = [
                 'id_recebedor' => $this->request->getPost('recebedor'),
                 'id_tipo_pagamento' => $this->request->getPost('tipoPagamento'),
+                'id_forma_pagamento' => $this->request->getPost('formaPagamento'),
                 'data_pagamento' => $this->request->getPost('data_pagamento'),
                 'referencia' => $this->request->getPost('referencia'),
                 'valor' => $this->request->getPost('valor'),

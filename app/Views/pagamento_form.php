@@ -53,6 +53,19 @@
         </div>
 
         <div>
+            <label for="formaPagamento" class="block text-sm font-medium">Selecione uma forma de Pagamento:</label>
+            <select id="formaPagamento" name="formaPagamento" required
+                class="w-full border border-gray-300 rounded px-4 py-2">
+                <option value="">-- Selecione --</option>
+                <?php foreach ($formasPagamento as $formaPagamento): ?>
+                    <option value="<?= $formaPagamento->codigo; ?>" <?= (isset($pagamento) && $pagamento->id_forma_pagamento == $formaPagamento->codigo) ? 'selected' : ''; ?>>
+                        <?= $formaPagamento->descricao; ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <div>
             <label for="data_pagamento" class="block text-sm font-medium">Data Pagamento:</label>
             <input type="date" id="data_pagamento" name="data_pagamento"
                 value="<?php echo (isset($pagamento) ? date('Y-m-d', strtotime($pagamento->data_pagamento)) : '') ?>"
