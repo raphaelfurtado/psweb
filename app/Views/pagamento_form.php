@@ -45,7 +45,7 @@
                 class="w-full border border-gray-300 rounded px-4 py-2">
                 <option value="">-- Selecione --</option>
                 <?php foreach ($tiposPagamento as $tipoPagamento): ?>
-                    <option value="<?= $tipoPagamento->id; ?>" <?= (isset($pagamento) && $pagamento->id_tipo_pagamento == $tipoPagamento->id) ? 'selected' : ''; ?>>
+                    <option value="<?= $tipoPagamento->codigo; ?>" <?= (isset($pagamento) && $pagamento->id_tipo_pagamento == $tipoPagamento->codigo) ? 'selected' : ''; ?>>
                         <?= $tipoPagamento->descricao; ?>
                     </option>
                 <?php endforeach; ?>
