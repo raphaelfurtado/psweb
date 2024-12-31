@@ -42,25 +42,25 @@ class User extends BaseController
         $data['tituloRedirect'] = 'Voltar para Lista de Usuários';
 
         if ($this->request->getPost()) {
-            $validation = Services::validation();
+            // $validation = Services::validation();
 
-            $validation->setRules([
-                'nome' => 'required|min_length[3]|max_length[50]',
-                'telefone' => 'required|numeric',
-                'senha' => 'permit_empty|min_length[6]',
-                'rua' => 'required|max_length[15]',
-                'numero' => 'required',
-                'quadra' => 'required',
-                'qtd_lote' => 'required|numeric',
-            ]);
+            // $validation->setRules([
+            //     'nome' => 'required|min_length[3]|max_length[50]',
+            //     'telefone' => 'required|numeric',
+            //     'senha' => 'permit_empty|min_length[6]',
+            //     'rua' => 'required|max_length[15]',
+            //     'numero' => 'required',
+            //     'quadra' => 'required',
+            //     'qtd_lote' => 'required|numeric',
+            // ]);
 
-            if (!$validation->withRequest($this->request)->run()) {
-                $data['msg'] = 'Erro de validação: ' . implode(', ', $validation->getErrors());
-                return view('form_view', $data);
-            }
+            // if (!$validation->withRequest($this->request)->run()) {
+            //     $data['msg'] = 'Erro de validação: ' . implode(', ', $validation->getErrors());
+            //     return view('form_view', $data);
+            // }
 
-            $db = Database::connect();
-            $db->transStart();
+            // $db = Database::connect();
+            // $db->transStart();
 
             $userModel = new UserModel();
             $enderecoModel = new EnderecoModel();
@@ -86,16 +86,13 @@ class User extends BaseController
                     'data_insert' => date('Y-m-d H:i:s'),
                 ];
 
-                $enderecoModel->insert($enderecoData);
-            }
-
-            $db->transComplete();
-
-            if ($db->transStatus() === false) {
-                log_message('error', 'Erro ao salvar dados: ' . json_encode($db->error()));
-                $data['msg'] = 'Ocorreu um erro ao salvar os dados. Por favor, tente novamente.';
+                if ($enderecoModel->insert($enderecoData)) {
+                    $data['msg'] = 'Usuário e endereço inseridos com sucesso!';
+                } else {
+                    $data['msg'] = 'Usuário inserido, mas ocorreu um erro ao salvar o endereço.';
+                }
             } else {
-                $data['msg'] = 'Usuário e endereço inseridos com sucesso!';
+                $data['msg'] = 'Erro ao inserir usuário.';
             }
         }
 
@@ -106,7 +103,6 @@ class User extends BaseController
     {
         $userModel = new UserModel();
         $enderecoModel = new EnderecoModel();
-        $pagamentoModel = new PagamentoModel();
 
         // Buscar usuário e endereço
         $usuario = $userModel->find($id);
@@ -121,19 +117,19 @@ class User extends BaseController
 
         if ($this->request->getPost()) {
             // Validar os dados recebidos
-            $validation = \Config\Services::validation();
-            $validation->setRules([
-                'nome' => 'required|min_length[3]',
-                'aniversario' => 'required|valid_date',
-                'telefone' => 'required',
-                'rua' => 'required',
-                'numero' => 'required',
-                'qtd_lote' => 'required',
-            ]);
+            // $validation = \Config\Services::validation();
+            // $validation->setRules([
+            //     'nome' => 'required|min_length[3]',
+            //     'aniversario' => 'required|valid_date',
+            //     'telefone' => 'required',
+            //     'rua' => 'required',
+            //     'numero' => 'required',
+            //     'qtd_lote' => 'required',
+            // ]);
 
-            if (!$validation->withRequest($this->request)->run()) {
-                return redirect()->back()->withInput()->with('errors', $validation->getErrors());
-            }
+            // if (!$validation->withRequest($this->request)->run()) {
+            //     return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+            // }
 
             // Atualizar endereço
             $enderecoModel->where('id_usuario', $id)->set([
