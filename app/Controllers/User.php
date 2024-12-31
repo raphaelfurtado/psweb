@@ -5,6 +5,8 @@ namespace App\Controllers;
 use App\Models\UserModel;
 use App\Models\EnderecoModel;
 use App\Models\PagamentoModel;
+use CodeIgniter\Config\Services;
+use Config\Database;
 
 class User extends BaseController
 {
@@ -13,18 +15,14 @@ class User extends BaseController
     {
         $userModel = new UserModel();
 
-        // Obter o termo de pesquisa do GET
         $nome = $this->request->getGet('nome');
 
-        // Query base
         $query = $userModel->select('id, nome');
 
-        // Aplicar filtro, se o nome for informado
         if (!empty($nome)) {
             $query->like('nome', $nome);
         }
 
-        // Obter os resultados
         $data['moradores'] = $query->findAll();
         $data['titulo'] = 'Lista de moradores';
         $data['link'] = '/user/inserir';
@@ -44,6 +42,26 @@ class User extends BaseController
         $data['tituloRedirect'] = 'Voltar para Lista de Usuários';
 
         if ($this->request->getPost()) {
+            $validation = Services::validation();
+
+            $validation->setRules([
+                'nome' => 'required|min_length[3]|max_length[50]',
+                'telefone' => 'required|numeric',
+                'senha' => 'permit_empty|min_length[6]',
+                'rua' => 'required|max_length[15]',
+                'numero' => 'required',
+                'quadra' => 'required',
+                'qtd_lote' => 'required|numeric',
+            ]);
+
+            if (!$validation->withRequest($this->request)->run()) {
+                $data['msg'] = 'Erro de validação: ' . implode(', ', $validation->getErrors());
+                return view('form_view', $data);
+            }
+
+            $db = Database::connect();
+            $db->transStart();
+
             $userModel = new UserModel();
             $enderecoModel = new EnderecoModel();
 
@@ -52,7 +70,7 @@ class User extends BaseController
                 'aniversario' => $this->request->getPost('aniversario'),
                 'telefone' => $this->request->getPost('telefone'),
                 'telefone_2' => $this->request->getPost('telefone_2'),
-                'senha' => password_hash($this->request->getPost('senha'), PASSWORD_DEFAULT),
+                'senha' => $this->request->getPost('senha') ? password_hash($this->request->getPost('senha'), PASSWORD_DEFAULT) : null,
                 'role' => 'user', // ou 'admin'
             ];
 
@@ -68,13 +86,16 @@ class User extends BaseController
                     'data_insert' => date('Y-m-d H:i:s'),
                 ];
 
-                if ($enderecoModel->insert($enderecoData)) {
-                    $data['msg'] = 'Usuário e endereço inseridos com sucesso!';
-                } else {
-                    $data['msg'] = 'Usuário inserido, mas ocorreu um erro ao salvar o endereço.';
-                }
+                $enderecoModel->insert($enderecoData);
+            }
+
+            $db->transComplete();
+
+            if ($db->transStatus() === false) {
+                log_message('error', 'Erro ao salvar dados: ' . json_encode($db->error()));
+                $data['msg'] = 'Ocorreu um erro ao salvar os dados. Por favor, tente novamente.';
             } else {
-                $data['msg'] = 'Erro ao inserir usuário.';
+                $data['msg'] = 'Usuário e endereço inseridos com sucesso!';
             }
         }
 
@@ -83,17 +104,11 @@ class User extends BaseController
 
     public function editar($id)
     {
-
-        $data['titulo'] = 'Editar usuário ' . $id;
-        $data['acao'] = 'Atualizar';
-        $data['msg'] = '';
-        $data['link'] = '/users';
-        $data['tituloRedirect'] = 'Voltar para Lista de Usuários';
-
         $userModel = new UserModel();
         $enderecoModel = new EnderecoModel();
-        $pagadorModel = new PagamentoModel();
+        $pagamentoModel = new PagamentoModel();
 
+        // Buscar usuário e endereço
         $usuario = $userModel->find($id);
         $endereco = $enderecoModel->getEnderecoByUsuarioId($id);
 
@@ -105,7 +120,22 @@ class User extends BaseController
         $pagamentos = $this->getPagamentosPorUsuario($id);
 
         if ($this->request->getPost()) {
+            // Validar os dados recebidos
+            $validation = \Config\Services::validation();
+            $validation->setRules([
+                'nome' => 'required|min_length[3]',
+                'aniversario' => 'required|valid_date',
+                'telefone' => 'required',
+                'rua' => 'required',
+                'numero' => 'required',
+                'qtd_lote' => 'required',
+            ]);
 
+            if (!$validation->withRequest($this->request)->run()) {
+                return redirect()->back()->withInput()->with('errors', $validation->getErrors());
+            }
+
+            // Atualizar endereço
             $enderecoModel->where('id_usuario', $id)->set([
                 'rua' => $this->request->getPost('rua'),
                 'numero' => $this->request->getPost('numero'),
@@ -113,22 +143,29 @@ class User extends BaseController
                 'qtd_lote' => $this->request->getPost('qtd_lote'),
             ])->update();
 
-            if ($userModel->update($id, [
+            // Atualizar usuário
+            $userData = [
                 'nome' => $this->request->getPost('nome'),
                 'aniversario' => $this->request->getPost('aniversario'),
                 'telefone' => $this->request->getPost('telefone'),
                 'telefone_2' => $this->request->getPost('telefone_2'),
-                'senha' => password_hash($this->request->getPost('senha'), PASSWORD_DEFAULT),
-                'role' => 'user', // ou 'admin'
-            ])) {
-                $data['msg'] = 'Usuário e endereço atualizados com sucesso!';
+                //'senha' => $this->request->getPost('senha') ? password_hash($this->request->getPost('senha'), PASSWORD_DEFAULT) : null,
+                //'role' => 'user', // ou 'admin'
+            ];
+
+            if ($this->request->getPost('senha')) {
+                $userData['senha'] = password_hash($this->request->getPost('senha'), PASSWORD_DEFAULT);
+            }
+            
+
+            if ($userModel->update($id, $userData)) {
+                session()->setFlashdata('success', 'Usuário e endereço atualizados com sucesso!');
             } else {
-                $data['msg'] = 'Erro ao atualizar o endereço.';
-            };
+                session()->setFlashdata('error', 'Erro ao atualizar o usuário.');
+            }
 
             return redirect()->to('/users');
         }
-
 
         // Dados para a visualização
         $data = [
@@ -143,7 +180,7 @@ class User extends BaseController
             'pager' => $pagamentos['pager'],
         ];
 
-        echo view('user_form', $data);
+        return view('user_form', $data);
     }
 
     private function getPagamentosPorUsuario($idUsuario)

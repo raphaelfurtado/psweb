@@ -21,4 +21,6 @@
 
 </body>
 
+<script src="<?= base_url('js/toggleSenha.js') ?>"></script>
+
 </html>
