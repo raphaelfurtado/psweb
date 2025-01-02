@@ -73,7 +73,7 @@
                  'R$ ' + pageTotal.toFixed(2) + ' ( R$' + total.toFixed(2) + ' total)';
         },
         layout: {
-            bottomStart: {
+            bottom: {
                 buttons: [{
                     extend: 'excelHtml5',
                     autoFilter: true,
@@ -84,7 +84,7 @@
             }
         }
     };
-    
+
     new DataTable('#dataTablePagamentos', options);
 </script>
 
