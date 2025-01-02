@@ -87,6 +87,18 @@
         </div>
 
         <div>
+            <label for="situacao" class="block text-sm font-medium">Situação:</label>
+            <select id="situacao" name="situacao" required class="w-full border border-gray-300 rounded px-4 py-2">
+                <option value="">-- Selecione --</option>
+                <?php foreach ($situacoes as $situacao): ?>
+                    <option value="<?= $situacao; ?>" <?= (isset($pagamento) && $pagamento->situacao == $situacao) ? 'selected' : ''; ?>>
+                        <?= ucfirst($situacao); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <div>
             <label for="observacao" class="block text-sm font-medium">Observação:</label>
             <input type="text" id="observacao" name="observacao"
                 value="<?php echo (isset($pagamento) ? $pagamento->observacao : '') ?>"
