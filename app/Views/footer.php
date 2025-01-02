@@ -73,17 +73,18 @@
                  'R$ ' + pageTotal.toFixed(2) + ' ( R$' + total.toFixed(2) + ' total)';
         },
         layout: {
-            bottom: {
+            bottomStart: {
                 buttons: [{
                     extend: 'excelHtml5',
                     autoFilter: true,
-                    sheetName: 'Exported data',
+                    sheetName: '<?= $titulo ?>',
                     className: 'bg-green-500 text-white py-2 px-4 rounded flex items-center space-x-2 hover:bg-green-600',
                     text: '<i class="fas fa-file-excel"></i> Exportar para Excel'
                 }]
             }
         }
     };
+    
     new DataTable('#dataTablePagamentos', options);
 </script>
 
