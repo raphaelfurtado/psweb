@@ -11,7 +11,7 @@
     </p>
 
     <div class="overflow-x-auto">
-        <table class="table-auto w-full bg-white shadow-md rounded">
+        <table class="datatable table-auto w-full bg-white shadow-md rounded">
             <thead>
                 <tr class="bg-gray-200">
                     <th class="px-4 py-2 text-left">ID</th>
