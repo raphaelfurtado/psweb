@@ -48,6 +48,10 @@ $routes->group('', ['filter' => 'role:admin'], function ($routes) {
     $routes->post('/pagamento/inserir', 'Pagamento::inserir');
     $routes->get('/pagamentos', 'Pagamento::index');
     $routes->match(['get', 'post'], 'pagamento/editar/(:num)', 'Pagamento::editar/$1');
+    $routes->get('/gerarPagamentos', 'Pagamento::gerarPagamentosForm'); // Exibe o formulário
+    $routes->post('/gerarPagamentos', 'Pagamento::gerarPagamentos'); // Executa a procedure
+
+
 
     # TIPO DE PAGAMENTO
     $routes->get('/tipoPagamento/inserir', 'TipoPagamento::inserir');

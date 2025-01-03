@@ -40,9 +40,23 @@ $('#dataTablePagamentos').DataTable({
             .data()
             .reduce((a, b) => intVal(a) + intVal(b), 0);
 
-        // Atualizar o rodapé
+        // Somar os valores dos pagamentos com status "PAGO"
+        let pagoTotal = 0;
+        api.column(currentPosition).data().each(function (value, index) {
+            // Supondo que a coluna de status esteja na coluna 8
+            let statusHtml = api.cell({ row: index, column: 8 }).data(); // Ajuste o índice da coluna de status conforme necessário
+            let statusText = $(statusHtml).text().trim(); // Extrai apenas o texto do HTML e remove espaços extras
+            
+            if (statusText.toUpperCase() === 'PAGO') {
+                pagoTotal += intVal(value);
+            }
+        });
+
+
+        // Atualizar o rodapé com o total e o total dos pagamentos "PAGO"
         $(api.column(currentPosition).footer()).html(
-            'R$ ' + pageTotal.toFixed(2) + ' ( R$' + total.toFixed(2) + ' total)'
+            'R$ ' + pageTotal.toFixed(2) + ' ( R$ ' + total.toFixed(2) + ' total) | ' +
+            'Total PAGO: R$ ' + pagoTotal.toFixed(2)
         );
     },
 
@@ -55,7 +69,6 @@ $('#dataTablePagamentos').DataTable({
                 className: 'bg-green-500 text-white py-2 px-4 rounded flex items-center space-x-2 hover:bg-green-600',
                 text: '<i class="fas fa-file-excel"></i> Exportar para Excel',
                 exportOptions: {
-                    // Exclui a última coluna (coluna de ação, por exemplo)
                     columns: ':not(:last-child)'  // Exclui a última coluna
                 }
             },
@@ -67,11 +80,9 @@ $('#dataTablePagamentos').DataTable({
                 text: '<i class="fas fa-file-pdf"></i> Exportar para PDF',
                 orientation: 'landscape',
                 exportOptions: {
-                    // Exclui a última coluna (coluna de ação, por exemplo)
                     columns: ':not(:last-child)'  // Exclui a última coluna
                 }
-            }
-            ]
+            }]
         }
     }
 });

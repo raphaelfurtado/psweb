@@ -7,6 +7,7 @@ use App\Models\PagamentoModel;
 use App\Models\RecebedorModel;
 use App\Models\TipoPagamentoModel;
 use App\Models\UserModel;
+use CodeIgniter\Database\Exceptions\DatabaseException;
 use Config\Database;
 
 class Pagamento extends BaseController
@@ -28,11 +29,12 @@ class Pagamento extends BaseController
               ')
             ->join('users', 'users.id = pagamento.id_usuario')
             ->join('recebedor', 'recebedor.id = pagamento.id_recebedor')
-            ->join('endereco', 'endereco.id_usuario = users.id')
+            ->join('endereco', 'endereco.id_usuario = users.id', 'left')
             ->join('tipo_pagamento', 'tipo_pagamento.codigo = pagamento.id_tipo_pagamento')
-            ->orderBy('pagamento.id', 'DESC')->paginate(10);
+            ->orderBy('pagamento.id', 'DESC')->findAll();
 
-        $data['pager'] = $pagadorModel->pager;
+        //echo $pagadorModel->getLastQuery();
+
         $data['titulo'] = 'Lista de Pagamento';
 
         echo view('pagamentos', $data);
@@ -150,5 +152,39 @@ class Pagamento extends BaseController
         $data['pagamento'] = $pagamento;
 
         echo view('pagamento_form', $data);
+    }
+
+    public function gerarPagamentosForm()
+    {
+
+        $data['link'] = '/pagamentos';
+        $data['tituloRedirect'] = 'Voltar para Lista de Pagamentos';
+        $data['titulo'] = 'Gerar Pagamentos';
+        $data['acao'] = 'Gerar';
+        $data['msg'] = '';
+
+        return view('gerar_pagamentos', $data);
+    }
+
+    public function gerarPagamentos()
+    {
+        // Recupera o ano do formulário
+        $ano = $this->request->getPost('ano');
+
+        if (!$ano) {
+            return redirect()->back()->with('error', 'Ano é obrigatório.');
+        }
+
+        try {
+            // Executa a procedure no banco de dados
+            $db = Database::connect();
+            $db->query("CALL gerar_pagamentos_ano_flexivel($ano)");
+
+            // Retorno de sucesso
+            return redirect()->to('/gerarPagamentos')->with('success', 'Pagamentos gerados com sucesso.');
+        } catch (DatabaseException $e) {
+            // Caso ocorra algum erro na execução da procedure
+            return redirect()->back()->with('error', 'Erro ao gerar pagamentos: ' . $e->getMessage());
+        }
     }
 }

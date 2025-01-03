@@ -185,7 +185,6 @@ class User extends BaseController
             'usuario' => $usuario,
             'endereco' => $endereco,
             'pagamentos' => $pagamentos['data'],
-            'pager' => $pagamentos['pager'],
         ];
 
         return view('user_form', $data);
@@ -209,11 +208,10 @@ class User extends BaseController
             ->join('tipo_pagamento', 'tipo_pagamento.id = pagamento.id_tipo_pagamento')
             ->where('pagamento.id_usuario', $idUsuario)
             ->orderBy('pagamento.id', 'DESC')
-            ->paginate(10);
+            ->findAll();;
 
         return [
             'data' => $pagamentos,
-            'pager' => $pagadorModel->pager,
         ];
     }
 

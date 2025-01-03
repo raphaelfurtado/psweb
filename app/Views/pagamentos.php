@@ -81,16 +81,6 @@
                 </tr>
             </tfoot>
         </table>
-
-        <!-- Paginação -->
-        <!--
-        <div class="mt-4">
-            <div class="pagination-container text-center">
-                <?php //echo $pager->links(); 
-                ?>
-            </div>
-        </div>
-                -->
     </div>
 </div>
 
