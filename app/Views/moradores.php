@@ -25,10 +25,10 @@
                 <tr class="bg-gray-200">
                     <!-- <th class="px-4 py-2">Código</th> -->
                     <th class="px-4 py-2">Nome</th>
-                    <th class="px-4 py-2">Ações</th>
                     <th class="px-4 py-2">Rua</th>
                     <th class="px-4 py-2">Número</th>
                     <th class="px-4 py-2">Quadra</th>
+                    <th class="px-4 py-2">Ações</th>
                 </tr>
             </thead>
             <tbody>
