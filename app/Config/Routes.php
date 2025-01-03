@@ -49,6 +49,16 @@ $routes->group('', ['filter' => 'role:admin'], function ($routes) {
     $routes->get('/pagamentos', 'Pagamento::index');
     $routes->match(['get', 'post'], 'pagamento/editar/(:num)', 'Pagamento::editar/$1');
 
+    # TIPO DE PAGAMENTO
+    $routes->get('/tipoPagamento/inserir', 'TipoPagamento::inserir');
+    $routes->post('/tipoPagamento/inserir', 'TipoPagamento::inserir');
+    $routes->get('/tiposPagamento', 'TipoPagamento::index');
+
+    # FORMA DE PAGAMENTO
+    $routes->get('/formaPagamento/inserir', 'FormaPagamento::inserir');
+    $routes->post('/formaPagamento/inserir', 'FormaPagamento::inserir');
+    $routes->get('/formasPagamento', 'FormaPagamento::index');
+    
     # ANEXO ROTAS PRIVADAS
     $routes->get('/anexo/upload', 'Anexo::upload');
     $routes->post('/anexo/upload', 'Anexo::upload');
@@ -58,11 +68,6 @@ $routes->group('', ['filter' => 'role:admin'], function ($routes) {
 # ANEXO ROTAS PUBLICAS
 $routes->get('/anexos', 'Anexo::index');
 $routes->get('/anexo/download/(:any)', 'Anexo::download/$1');
-
-# TIPO DE PAGAMENTO
-$routes->get('/tipoPagamento/inserir', 'TipoPagamento::inserir', ['filter' => 'auth']);
-$routes->post('/tipoPagamento/inserir', 'TipoPagamento::inserir', ['filter' => 'auth']);
-$routes->get('/tiposPagamento', 'TipoPagamento::index', ['filter' => 'auth']);
 
 # LOGIN 
 $routes->get('login', 'Auth::login');

@@ -20,11 +20,15 @@
 
     <!-- Tabela -->
     <div class="overflow-x-auto">
-        <table class="table-auto w-full bg-white shadow-md rounded">
+        <table id="dataTableMoradores" class="datatable table-auto w-full bg-white shadow-md rounded">
             <thead>
                 <tr class="bg-gray-200">
-                    <th class="px-4 py-2">Código</th>
+                    <!-- <th class="px-4 py-2">Código</th> -->
                     <th class="px-4 py-2">Nome</th>
+                    <th class="px-4 py-2">Telefone</th>
+                    <th class="px-4 py-2">Telefone 2</th>
+                    <th class="px-4 py-2">Quadra</th>
+                    <th class="px-4 py-2">Número</th>
                     <th class="px-4 py-2">Ações</th>
                 </tr>
             </thead>
@@ -32,10 +36,15 @@
                 <?php if (!empty($moradores)): ?>
                     <?php foreach ($moradores as $morador): ?>
                         <tr class="border-t hover:bg-gray-100">
-                            <td class="px-4 py-2"><?php echo $morador->id ?></td>
+                            <!-- <td class="px-4 py-2"><?php //echo $morador->id 
+                                                        ?></td> -->
                             <td class="px-4 py-2"><?php echo $morador->nome ?></td>
+                            <td class="px-4 py-2"><?php echo $morador->telefone ?? 'Não informado'; ?></td>
+                            <td class="px-4 py-2"><?php echo $morador->telefone_2 ?? 'Não informado'; ?></td>
+                            <td class="px-4 py-2"><?php echo $morador->quadra ?? 'Não informado'; ?></td>
+                            <td class="px-4 py-2"><?php echo $morador->numero ?? 'Não informado'; ?></td>
                             <td class="px-4 py-2">
-                                <a href="<?php echo base_url('/user/editar/' . $morador->id) ?>"
+                                <a href="<?php echo base_url('/user/editar/' . $morador->id_user) ?>"
                                     class="text-blue-500 hover:underline">
                                     Editar
                                 </a>
@@ -48,6 +57,16 @@
                     </tr>
                 <?php endif; ?>
             </tbody>
+            <tfoot>
+                <tr class="bg-gray-200 font-bold">
+                    <td class="px-4 py-2">Total de Moradores</td>
+                    <td class="px-4 py-2" id="totalMoradores"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tfoot>
         </table>
     </div>
 </div>

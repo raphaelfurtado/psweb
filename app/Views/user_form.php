@@ -4,9 +4,12 @@
 
     <h2 class="text-2xl font-bold mb-4 text-center sm:text-left"><?php echo $titulo ?></h2>
 
-    <?php if (!empty($msg)): ?>
-        <strong class="block mb-4 text-green-600"><?php echo $msg ?></strong>
-    <?php endif; ?>
+   <?php if (!empty($msg)): ?>
+    <strong 
+        class="block mb-4 <?php echo $msg['type'] === 'success' ? 'text-green-600' : 'text-red-600'; ?>">
+        <?php echo $msg['text']; ?>
+    </strong>
+<?php endif; ?>
 
     <p class="mb-4 text-center sm:text-left">
         <a href="<?php echo base_url($link) ?>" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
@@ -45,10 +48,16 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
             <div>
                 <label for="rua" class="block font-medium">Rua:</label>
                 <input type="text" id="rua" name="rua" value="<?php echo (isset($endereco) ? $endereco->rua : '') ?>"
+                    class="w-full border border-gray-300 rounded px-3 py-2">
+            </div>
+            <div>
+                <label for="quadra" class="block font-medium">Quadra:</label>
+                <input type="text" id="quadra" name="quadra"
+                    value="<?php echo (isset($endereco) ? $endereco->quadra : '') ?>"
                     class="w-full border border-gray-300 rounded px-3 py-2">
             </div>
             <div>
@@ -58,19 +67,22 @@
                     class="w-full border border-gray-300 rounded px-3 py-2" required>
             </div>
             <div>
-                <label for="quadra" class="block font-medium">Quadra:</label>
-                <input type="text" id="quadra" name="quadra"
-                    value="<?php echo (isset($endereco) ? $endereco->quadra : '') ?>"
+                <label for="qtd_lote" class="block font-medium">Qtd Lote:</label>
+                <input type="number" id="qtd_lote" name="qtd_lote"
+                    value="<?php echo (isset($endereco) ? $endereco->qtd_lote : '') ?>"
                     class="w-full border border-gray-300 rounded px-3 py-2">
             </div>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
+            <div class="relative">
                 <label for="senha" class="block font-medium">Senha:</label>
                 <input type="password" id="senha" name="senha"
-                    value="<?php echo (isset($usuario) ? $usuario->senha : '') ?>"
-                    class="w-full border border-gray-300 rounded px-3 py-2" required>
+                    class="w-full border border-gray-300 rounded px-3 py-2"
+                    placeholder="Deixe em branco para não alterar a senha">
+                <span id="toggleSenha" class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer text-gray-500">
+                    👁️
+                </span>
             </div>
         </div>
 

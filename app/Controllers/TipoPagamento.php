@@ -12,6 +12,8 @@ class TipoPagamento extends BaseController
         $tipoPagamento = new TipoPagamentoModel();
         $data['tiposPagamento'] = $tipoPagamento->find();
         $data['titulo'] = 'Lista de tipo de pagamento';
+        $data['tituloRedirect'] = '+ Inserir Novo Tipo de Pagamento';
+        $data['link'] = 'tipoPagamento/inserir';
 
         echo view('tipos_pagamento', $data);
     }
@@ -21,11 +23,14 @@ class TipoPagamento extends BaseController
         $data['titulo'] = 'Inserir novo tipo de pagamento';
         $data['acao'] = 'Inserir';
         $data['msg'] = '';
+        $data['tituloRedirect'] = 'Voltar para Lista Tipo de Pagamentos';
+        $data['link'] = '/tiposPagamento';
 
         if ($this->request->getPost()) {
             $tipoPagamento = new TipoPagamentoModel();
 
             $userData = [
+                'codigo' => $this->request->getPost('codigo'),
                 'descricao' => $this->request->getPost('descricao'),
                 'data_insert' => date('Y-m-d H:i:s'),
             ];

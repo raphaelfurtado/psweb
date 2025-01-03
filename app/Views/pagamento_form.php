@@ -45,8 +45,21 @@
                 class="w-full border border-gray-300 rounded px-4 py-2">
                 <option value="">-- Selecione --</option>
                 <?php foreach ($tiposPagamento as $tipoPagamento): ?>
-                    <option value="<?= $tipoPagamento->id; ?>" <?= (isset($pagamento) && $pagamento->id_tipo_pagamento == $tipoPagamento->id) ? 'selected' : ''; ?>>
+                    <option value="<?= $tipoPagamento->codigo; ?>" <?= (isset($pagamento) && $pagamento->id_tipo_pagamento == $tipoPagamento->codigo) ? 'selected' : ''; ?>>
                         <?= $tipoPagamento->descricao; ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <div>
+            <label for="formaPagamento" class="block text-sm font-medium">Selecione uma forma de Pagamento:</label>
+            <select id="formaPagamento" name="formaPagamento" required
+                class="w-full border border-gray-300 rounded px-4 py-2">
+                <option value="">-- Selecione --</option>
+                <?php foreach ($formasPagamento as $formaPagamento): ?>
+                    <option value="<?= $formaPagamento->codigo; ?>" <?= (isset($pagamento) && $pagamento->id_forma_pagamento == $formaPagamento->codigo) ? 'selected' : ''; ?>>
+                        <?= $formaPagamento->descricao; ?>
                     </option>
                 <?php endforeach; ?>
             </select>
@@ -71,6 +84,18 @@
             <input type="text" id="valor" name="valor"
                 value="<?php echo (isset($pagamento) ? $pagamento->valor : '') ?>"
                 class="w-full border border-gray-300 rounded px-4 py-2">
+        </div>
+
+        <div>
+            <label for="situacao" class="block text-sm font-medium">Situação:</label>
+            <select id="situacao" name="situacao" required class="w-full border border-gray-300 rounded px-4 py-2">
+                <option value="">-- Selecione --</option>
+                <?php foreach ($situacoes as $situacao): ?>
+                    <option value="<?= $situacao; ?>" <?= (isset($pagamento) && $pagamento->situacao == $situacao) ? 'selected' : ''; ?>>
+                        <?= ucfirst($situacao); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
         </div>
 
         <div>

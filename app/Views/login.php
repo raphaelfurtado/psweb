@@ -9,7 +9,7 @@ $role = session('user_role');
 
 <head>
     <title>
-        Login
+        Login - PSWEB
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -40,7 +40,7 @@ $role = session('user_role');
     <main>
         <div class="min-h-screen flex items-center justify-center p-4 sm:p-8">
             <div class="bg-white rounded-xl shadow-lg p-6 sm:p-8 w-full max-w-sm sm:max-w-md lg:max-w-lg">
-                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6 text-center">LOGIN</h2>
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6 text-center">PSWEB </h2>
 
                 <?php if (session()->getFlashdata('error')): ?>
                     <div class="text-red-500 mb-4 text-sm">

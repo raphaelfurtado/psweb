@@ -14,18 +14,20 @@
         <table class="datatable table-auto w-full bg-white shadow-md rounded">
             <thead>
                 <tr class="bg-gray-200">
+                    <th class="px-4 py-2 text-left">ID</th>
                     <th class="px-4 py-2 text-left">Código</th>
-                    <th class="px-4 py-2 text-left">Nome</th>
+                    <th class="px-4 py-2 text-left">Descricao</th>
                     <th class="px-4 py-2 text-left">Ações</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($recebedores as $recebedor): ?>
+                <?php foreach ($formasPagamento as $formaPagamento): ?>
                     <tr class="border-t hover:bg-gray-100">
-                        <td class="px-4 py-2"><?php echo $recebedor->id ?></td>
-                        <td class="px-4 py-2"><?php echo $recebedor->nome ?></td>
+                        <td class="px-4 py-2"><?php echo $formaPagamento->id ?></td>
+                        <td class="px-4 py-2"><?php echo $formaPagamento->codigo ?></td>
+                        <td class="px-4 py-2"><?php echo $formaPagamento->descricao ?></td>
                         <td class="px-4 py-2">
-                            <a href="<?php echo base_url('/recebedor/editar/' . $recebedor->id) ?>"
+                            <a href="<?php echo base_url('/formaPagamento/editar/' . $formaPagamento->id) ?>"
                                 class="text-blue-500 hover:underline">
                                 Editar
                             </a>

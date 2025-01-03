@@ -24,4 +24,32 @@
 
 </body>
 
+<script src="<?= base_url('js/jquery-3.7.1.js') ?>"></script>
+<script src="<?= base_url('js/dataTables.js') ?>"></script>
+<script src="<?= base_url('js/dataTables.tailwindcss.js') ?>"></script>
+<script src="<?= base_url('js/dataTables.buttons.js') ?>"></script>
+<script src="<?= base_url('js/buttons.dataTables.js') ?>"></script>
+<script src="<?= base_url('js/jszip.min.js') ?>"></script>
+<script src="<?= base_url('js/buttons.html5.min.js') ?>"></script>
+<script src="<?= base_url('js/dataTables.colReorder.js') ?>"></script>
+<script src="<?= base_url('js/colReorder.dataTables.js') ?>"></script>
+<script src="<?= base_url('js/defaultLayoutDataTable.js') ?>"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+
+<script>
+    // Inicializando tabelas
+    $(document).ready(function() {
+        // Todas as tabelas com a classe .datatable serão configuradas automaticamente
+        $('.datatable').DataTable();
+    });
+</script>
+
+<!-- Inicializar DataTable com configurações específicas -->
+<script src="<?= base_url('js/dataTablePagamentos.js') ?>"></script>
+<script src="<?= base_url('js/dataTableMoradores.js') ?>"></script>
+
+
 </html>
