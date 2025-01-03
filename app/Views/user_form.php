@@ -52,16 +52,16 @@
                     class="w-full border border-gray-300 rounded px-3 py-2">
             </div>
             <div>
-                <label for="numero" class="block font-medium">Número:</label>
-                <input type="text" id="numero" name="numero"
-                    value="<?php echo (isset($endereco) ? $endereco->numero : '') ?>"
-                    class="w-full border border-gray-300 rounded px-3 py-2" required>
-            </div>
-            <div>
                 <label for="quadra" class="block font-medium">Quadra:</label>
                 <input type="text" id="quadra" name="quadra"
                     value="<?php echo (isset($endereco) ? $endereco->quadra : '') ?>"
                     class="w-full border border-gray-300 rounded px-3 py-2">
+            </div>
+            <div>
+                <label for="numero" class="block font-medium">Número:</label>
+                <input type="text" id="numero" name="numero"
+                    value="<?php echo (isset($endereco) ? $endereco->numero : '') ?>"
+                    class="w-full border border-gray-300 rounded px-3 py-2" required>
             </div>
             <div>
                 <label for="qtd_lote" class="block font-medium">Qtd Lote:</label>
