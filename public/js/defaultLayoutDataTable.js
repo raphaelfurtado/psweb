@@ -1,6 +1,6 @@
 $.extend($.fn.dataTable.defaults, {
     searching: true,
-    ordering:  false,
+    ordering:  true,
     language: {
         info: 'Mostrando _PAGE_ página de _PAGES_',
         infoEmpty: 'Nenhum registro encontrado',
