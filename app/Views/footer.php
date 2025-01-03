@@ -19,6 +19,9 @@
     });
 </script>
 
+<!-- Inclua o arquivo JS -->
+<script src="<?php echo base_url('js/custom.js'); ?>"></script>
+
 </body>
 
 <script src="<?= base_url('js/jquery-3.7.1.js') ?>"></script>

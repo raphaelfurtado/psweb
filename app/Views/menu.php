@@ -50,6 +50,10 @@ function renderMenu($role)
                         Gerar Pagamentos
                     </a>
                 <?php endif; ?>
+                <a href="<?php echo base_url('/anexos'); ?>"
+                    class="block text-gray-200 hover:text-white font-medium px-4 py-2 lg:py-0" role="menuitem">
+                    anexos
+                </a>
                 <a href="<?php echo base_url('/logout'); ?>"
                     class="block text-red-700 hover:text-red-500 font-medium px-4 py-2 lg:py-0" role="menuitem">
                     Sair
