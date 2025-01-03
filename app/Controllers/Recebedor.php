@@ -80,7 +80,8 @@ class Recebedor extends BaseController
                 $data['msg'] = 'Recebedor atualizado com sucesso!';
             } else {
                 $data['msg'] = 'Erro ao atualizar o Recebedor.';
-            };
+            }
+            ;
 
             return redirect()->to('/recebedores');
         }

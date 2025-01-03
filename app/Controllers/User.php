@@ -111,18 +111,21 @@ class User extends BaseController
                 'quadra' => $this->request->getPost('quadra'),
             ])->update();
 
-            if ($userModel->update($id, [
-                'nome' => $this->request->getPost('nome'),
-                'aniversario' => $this->request->getPost('aniversario'),
-                'telefone' => $this->request->getPost('telefone'),
-                'telefone_2' => $this->request->getPost('telefone_2'),
-                'senha' => password_hash($this->request->getPost('senha'), PASSWORD_DEFAULT),
-                'role' => 'user', // ou 'admin'
-            ])) {
+            if (
+                $userModel->update($id, [
+                    'nome' => $this->request->getPost('nome'),
+                    'aniversario' => $this->request->getPost('aniversario'),
+                    'telefone' => $this->request->getPost('telefone'),
+                    'telefone_2' => $this->request->getPost('telefone_2'),
+                    'senha' => password_hash($this->request->getPost('senha'), PASSWORD_DEFAULT),
+                    'role' => 'user', // ou 'admin'
+                ])
+            ) {
                 $data['msg'] = 'Usuário e endereço atualizados com sucesso!';
             } else {
                 $data['msg'] = 'Erro ao atualizar o endereço.';
-            };
+            }
+            ;
 
             return redirect()->to('/users');
         }

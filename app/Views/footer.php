@@ -19,6 +19,9 @@
     });
 </script>
 
+<!-- Inclua o arquivo JS -->
+<script src="<?php echo base_url('js/custom.js'); ?>"></script>
+
 </body>
 
 </html>

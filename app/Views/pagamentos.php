@@ -9,7 +9,7 @@
             <?php echo $tituloRedirect ?>
         </a>
     </p>
-
+    
     <div class="overflow-x-auto">
 
         <table class="table-auto w-full bg-white shadow-md rounded">
