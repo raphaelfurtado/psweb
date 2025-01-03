@@ -19,7 +19,7 @@ class User extends BaseController
 
         // Realiza o JOIN com a tabela de endereços
         $query = $userModel
-            ->select('users.id, users.nome, endereco.rua, endereco.numero, endereco.quadra')
+            ->select('users.*, endereco.*')
             ->join('endereco', 'endereco.id_usuario = users.id', 'left'); // LEFT JOIN para incluir usuários sem endereço
 
         if (!empty($nome)) {
