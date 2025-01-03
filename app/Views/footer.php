@@ -42,6 +42,7 @@
 
 <!-- Inicializar DataTable com configurações específicas -->
 <script src="<?= base_url('js/dataTablePagamentos.js') ?>"></script>
+<script src="<?= base_url('js/dataTableMoradores.js') ?>"></script>
 
 
 </html>

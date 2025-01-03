@@ -20,7 +20,7 @@
 
     <!-- Tabela -->
     <div class="overflow-x-auto">
-        <table class="datatable table-auto w-full bg-white shadow-md rounded">
+        <table id="dataTableMoradores" class="datatable table-auto w-full bg-white shadow-md rounded">
             <thead>
                 <tr class="bg-gray-200">
                     <!-- <th class="px-4 py-2">Código</th> -->
@@ -52,7 +52,7 @@
             <tfoot>
                 <tr class="bg-gray-200 font-bold">
                     <td class="px-4 py-2">Total de Moradores</td>
-                    <td class="px-4 py-2"><?php echo count($moradores); ?></td>
+                    <td class="px-4 py-2" id="totalMoradores"></td>
                 </tr>
             </tfoot>
         </table>
