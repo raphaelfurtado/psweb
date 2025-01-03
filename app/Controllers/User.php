@@ -19,7 +19,7 @@ class User extends BaseController
 
         // Realiza o JOIN com a tabela de endereços
         $query = $userModel
-            ->select('users., users.id as id_user, endereco.')
+            ->select('users.*, users.id as id_user, endereco.*')
             ->join('endereco', 'endereco.id_usuario = users.id', 'left'); // LEFT JOIN para incluir usuários sem endereço
 
         if (!empty($nome)) {
@@ -78,7 +78,7 @@ class User extends BaseController
                 'role' => 'user', // ou 'admin'
             ];
 
-            $userId = $userModel->insert($userData, true); // true retorna o ID do registro inserido
+            $userId = $userModel->insert($userData, true); // `true` retorna o ID do registro inserido
 
             if ($userId) {
                 $enderecoData = [
