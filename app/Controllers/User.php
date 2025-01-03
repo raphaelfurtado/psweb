@@ -42,22 +42,22 @@ class User extends BaseController
         $data['tituloRedirect'] = 'Voltar para Lista de Usuários';
 
         if ($this->request->getPost()) {
-            // $validation = Services::validation();
+            $validation = Services::validation();
 
-            // $validation->setRules([
+            $validation->setRules([
             //     'nome' => 'required|min_length[3]|max_length[50]',
-            //     'telefone' => 'required|numeric',
+                'telefone' => 'required|numeric|is_unique[users.telefone]',
             //     'senha' => 'permit_empty|min_length[6]',
             //     'rua' => 'required|max_length[15]',
             //     'numero' => 'required',
             //     'quadra' => 'required',
             //     'qtd_lote' => 'required|numeric',
-            // ]);
+            ]);
 
-            // if (!$validation->withRequest($this->request)->run()) {
-            //     $data['msg'] = 'Erro de validação: ' . implode(', ', $validation->getErrors());
-            //     return view('form_view', $data);
-            // }
+            if (!$validation->withRequest($this->request)->run()) {
+                $data['msg'] = ['type' => 'error', 'text' => 'Erro de validação: ' . implode(', ', $validation->getErrors())];
+                return view('user_form', $data);
+            }
 
             // $db = Database::connect();
             // $db->transStart();
@@ -87,12 +87,12 @@ class User extends BaseController
                 ];
 
                 if ($enderecoModel->insert($enderecoData)) {
-                    $data['msg'] = 'Usuário e endereço inseridos com sucesso!';
+                    $data['msg'] = ['type' => 'success', 'text' => 'Usuário e endereço inseridos com sucesso!'];
                 } else {
-                    $data['msg'] = 'Usuário inserido, mas ocorreu um erro ao salvar o endereço.';
+                    $data['msg'] = ['type' => 'error', 'text' => 'Usuário inserido, mas ocorreu um erro ao salvar o endereço.'];
                 }
             } else {
-                $data['msg'] = 'Erro ao inserir usuário.';
+                $data['msg'] = ['type' => 'error', 'text' => 'Erro ao inserir usuário.'];
             }
         }
 

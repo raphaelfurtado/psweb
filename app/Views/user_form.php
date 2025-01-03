@@ -4,9 +4,12 @@
 
     <h2 class="text-2xl font-bold mb-4 text-center sm:text-left"><?php echo $titulo ?></h2>
 
-    <?php if (!empty($msg)): ?>
-        <strong class="block mb-4 text-green-600"><?php echo $msg ?></strong>
-    <?php endif; ?>
+   <?php if (!empty($msg)): ?>
+    <strong 
+        class="block mb-4 <?php echo $msg['type'] === 'success' ? 'text-green-600' : 'text-red-600'; ?>">
+        <?php echo $msg['text']; ?>
+    </strong>
+<?php endif; ?>
 
     <p class="mb-4 text-center sm:text-left">
         <a href="<?php echo base_url($link) ?>" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
