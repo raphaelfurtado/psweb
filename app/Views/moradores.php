@@ -26,6 +26,7 @@
                     <!-- <th class="px-4 py-2">Código</th> -->
                     <th class="px-4 py-2">Nome</th>
                     <th class="px-4 py-2">Telefone</th>
+                    <th class="px-4 py-2">Telefone 2</th>
                     <th class="px-4 py-2">Quadra</th>
                     <th class="px-4 py-2">Número</th>
                     <th class="px-4 py-2">Ações</th>
@@ -39,10 +40,11 @@
                                                         ?></td> -->
                             <td class="px-4 py-2"><?php echo $morador->nome ?></td>
                             <td class="px-4 py-2"><?php echo $morador->telefone ?? 'Não informado'; ?></td>
+                            <td class="px-4 py-2"><?php echo $morador->telefone_2 ?? 'Não informado'; ?></td>
                             <td class="px-4 py-2"><?php echo $morador->quadra ?? 'Não informado'; ?></td>
                             <td class="px-4 py-2"><?php echo $morador->numero ?? 'Não informado'; ?></td>
                             <td class="px-4 py-2">
-                                <a href="<?php echo base_url('/user/editar/' . $morador->id) ?>"
+                                <a href="<?php echo base_url('/user/editar/' . $morador->id_user) ?>"
                                     class="text-blue-500 hover:underline">
                                     Editar
                                 </a>
@@ -59,6 +61,7 @@
                 <tr class="bg-gray-200 font-bold">
                     <td class="px-4 py-2">Total de Moradores</td>
                     <td class="px-4 py-2" id="totalMoradores"></td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>

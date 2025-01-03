@@ -18,8 +18,8 @@
                     <th class="px-4 py-2 text-left">Cód. Pagto</th>
                     <th class="px-4 py-2 text-left">Morador</th>
                     <th class="px-4 py-2 text-left">Recebedor</th>
+                    <th class="px-4 py-2 text-left">Quadra</th>                    
                     <th class="px-4 py-2 text-left">Número</th>
-                    <th class="px-4 py-2 text-left">Quadra</th>
                     <th class="px-4 py-2 text-left">Data Pagamento</th>
                     <th class="px-4 py-2 text-left">Referência</th>
                     <th class="px-4 py-2 text-left">Valor</th>
@@ -47,8 +47,8 @@
                         <td class="px-4 py-2"><?php echo $pagamento->id_pagamento ?></td>
                         <td class="px-4 py-2"><?php echo $pagamento->nome_morador ?></td>
                         <td class="px-4 py-2"><?php echo $pagamento->nome_recebedor ?></td>
-                        <td class="px-4 py-2"><?php echo $pagamento->numero ?></td>
                         <td class="px-4 py-2"><?php echo $pagamento->quadra ?></td>
+                        <td class="px-4 py-2"><?php echo $pagamento->numero ?></td>
                         <td class="px-4 py-2"><?php echo date('d/m/Y', strtotime($pagamento->data_pagamento)) ?></td>
                         <td class="px-4 py-2"><?php echo $pagamento->referencia ?></td>
                         <td class="px-4 py-2"><?php echo $pagamento->valor ?></td>

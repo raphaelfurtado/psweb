@@ -1,6 +1,6 @@
 $.extend($.fn.dataTable.defaults, {
     searching: true,
-    ordering:  true,
+    ordering: true,
     language: {
         info: 'Mostrando _PAGE_ página de _PAGES_',
         infoEmpty: 'Nenhum registro encontrado',
@@ -9,5 +9,4 @@ $.extend($.fn.dataTable.defaults, {
         zeroRecords: 'Nada encontrado - Desculpa',
         sSearch: "Pesquisar: "
     },
-    
 });
