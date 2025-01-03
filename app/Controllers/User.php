@@ -17,10 +17,13 @@ class User extends BaseController
 
         $nome = $this->request->getGet('nome');
 
-        $query = $userModel->select('id, nome');
+        // Realiza o JOIN com a tabela de endereços
+        $query = $userModel
+            ->select('users.id, users.nome, endereco.rua, endereco.numero, endereco.quadra')
+            ->join('endereco', 'endereco.id_usuario = users.id', 'left'); // LEFT JOIN para incluir usuários sem endereço
 
         if (!empty($nome)) {
-            $query->like('nome', $nome);
+            $query->like('usuarios.nome', $nome);
         }
 
         $data['moradores'] = $query->findAll();
@@ -31,6 +34,7 @@ class User extends BaseController
 
         echo view('moradores', $data);
     }
+
 
 
     public function inserir()
@@ -45,13 +49,13 @@ class User extends BaseController
             $validation = Services::validation();
 
             $validation->setRules([
-            //     'nome' => 'required|min_length[3]|max_length[50]',
+                //     'nome' => 'required|min_length[3]|max_length[50]',
                 'telefone' => 'required|numeric|is_unique[users.telefone]',
-            //     'senha' => 'permit_empty|min_length[6]',
-            //     'rua' => 'required|max_length[15]',
-                 'numero' => 'required|is_unique[endereco.numero]',
-            //     'quadra' => 'required',
-            //     'qtd_lote' => 'required|numeric',
+                //     'senha' => 'permit_empty|min_length[6]',
+                //     'rua' => 'required|max_length[15]',
+                'numero' => 'required|is_unique[endereco.numero]',
+                //     'quadra' => 'required',
+                //     'qtd_lote' => 'required|numeric',
             ]);
 
             if (!$validation->withRequest($this->request)->run()) {
@@ -160,7 +164,7 @@ class User extends BaseController
             if ($this->request->getPost('senha')) {
                 $userData['senha'] = password_hash($this->request->getPost('senha'), PASSWORD_DEFAULT);
             }
-            
+
 
             if ($userModel->update($id, $userData)) {
                 session()->setFlashdata('success', 'Usuário e endereço atualizados com sucesso!');

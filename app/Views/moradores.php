@@ -26,6 +26,9 @@
                     <!-- <th class="px-4 py-2">Código</th> -->
                     <th class="px-4 py-2">Nome</th>
                     <th class="px-4 py-2">Ações</th>
+                    <th class="px-4 py-2">Rua</th>
+                    <th class="px-4 py-2">Número</th>
+                    <th class="px-4 py-2">Quadra</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,6 +38,9 @@
                             <!-- <td class="px-4 py-2"><?php //echo $morador->id 
                                                         ?></td> -->
                             <td class="px-4 py-2"><?php echo $morador->nome ?></td>
+                            <td class="px-4 py-2"><?php echo $morador->rua ?? 'Não informado'; ?></td>
+                            <td class="px-4 py-2"><?php echo $morador->numero ?? 'Não informado'; ?></td>
+                            <td class="px-4 py-2"><?php echo $morador->quadra ?? 'Não informado'; ?></td>
                             <td class="px-4 py-2">
                                 <a href="<?php echo base_url('/user/editar/' . $morador->id) ?>"
                                     class="text-blue-500 hover:underline">
