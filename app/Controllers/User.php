@@ -49,7 +49,7 @@ class User extends BaseController
                 'telefone' => 'required|numeric|is_unique[users.telefone]',
             //     'senha' => 'permit_empty|min_length[6]',
             //     'rua' => 'required|max_length[15]',
-            //     'numero' => 'required',
+                 'numero' => 'required|is_unique[endereco.numero]',
             //     'quadra' => 'required',
             //     'qtd_lote' => 'required|numeric',
             ]);
