@@ -27,7 +27,7 @@
                 <div>
                     <label for="ano" class="block font-medium">Ano:</label>
                     <input type="number" id="ano" name="ano"
-                        class="w-full border border-gray-300 rounded px-3 py-2" required>
+                        class="w-full border border-gray-300 rounded px-3 py-2" placeholder="Ex: 2025" required>
                 </div>
             </div>
 
