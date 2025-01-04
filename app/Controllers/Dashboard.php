@@ -11,7 +11,7 @@ class Dashboard extends BaseController
             return redirect()->to('/login');
         }
 
-        $data['titulo'] = 'Painel do Usuário';
+        $data['titulo'] = 'Home';
         $data['nome'] = session()->get('user_nome');
         $data['role'] = session()->get('user_role');
 
