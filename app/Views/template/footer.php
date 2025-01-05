@@ -42,6 +42,7 @@
 <script src="<?php echo base_url('admin'); ?>/js/data-table.js"></script>
 <script src="<?php echo base_url('admin'); ?>/js/jquery.dataTables.js"></script>
 <script src="<?php echo base_url('admin'); ?>/js/dataTables.bootstrap4.js"></script>
+<!-- <script src="< ?php echo base_url('admin'); ?>/js/custom.js"></script> -->
 <!-- End custom js for this page-->
 <script src="<?php echo base_url('admin'); ?>/js/jquery.cookie.js" type="text/javascript"></script>
 </body>
