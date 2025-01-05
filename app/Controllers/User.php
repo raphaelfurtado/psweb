@@ -205,10 +205,12 @@ class User extends BaseController
             ->join('users', 'users.id = pagamento.id_usuario')
             ->join('recebedor', 'recebedor.id = pagamento.id_recebedor')
             ->join('endereco', 'endereco.id_usuario = users.id')
-            ->join('tipo_pagamento', 'tipo_pagamento.id = pagamento.id_tipo_pagamento')
+            ->join('tipo_pagamento', 'tipo_pagamento.codigo = pagamento.id_tipo_pagamento')
             ->where('pagamento.id_usuario', $idUsuario)
             ->orderBy('pagamento.id', 'DESC')
-            ->findAll();;
+            ->findAll();
+
+        //echo $pagadorModel->getLastQuery();
 
         return [
             'data' => $pagamentos,
