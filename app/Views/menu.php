@@ -37,6 +37,10 @@ function renderMenu($role)
                         class="block text-gray-200 hover:text-white font-medium px-4 py-2 lg:py-0" role="menuitem">
                         Pagamentos
                     </a>
+                    <a href="<?php echo base_url('/saidas'); ?>"
+                        class="block text-gray-200 hover:text-white font-medium px-4 py-2 lg:py-0" role="menuitem">
+                        Saídas
+                    </a>
                     <a href="<?php echo base_url('/formasPagamento'); ?>"
                         class="block text-gray-200 hover:text-white font-medium px-4 py-2 lg:py-0" role="menuitem">
                         Formas de Pagamento
