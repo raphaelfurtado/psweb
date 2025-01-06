@@ -10,4 +10,12 @@ class PagamentoModel extends Model
     protected $primaryKey = 'id';
     protected $allowedFields = ['id_usuario', 'id_recebedor', 'id_tipo_pagamento', 'id_forma_pagamento', 'data_pagamento', 'referencia', 'valor', 'situacao', 'observacao', 'data_insert'];
     protected $returnType = 'object';
+
+    public function getTotalPago()
+    {
+        return $this->selectSum('valor', 'total')
+                    ->where('situacao', 'PAGO')
+                    ->get()
+                    ->getRow();
+    }
 }
