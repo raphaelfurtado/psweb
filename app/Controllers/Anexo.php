@@ -59,6 +59,8 @@ class Anexo extends BaseController
 
         // var_dump($data);
         // die();
+        
+        // echo view('anexos', $data);
         echo view('anexo_index', $data);
     }
 
