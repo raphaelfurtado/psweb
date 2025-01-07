@@ -45,6 +45,7 @@
 <!-- <script src="< ?php echo base_url('admin'); ?>/js/custom.js"></script> -->
 <!-- End custom js for this page-->
 <script src="<?php echo base_url('admin'); ?>/js/jquery.cookie.js" type="text/javascript"></script>
+<script src="<?php echo base_url('admin'); ?>/datatables/js/datatables-inicialization.js" type="text/javascript"></script>
 </body>
 
 </html>

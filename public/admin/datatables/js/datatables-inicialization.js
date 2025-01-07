@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const tableIds = ['#example', 'dataTablePagamentos']; // Adicione mais IDs se necessário
+    const tableIds = ['#example']; // Adicione mais IDs se necessário
 
     tableIds.forEach(id => {
         new DataTable(id, {
