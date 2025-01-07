@@ -101,7 +101,7 @@
                 <table id="dataTablePagamentos" class="datatable table-auto w-full bg-white shadow-md rounded">
                     <thead>
                         <tr class="bg-gray-200">
-                            <th class="px-4 py-2 text-left">Cód. Pagto</th>
+                            <th class="px-4 py-2 text-left">Cód.</th>
                             <th class="px-4 py-2 text-left">Morador</th>
                             <th class="px-4 py-2 text-left">Recebedor</th>
                             <th class="px-4 py-2 text-left">Quadra</th>
@@ -111,7 +111,7 @@
                             <th class="px-4 py-2 text-left">Valor</th>
                             <th class="px-4 py-2 text-left">Situação</th>
                             <th class="px-4 py-2 text-left">Tipo Pagto</th>
-                            <th class="px-4 py-2 text-left">Observação</th>
+                            <th class="px-4 py-2 text-left">Obs</th>
                             <th class="px-4 py-2 text-left">Ações</th>
                         </tr>
                     </thead>
@@ -151,20 +151,6 @@
                         <?php endforeach; ?>
                     </tbody>
                     <tfoot>
-                        <tr>
-                            <th>Total</th>
-                            <th id="totalValor"></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
                     </tfoot>
                 </table>
             </div>

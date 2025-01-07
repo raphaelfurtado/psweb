@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\FormaPagamentoModel;
 use App\Models\PagamentoModel;
 use App\Models\RecebedorModel;
+use App\Models\SaidaModel;
 use App\Models\TipoPagamentoModel;
 use App\Models\UserModel;
 use CodeIgniter\Database\Exceptions\DatabaseException;
@@ -16,6 +17,11 @@ class Pagamento extends BaseController
     public function index()
     {
         $pagadorModel = new PagamentoModel();
+        $saidaModel = new SaidaModel();
+
+        $totalPago = $pagadorModel->getTotalPago();
+        $totalSaida = $saidaModel->getTotalSaida();
+        
 
         $data['link'] = 'pagamento/inserir';
         $data['tituloRedirect'] = '+ Inserir Novo Pagamento';
@@ -34,7 +40,8 @@ class Pagamento extends BaseController
             ->orderBy('pagamento.id', 'DESC')->findAll();
 
         //echo $pagadorModel->getLastQuery();
-
+        $data['totalPago'] = $totalPago->total ?? 0;
+        $data['totalSaida'] = $totalSaida->total ?? 0;
         $data['titulo'] = 'Lista de Pagamento';
 
         echo view('pagamentos', $data);
