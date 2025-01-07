@@ -1,83 +1,94 @@
-<?php
-// Inclua o componente de menu
-include 'menu.php';
-
-$role = session('user_role');
-?>
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <title>
-        Login - PSWEB
-    </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#1D4ED8',
-                        secondary: '#9333EA',
-                    },
-                },
-            },
-        }
-    </script>
-
-    <style>
-        .login {
-            background: url('http://bit.ly/2gPLxZ4');
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
-    </style>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>PSWEB - Login</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="<?php echo base_url('admin'); ?>/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('admin'); ?>/vendors/base/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="<?php echo base_url('admin'); ?>/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="<?php echo base_url('admin'); ?>/images/favicon.png" />
 </head>
 
-<body class="bg-gray-100">
-    <main>
-        <div class="min-h-screen flex items-center justify-center p-4 sm:p-8">
-            <div class="bg-white rounded-xl shadow-lg p-6 sm:p-8 w-full max-w-sm sm:max-w-md lg:max-w-lg">
-                <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-6 text-center">PSWEB </h2>
+<body>
+    <div class="container-scroller">
+        <div class="container-fluid page-body-wrapper full-page-wrapper">
+            <div class="content-wrapper d-flex align-items-stretch auth auth-img-bg">
+                <div class="row flex-grow">
+                    <div class="col-lg-6 d-flex align-items-center justify-content-center">
+                        <div class="auth-form-transparent text-left p-3">
 
-                <?php if (session()->getFlashdata('error')): ?>
-                    <div class="text-red-500 mb-4 text-sm">
-                        <?php echo session()->getFlashdata('error'); ?>
+                            <?php if (session()->getFlashdata('error')): ?>
+                                <div class="alert alert-warning" role="alert">
+                                    <strong>Atenção! </strong><?php echo session()->getFlashdata('error'); ?>.
+                                </div>
+                            <?php endif; ?>
+                                
+                            <h4>Bem-Vindo!</h4>
+                            <form class="pt-3" method="post">
+                                <div class="form-group">
+                                    <label for="telefone">Telefone</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend bg-transparent">
+                                            <span class="input-group-text bg-transparent border-right-0">
+                                                <i class="mdi mdi-account-outline text-primary"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control form-control-lg border-left-0"
+                                            id="telefone" name="telefone" placeholder="Telefone">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="senha">Senha</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend bg-transparent">
+                                            <span class="input-group-text bg-transparent border-right-0">
+                                                <i class="mdi mdi-lock-outline text-primary"></i>
+                                            </span>
+                                        </div>
+                                        <input type="password" class="form-control form-control-lg border-left-0"
+                                            id="senha" name="senha" placeholder="Senha">
+                                    </div>
+                                </div>
+                                <div class="my-3">
+                                    <button type="submit"
+                                        class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">
+                                        ENTRAR
+                                    </button>
+                                </div>
+                                <div class="text-center mt-4 font-weight-light">
+                                    Não tem conta? <a href="#" class="text-primary">Entre em com a diretoria.</a>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                <?php endif; ?>
-
-                <form method="post" class="space-y-4">
-                    <div>
-                        <label for="telefone" class="block text-sm font-medium text-gray-700 mb-1">Número do
-                            Celular:</label>
-                        <input type="text" name="telefone" id="telefone"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
-                            placeholder="91999999999" required>
+                    <div class="col-lg-6 moradores-half-bg d-flex flex-row">
+                        <p class="text-white font-weight-medium text-center flex-grow align-self-end">Copyright &copy;
+                            2025 SoftBean.</p>
                     </div>
-
-                    <div>
-                        <label for="senha" class="block text-sm font-medium text-gray-700 mb-1">Senha:</label>
-                        <input type="password" name="senha" id="senha"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
-                            required>
-                    </div>
-
-                    <button type="submit"
-                        class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-lg transition-colors">
-                        Entrar
-                    </button>
-                </form>
-
-                <div class="mt-6 text-center text-sm text-gray-600">
-                    Não tem conta?
-                    <a href="#" class="text-indigo-600 hover:text-indigo-500 font-medium">Entre em contato com a
-                        diretoria.</a>
                 </div>
             </div>
+            <!-- content-wrapper ends -->
         </div>
-    </main>
+        <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src=".<?php echo base_url('admin'); ?>/vendors/base/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- inject:js -->
+    <script src=".<?php echo base_url('admin'); ?>/js/off-canvas.js"></script>
+    <script src=".<?php echo base_url('admin'); ?>/js/hoverable-collapse.js"></script>
+    <script src=".<?php echo base_url('admin'); ?>/js/template.js"></script>
+    <!-- endinject -->
 </body>
 
 </html>
