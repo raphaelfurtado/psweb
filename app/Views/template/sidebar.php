@@ -76,5 +76,5 @@
         </ul>
     </nav>
     <!-- partial -->
-    <div class="main-panel">
-        <div class="content-wrapper">
+        <div class="main-panel">
+            <div class="content-wrapper">
