@@ -54,11 +54,11 @@ $('#dataTablePagamentos').DataTable({
 
 
         // Atualizar o rodapé com o total e o total dos pagamentos "PAGO"
-        $(api.column(currentPosition).footer()).html(
-            //'R$ ' + pageTotal.toFixed(2) + ' ( R$ ' + total.toFixed(2) + ' total) | ' +
-            'Total página R$ ' + pageTotal.toFixed(2) + ' | ' + 
-            'Total PAGO: R$ ' + pagoTotal.toFixed(2)
-        );
+        // $(api.column(currentPosition).footer()).html(
+        //     //'R$ ' + pageTotal.toFixed(2) + ' ( R$ ' + total.toFixed(2) + ' total) | ' +
+        //     'Total página R$ ' + pageTotal.toFixed(2) + ' | ' + 
+        //     'Total PAGO: R$ ' + pagoTotal.toFixed(2)
+        // );
     },
 
     layout: {
