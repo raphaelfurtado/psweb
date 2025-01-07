@@ -105,9 +105,9 @@
                             <th class="px-4 py-2 text-left">Morador</th>
                             <th class="px-4 py-2 text-left">Recebedor</th>
                             <th class="px-4 py-2 text-left">Quadra</th>
-                            <th class="px-4 py-2 text-left">Número</th>
-                            <th class="px-4 py-2 text-left">Data Pagamento</th>
-                            <th class="px-4 py-2 text-left">Referência</th>
+                            <th class="px-4 py-2 text-left">Nº</th>
+                            <th class="px-4 py-2 text-left">Data Pgto</th>
+                            <th class="px-4 py-2 text-left">Ref.</th>
                             <th class="px-4 py-2 text-left">Valor</th>
                             <th class="px-4 py-2 text-left">Situação</th>
                             <th class="px-4 py-2 text-left">Tipo Pagto</th>
@@ -137,7 +137,7 @@
                                 <td class="px-4 py-2"><?php echo $pagamento->numero ?></td>
                                 <td class="px-4 py-2"><?php echo date('d/m/Y', strtotime($pagamento->data_pagamento)) ?></td>
                                 <td class="px-4 py-2"><?php echo $pagamento->referencia ?></td>
-                                <td class="px-4 py-2"><?php echo $pagamento->valor ?></td>
+                                <td class="px-4 py-2"><?php echo number_format($pagamento->valor, 2, ',', '.') ?></td>
                                 <td class="px-4 py-2"><span class="<?= $situacaoClass; ?>"><?php echo $pagamento->situacao ?></span></td>
                                 <td class="px-4 py-2"><?php echo $pagamento->desc_pagamento ?></td>
                                 <td class="px-4 py-2"><?php echo $pagamento->observacao ?></td>
