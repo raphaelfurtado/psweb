@@ -1,70 +1,86 @@
 <?php
+
 function renderMenu($role)
 {
     ?>
-    <header class="bg-primary text-white shadow-md relative">
-        <div class="container mx-auto flex items-center justify-between p-4">
-            <!-- Logo -->
-            <h1 class="text-2xl font-bold">Sistema Porta do Sol</h1>
-
-            <!-- Botão Hamburguer -->
-            <button id="menu-toggle" class="lg:hidden text-white focus:outline-none transition-transform transform"
-                aria-label="Abrir Menu">
-                <svg xmlns="http://www.w3.org/2000/svg" id="menu-icon" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                </svg>
-            </button>
-
-            <!-- Navegação -->
-            <nav id="menu"
-                class="hidden flex-col lg:flex lg:flex-row items-start lg:items-center absolute lg:static top-full left-0 w-full lg:w-auto bg-primary lg:bg-transparent z-10 shadow-lg lg:shadow-none transition-all duration-300"
-                role="menu">
-                <a href="<?php echo base_url('/'); ?>"
-                    class="block text-gray-200 font-medium hover:text-white px-4 py-2 lg:py-0" role="menuitem">
-                    Dashboard
+    
+    <div class="container-fluid page-body-wrapper">
+    <!-- partial:partials/_sidebar.html -->
+    <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="<?php echo base_url('/'); ?>">
+                    <i class="mdi mdi-home menu-icon"></i>
+                    <span class="menu-title">Home</span>
                 </a>
-                <?php if ($role === 'admin'): ?>
-                    <a href="<?php echo base_url('/users'); ?>"
-                        class="block text-gray-200 hover:text-white font-medium px-4 py-2 lg:py-0" role="menuitem">
-                        Moradores
+            </li>
+            <?php if ($role === 'admin'): ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo base_url('/users'); ?>">
+                        <i class="mdi mdi-account-multiple menu-icon"></i>
+                        <span class="menu-title">Moradores</span>
                     </a>
-                    <a href="<?php echo base_url('/recebedores'); ?>"
-                        class="block text-gray-200 hover:text-white font-medium px-4 py-2 lg:py-0" role="menuitem">
-                        Recebedores
+                </li>
+            <?php endif; ?>
+            <?php if ($role === 'admin'): ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo base_url('/recebedores'); ?>">
+                        <i class="mdi mdi-account-switch menu-icon"></i>
+                        <span class="menu-title">Recebedores</span>
                     </a>
-                    <a href="<?php echo base_url('/pagamentos'); ?>"
-                        class="block text-gray-200 hover:text-white font-medium px-4 py-2 lg:py-0" role="menuitem">
-                        Pagamentos
+                </li>
+            <?php endif; ?>
+            <?php if ($role === 'admin'): ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo base_url('/pagamentos'); ?>">
+                        <i class="mdi mdi-cash menu-icon"></i>
+                        <span class="menu-title">Pagamentos</span>
                     </a>
-                    <a href="<?php echo base_url('/saidas'); ?>"
-                        class="block text-gray-200 hover:text-white font-medium px-4 py-2 lg:py-0" role="menuitem">
-                        Saídas
+                </li>
+            <?php endif; ?>
+            <?php if ($role === 'admin'): ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo base_url('/formasPagamento'); ?>">
+                        <i class="mdi mdi-wallet-travel menu-icon"></i>
+                        <span class="menu-title">Formas de Pagamento</span>
                     </a>
-                    <a href="<?php echo base_url('/formasPagamento'); ?>"
-                        class="block text-gray-200 hover:text-white font-medium px-4 py-2 lg:py-0" role="menuitem">
-                        Formas de Pagamento
+                </li>
+            <?php endif; ?>
+            <?php if ($role === 'admin'): ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo base_url('/tiposPagamento'); ?>">
+                        <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+                        <span class="menu-title">Tipos de Pagamento</span>
                     </a>
-                    <a href="<?php echo base_url('/tiposPagamento'); ?>"
-                        class="block text-gray-200 hover:text-white font-medium px-4 py-2 lg:py-0" role="menuitem">
-                        Tipos de Pagamento
-                    </a>
-                    <a href="<?php echo base_url('/gerarPagamentos'); ?>"
-                        class="block text-gray-200 hover:text-white font-medium px-4 py-2 lg:py-0" role="menuitem">
-                        Gerar Pagamentos
-                    </a>
-                <?php endif; ?>
-                <a href="<?php echo base_url('/anexos'); ?>"
-                    class="block text-gray-200 hover:text-white font-medium px-4 py-2 lg:py-0" role="menuitem">
-                    anexos
+                </li>
+            <?php endif; ?>
+            <li class="nav-item">
+                <a class="nav-link" href="<?php echo base_url('/anexos'); ?>">
+                    <i class="mdi mdi-file-document-box menu-icon"></i>
+                    <span class="menu-title">Anexos</span>
                 </a>
-                <a href="<?php echo base_url('/logout'); ?>"
-                    class="block text-red-700 hover:text-red-500 font-medium px-4 py-2 lg:py-0" role="menuitem">
-                    Sair
+            </li>
+            <!-- <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+                    <i class="mdi mdi-account menu-icon"></i>
+                    <span class="menu-title">User Pages</span>
+                    <i class="menu-arrow"></i>
                 </a>
-            </nav>
-        </div>
-    </header>
+                <div class="collapse" id="auth">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"> <a class="nav-link" href="#"> Login </a></li>
+                        <li class="nav-item"> <a class="nav-link" href="#"> Login 2 </a></li>
+                        <li class="nav-item"> <a class="nav-link" href="#"> Register </a></li>
+                        <li class="nav-item"> <a class="nav-link" href="#"> Register 2 </a></li>
+                        <li class="nav-item"> <a class="nav-link" href="#"> Lockscreen </a></li>
+                    </ul>
+                </div>
+            </li> -->
+        </ul>
+    </nav>
+    <!-- partial -->
+    <div class="main-panel">
+        <div class="content-wrapper">
     <?php
 }
 ?>

@@ -37,6 +37,8 @@ $role = session('user_role');
 
 <body class="flex flex-col min-h-screen bg-gray-50 text-gray-800 font-sans">
 
+    <?php echo $this->include('template/header', ['titulo' => $titulo]); ?>
+    <?php echo $this->include('template/topbar'); ?>
 
     <?php renderMenu($role); ?>
     <main class="flex-grow p-4">
