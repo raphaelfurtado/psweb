@@ -14,13 +14,13 @@
 
     <?php if (session()->getFlashdata('msg_success')): ?>
         <div class="bg-green-500 text-white p-4 rounded-lg shadow-md mb-4" id="flash-message">
-            <?php echo session()->getFlashdata('msg_success'); ?>
+            <strong>PSWEB Informa: </strong><?php echo session()->getFlashdata('msg_success'); ?>
         </div>
     <?php endif; ?>
 
     <?php if (session()->getFlashdata('msg_error')): ?>
         <div class="bg-red-500 text-white p-4 rounded-lg shadow-md mb-4" id="flash-message">
-            <?php echo session()->getFlashdata('msg_error'); ?>
+            <strong>PSWEB Informa: </strong><?php echo session()->getFlashdata('msg_error'); ?>
         </div>
     <?php endif; ?>
 

@@ -1,9 +1,49 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const tableIds = ['#example']; // Adicione mais IDs se necessário
+    // Configurações das tabelas: mapeia colunas não pesquisáveis, não ordenáveis, centralizadas, visíveis e visíveis no mobile
+    const tableConfigs = {
+        '#example': {
+            nonSearchable: [7], // Colunas sem pesquisa
+            nonOrderable: [0, 1, 2, 3, 4, 5, 6, 7], // Colunas sem ordenação
+            centeredColumns: [1, 2, 4, 5], // Colunas a serem centralizadas
+            mobileVisibleColumns: [1, 2, 3], // Colunas visíveis no mobile (defina dinamicamente)
+            modalTitleColumn: 0 // Índice da coluna para exibir no título da modal
+        }
+    };
 
-    tableIds.forEach(id => {
-        new DataTable(id, {
-            responsive: true,
+    Object.keys(tableConfigs).forEach(id => {
+        const config = tableConfigs[id]; // Obter a configuração para a tabela atual
+        const nonSearchableColumns = config.nonSearchable || [];
+        const nonOrderableColumns = config.nonOrderable || [];
+        const centeredColumns = config.centeredColumns || [];
+        const mobileVisibleColumns = config.mobileVisibleColumns || []; // Colunas visíveis no mobile
+        const modalTitleColumn = config.modalTitleColumn || 0; // Índice da coluna para o título da modal
+
+        let table = new DataTable(id, {
+            responsive: {
+                details: {
+                    display: $.fn.dataTable.Responsive.display.modal({
+                        header: function (row) {
+                            const data = row.data();
+                            const titleData = data[modalTitleColumn];
+                            return titleData ? 'Detalhes: ' + titleData : 'Detalhes';
+                        },
+                        renderer: function (api, rowIdx, columns) {
+                            let data = '';
+                            columns.forEach(function (col) {
+                                if (col.columnIndex === 0) {
+                                    data += '<strong>' + col.title + ':</strong> ' + col.data + '<br>';
+                                } else {
+                                    data += '<strong>' + col.title + ':</strong> ' + col.data + '<br>';
+                                }
+                            });
+                            return data;
+                        }
+                    }),
+                    renderer: $.fn.dataTable.Responsive.renderer.tableAll({
+                        tableClass: 'table'
+                    })
+                }
+            },
             language: {
                 info: 'Página _PAGE_ de _PAGES_',
                 infoEmpty: 'Sem registros',
@@ -17,42 +57,75 @@ document.addEventListener('DOMContentLoaded', function () {
                     .columns()
                     .every(function () {
                         let column = this;
-                        let header = column.header(); // Referência ao cabeçalho da coluna
+                        let header = column.header();
 
-                        if (header) { // Certifique-se de que o cabeçalho existe
-                            let title = header.textContent.trim(); // Obter o título da coluna
+                        if (header) {
+                            let title = header.textContent.trim();
 
-                            // Se a coluna for pesquisável, adicione o campo de entrada
-                            if (column.index() !== 4) { // Exemplo: colunas não pesquisáveis como a 4 (índice 4)
-                                // Crie um elemento div para adicionar o campo de pesquisa abaixo do título
+                            // Adiciona o filtro de pesquisa na coluna
+                            if (!nonSearchableColumns.includes(column.index())) {
                                 let searchDiv = document.createElement('div');
-                            
-                                // Crie o campo de input
+                                searchDiv.classList.add('input-group', 'mt-2');
                                 let input = document.createElement('input');
-
-                                input.placeholder = `Pesquisar`; // Define o placeholder
-                                searchDiv.appendChild(input); // Adiciona o campo de entrada dentro da div
-
-                                // Insira a div com o input abaixo do título da coluna
+                                input.classList.add('form-control');
+                                input.placeholder = `Pesquisar`;
+                                searchDiv.appendChild(input);
                                 header.appendChild(searchDiv);
 
-                                // Listener para buscar os dados ao digitar
                                 input.addEventListener('input', () => {
                                     if (column.search() !== input.value) {
                                         column.search(input.value).draw();
                                     }
                                 });
+                            }
+
+                            // Aplica a centralização nas colunas
+                            if (centeredColumns.includes(column.index())) {
+                                header.style.textAlign = 'center';
+                                header.style.verticalAlign = 'middle';
+                            }
+
+                            // Aplica visibilidade nas colunas no mobile
+                            if (mobileVisibleColumns.includes(column.index())) {
+                                $(header).css('display', 'table-cell');
+                                $(column.footer()).css('display', 'table-cell');
                             } else {
-                                header.textContent = title; // Mantém o texto original se não for pesquisável
+                                $(header).css('display', 'none');
+                                $(column.footer()).css('display', 'none');
                             }
                         }
                     });
             },
+            createdRow: function (row, data, dataIndex) {
+                centeredColumns.forEach(function (colIndex) {
+                    $('td', row).eq(colIndex).css({
+                        'text-align': 'center',
+                        'vertical-align': 'middle'
+                    });
+                });
+
+                mobileVisibleColumns.forEach(function (colIndex) {
+                    $('td', row).eq(colIndex).css('display', 'table-cell');
+                });
+            },
             columnDefs: [{
-                targets: [4], // Exemplo: desativa a pesquisa na coluna 4
-                searchable: false
-            }],
-            className: 'table table-striped table-bordered table-hover table-sm'
+                    targets: nonSearchableColumns,
+                    searchable: false
+                },
+                {
+                    targets: nonOrderableColumns,
+                    orderable: false
+                },
+                {
+                    targets: mobileVisibleColumns,
+                    visible: true
+                }
+            ]
+        });
+
+        // Força a atualização da tabela quando a janela é redimensionada
+        $(window).on('resize', function () {
+            table.columns.adjust().responsive.recalc();
         });
     });
 });
