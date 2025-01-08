@@ -19,8 +19,8 @@
                 <form class="forms-sample" id="upload-form" action="<?= base_url('/anexo/upload') ?>" method="POST"
                     enctype="multipart/form-data">
                     <div class="form-group">
-                        <label for="tipo_anexo">Selecione o Tipo do Arquivo:</label>
-                        <select class="form-control" id="tipo_anexo" name="tipo_anexo" required>
+                        <label for="type_anex">Selecione o Tipo do Arquivo:</label>
+                        <select class="form-control" id="type_anex" name="type_anex" required>
                             <option value="">-- Selecione --</option>
                             <option value="1">Associação</option>
                             <option value="2">Morador</option>
@@ -37,37 +37,23 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="subject">Titulo</label>
+                        <label for="subject">Titulo:</label>
                         <input type="text" class="form-control" id="subject" name="subject" placeholder="Título"
                             required>
                     </div>
 
                     <div class="form-group">
-                        <label for="files">Arquivo</label>
+                        <label for="files">Arquivo:</label>
                         <input type="file" id="files" name="files[]" class="file-upload-default">
                         <div class="input-group col-xs-12">
-                            <input type="text" class="form-control file-upload-info" disabled
-                                placeholder="Upload Image">
                             <span class="input-group-append">
                                 <button class="file-upload-browse btn btn-primary" type="button">
                                     <i class="mdi mdi-folder-upload"></i>
                                 </button>
                             </span>
+                            <input type="text" class="form-control file-upload-info" disabled>
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label>File upload</label>
-                        <input type="file" name="img[]" class="file-upload-default">
-                        <div class="input-group col-xs-12">
-                            <input type="text" class="form-control file-upload-info" disabled
-                                placeholder="Upload Image">
-                            <span class="input-group-append">
-                                <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
-                            </span>
-                        </div>
-                    </div>
-
                     <button type="submit" class="btn btn-primary mr-2"> <?= $acao; ?></button>
                     <a href="<?php echo base_url($link) ?>" class="btn btn-light">
                         Cancelar
@@ -78,5 +64,4 @@
     </div>
 </div>
 
-<!-- < ?php echo $this->include('template/footer'); ?>  -->
-<?php echo $this->include('footer'); ?>
+<?php echo $this->include('template/footer'); ?>
