@@ -21,7 +21,7 @@ class Pagamento extends BaseController
 
         $totalPago = $pagadorModel->getTotalPago();
         $totalSaida = $saidaModel->getTotalSaida();
-        
+
 
         $data['link'] = 'pagamento/inserir';
         $data['tituloRedirect'] = '+ Inserir Novo Pagamento';
@@ -93,6 +93,8 @@ class Pagamento extends BaseController
             } else {
                 $data['msg'] = 'Erro ao inserir pagamento.';
             }
+
+            return redirect()->to('/pagamento/inserir');
         }
         $data['situacoes'] = explode("','", $matches[1]);
 
@@ -147,16 +149,16 @@ class Pagamento extends BaseController
             $pagadorData = $pagadorModel->update($id, $pagadorData);
 
             if ($pagadorData) {
-                $data['msg'] = 'Pagamento atualizado com sucesso!';
+                session()->setFlashdata('msg', 'Pagamento atualizado com sucesso!');
+                session()->setFlashdata('msg_type', 'success'); // Define o tipo como sucesso
             } else {
-                $data['msg'] = 'Erro ao atualizar pagamento.';
+                session()->setFlashdata('msg', 'Erro ao atualizar pagamento.');
+                session()->setFlashdata('msg_type', 'error'); // Define o tipo como erro
             }
-
-            return redirect()->to('/pagamentos');
         }
 
+        $data['pagamento'] = $pagadorModel->find($id);
         $data['situacoes'] = explode("','", $matches[1]);
-        $data['pagamento'] = $pagamento;
 
         echo view('pagamento_form', $data);
     }

@@ -16,18 +16,18 @@
                     <table id="dataTablePagamentos" class="datatable table table-striped nowrap" style="width:100%">
                         <thead>
                             <tr>
-                                <th class="all">OP</th>
-                                <th class="all">Morador</th>
-                                <th class="all">Quadra</th>
-                                <th class="all">Num</th>
-                                <th class="all">Data Pagto</th>
-                                <th class="all">Ref.</th>
+                                <th class="desktop">OP</th>
+                                <th class="desktop mobile tablet">Morador</th>
+                                <th class="desktop mobile tablet">Quadra</th>
+                                <th class="desktop mobile tablet">Num</th>
+                                <th class="none">Data Pagto</th>
+                                <th class="desktop mobile tablet">Ref.</th>
                                 <th class="desktop tablet">Recebedor</th>
-                                <th class="all">Valor</th>
-                                <th class="all">Situação</th>
-                                <th class="all">Tipo</th>
+                                <th class="desktop mobile tablet">Valor</th>
+                                <th class="desktop mobile tablet">Situação</th>
+                                <th class="desktop mobile tablet">Tipo</th>
                                 <th class="none">Obs</th>
-                                <th class="all">Ações</th>
+                                <th class="desktop mobile tablet">Ações</th>
                             </tr>
                         </thead>
                         <tbody>

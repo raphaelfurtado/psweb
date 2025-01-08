@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Adicionar botões somente para a tabela #dataTablePagamentos
         if (config.enableButtons) {
-            tableOptions.dom = 'Bfrtip';
+            tableOptions.dom = '<"top"lf>rt<"bottom d-flex flex-column align-items-center"Bp><"clear">';
             tableOptions.buttons = [
                 {
                     extend: 'excelHtml5',
