@@ -1,63 +1,67 @@
 <?php echo $this->include('header', array('titulo' => $titulo)); ?>
 
-<h2 class="text-2xl font-bold mb-4 text-center sm:text-left"><?php echo $titulo ?></h2>
-
 <strong class="text-lg text-red-500 mb-4 block text-center sm:text-left"><?php echo $msg ?></strong>
 
 <div id="upload-url" data-url="<?= base_url('/anexo/upload') ?>"></div>
 
-<div id="content" class="max-w-4xl mx-auto p-4">
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="template-demo">
+                    <a href="<?php echo base_url($link) ?>" class="btn btn-primary text-white">
+                        <i class="mdi mdi-keyboard-return btn-icon-prepend"></i>
+                        Voltar
+                    </a>
+                </div>
+                <br />
+                <h4 class="card-title text-center"><?php echo $titulo ?></h4>
+                <form class="forms-sample" id="upload-form" action="<?= base_url('/anexo/upload') ?>" method="POST"
+                    enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="type_anex">Selecione o Tipo do Arquivo:</label>
+                        <select class="form-control" id="type_anex" name="type_anex" required>
+                            <option value="">-- Selecione --</option>
+                            <option value="1">Associação</option>
+                            <option value="2">Morador</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="morador">Selecione o Morador:</label>
+                        <select class="form-control" id="morador" name="id_morador" required>
+                            <option value="">-- Selecione --</option>
+                            <?php foreach ($moradores as $morador): ?>
+                                <option value="<?= $morador->id; ?>"><?= $morador->nome; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
 
-    <p class="mb-4 text-center sm:text-left">
-        <a href="<?php echo base_url($link) ?>"
-            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 block sm:inline-block text-center">
-            <?php echo $tituloRedirect ?>
-        </a>
-    </p>
-    <br />
+                    <div class="form-group">
+                        <label for="subject">Titulo:</label>
+                        <input type="text" class="form-control" id="subject" name="subject" placeholder="Título"
+                            required>
+                    </div>
 
-    <form class="space-y-4" id="upload-form" action="<?= base_url('/anexo/upload') ?>" method="POST"
-        enctype="multipart/form-data">
-        <div>
-            <label for="tipo_anexo" class="block text-sm font-medium">Selecione o Tipo de Anexo:</label>
-            <select id="tipo_anexo" name="type_anex" required class="w-full border border-gray-300 rounded px-4 py-2">
-                <option value="">-- Selecione --</option>
-                <option value="1">Associação</option>
-                <option value="2">Morador</option>
-            </select>
+                    <div class="form-group">
+                        <label for="files">Arquivo:</label>
+                        <input type="file" id="files" name="files[]" class="file-upload-default">
+                        <div class="input-group col-xs-12">
+                            <span class="input-group-append">
+                                <button class="file-upload-browse btn btn-primary" type="button">
+                                    <i class="mdi mdi-folder-upload"></i>
+                                </button>
+                            </span>
+                            <input type="text" class="form-control file-upload-info" disabled>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2"> <?= $acao; ?></button>
+                    <a href="<?php echo base_url($link) ?>" class="btn btn-light">
+                        Cancelar
+                    </a>
+                </form>
+            </div>
         </div>
-
-        <div>
-            <label for="morador" class="block text-sm font-medium">Selecione um morador:</label>
-            <select id="morador" name="id_morador" required class="w-full border border-gray-300 rounded px-4 py-2">
-                <option value="">-- Selecione --</option>
-                <?php foreach ($moradores as $morador): ?>
-                    <option value="<?= $morador->id; ?>">
-                        <?= $morador->nome; ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-        </div>
-
-        <div>
-            <label for="subject" class="block text-sm font-medium">Titulo:</label>
-            <input type="text" id="subject" name="subject" value='' required
-                class="w-full border border-gray-300 rounded px-4 py-2">
-        </div>
-
-        <div>
-            <label for="files" class="block text-sm font-medium">Arquivos:</label>
-            <input type="file" id="files" name="files[]" multiple
-                class="w-full border border-gray-300 rounded px-4 py-2">
-            <div id="file-list" class="mt-2 mb-2"></div>
-        </div>
-
-        <div>
-            <button type="submit" class="w-full bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-700">
-                <?= $acao; ?>
-            </button>
-        </div>
-    </form>
+    </div>
 </div>
 
-<?php echo $this->include('footer'); ?>
+<?php echo $this->include('template/footer'); ?>

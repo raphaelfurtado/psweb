@@ -65,7 +65,7 @@
 <script src="<?php echo base_url('admin'); ?>/js/jquery.cookie.js" type="text/javascript"></script>
 <script src="<?php echo base_url('admin'); ?>/datatables/js/datatables-inicialization.js"
     type="text/javascript"></script>
-<script src="<?php echo base_url('admin'); ?>/datatables/js/dataTables.js" type="text/javascript"></script>
+
 <script src="<?php echo base_url('admin'); ?>/datatables/js/dataTables.bootstrap5.js" type="text/javascript"></script>
 <script src="<?php echo base_url('admin'); ?>/datatables/js/dataTables.responsive.js" type="text/javascript"></script>
 <script src="<?php echo base_url('admin'); ?>/datatables/js/responsive.bootstrap5.js" type="text/javascript"></script>
@@ -77,6 +77,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 
 <script src="<?= base_url('js/custom-alert.js') ?>"></script>
+<script src="<?php echo base_url('js/custom.js'); ?>"></script>
+<script src="<?php echo base_url('js/custom.js'); ?>"></script>
+<script src="<?php echo base_url('admin'); ?>/js/file-upload.js"></script>
 
 </body>
 
