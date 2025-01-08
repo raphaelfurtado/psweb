@@ -167,12 +167,14 @@ class User extends BaseController
 
 
             if ($userModel->update($id, $userData)) {
-                session()->setFlashdata('success', 'Usuário e endereço atualizados com sucesso!');
+                session()->setFlashdata('msg', 'Dados atualizado com sucesso!');
+                session()->setFlashdata('msg_type', 'success');
             } else {
-                session()->setFlashdata('error', 'Erro ao atualizar o usuário.');
+                session()->setFlashdata('msg', 'Erro ao atualizar dados.');
+                session()->setFlashdata('msg_type', 'error');
             }
 
-            return redirect()->to('/users');
+            return redirect()->to('/user/inserir');
         }
 
         // Dados para a visualização

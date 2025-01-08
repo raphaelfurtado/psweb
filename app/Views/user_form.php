@@ -1,162 +1,166 @@
 <?php echo $this->include('header', array('titulo' => $titulo)); ?>
 
-<div class="container mx-auto p-4">
+<?php if (session()->getFlashdata('msg')): ?>
+    <?php
+    $msg = session()->getFlashdata('msg');
+    $msgType = session()->getFlashdata('msg_type');
+    $alertClass = $msgType === 'success' ? 'alert alert-success' : 'alert alert-danger';
+    ?>
+    <div class="alert <?= $alertClass ?>" role="alert" id="flash-message">
+        <strong>PSWEB informa: </strong><?= $msg ?>
+    </div>
 
-    <h2 class="text-2xl font-bold mb-4 text-center sm:text-left"><?php echo $titulo ?></h2>
+<?php endif; ?>
 
-    <?php if (!empty($msg)): ?>
-        <strong
-            class="block mb-4 <?php echo $msg['type'] === 'success' ? 'text-green-600' : 'text-red-600'; ?>">
-            <?php echo $msg['text']; ?>
-        </strong>
-    <?php endif; ?>
+<div class="col-12 grid-margin stretch-card">
 
-    <p class="mb-4 text-center sm:text-left">
-        <a href="<?php echo base_url($link) ?>" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
-            <?php echo $tituloRedirect ?>
-        </a>
-    </p>
+    <div class="card">
 
-    <form method="post" class="space-y-4 bg-white p-6 rounded shadow">
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-                <label for="nome" class="block font-medium">Nome:</label>
-                <input type="text" id="nome" name="nome" value="<?php echo (isset($usuario) ? $usuario->nome : '') ?>"
-                    class="w-full border border-gray-300 rounded px-3 py-2" required>
+        <div class="card-body">
+            <div class="template-demo">
+                <a href="<?php echo base_url($link) ?>" class="btn btn-primary text-white">
+                    <i class="mdi mdi-keyboard-return"></i>
+                    Voltar
+                </a>
             </div>
-            <div>
-                <label for="aniversario" class="block font-medium">Aniversário:</label>
-                <input type="date" id="aniversario" name="aniversario"
-                    value="<?php echo (isset($usuario) ? $usuario->aniversario : '') ?>"
-                    class="w-full border border-gray-300 rounded px-3 py-2" required>
-            </div>
+            <br />
+            <h1 class="card-title text-center"><?php echo $titulo ?></h1>
+            <p class="card-description">
+                Adicionar registro
+            </p>
+            <form method="post" class="forms-sample">
+                <div class="form-group">
+                    <label for="nome">Nome</label>
+                    <input type="text" id="nome" name="nome" value="<?php echo (isset($usuario) ? $usuario->nome : '') ?>"
+                        class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="aniversario">Aniversário</label>
+                    <input type="date" id="aniversario" name="aniversario"
+                        value="<?php echo (isset($usuario) ? $usuario->aniversario : '') ?>"
+                        class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefone">Telefone</label>
+                    <input type="text" id="telefone" name="telefone"
+                        value="<?php echo (isset($usuario) ? $usuario->telefone : '') ?>"
+                        class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefone_2">Telefone 2</label>
+                    <input type="text" id="telefone_2" name="telefone_2"
+                        value="<?php echo (isset($usuario) ? $usuario->telefone_2 : '') ?>"
+                        class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="rua">Rua</label>
+                    <input type="text" id="rua" name="rua" value="<?php echo (isset($endereco) ? $endereco->rua : '') ?>"
+                        class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="quadra">Quadra</label>
+                    <input type="text" id="quadra" name="quadra"
+                        value="<?php echo (isset($endereco) ? $endereco->quadra : '') ?>"
+                        class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="numero">Número</label>
+                    <input type="text" id="numero" name="numero"
+                        value="<?php echo (isset($endereco) ? $endereco->numero : '') ?>"
+                        class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="qtd_lote">Qtd Lote</label>
+                    <input type="number" id="qtd_lote" name="qtd_lote"
+                        value="<?php echo (isset($endereco) ? $endereco->qtd_lote : '') ?>"
+                        class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="numero">Número</label>
+                    <input type="password" id="senha" name="senha"
+                        class="form-control"
+                        placeholder="Deixe em branco para não alterar a senha">
+                    <span id="toggleSenha" class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer text-gray-500">
+                        👁️
+                    </span>
+                </div>
+
+                <button type="submit" class="btn btn-primary mr-2"><?php echo $acao; ?></button>
+                <a href="<?php echo base_url($link) ?>" class="btn btn-light">
+                    Cancelar
+                </a>
+            </form>
+
+            <?php if ($acao != "Inserir"): ?>
+                <div class="mt-8">
+                    <h2 class="text-xl font-bold mb-4">Lista de Pagamentos de <?php echo $usuario->nome ?></h2>
+
+                    <div class="overflow-x-auto">
+                        <table id="dataTablePagamentos" class="datatable table table-striped nowrap" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th class="desktop">OP</th>
+                                    <th class="desktop mobile tablet">Morador</th>
+                                    <th class="desktop mobile tablet">Quadra</th>
+                                    <th class="desktop mobile tablet">Num</th>
+                                    <th class="none">Data Pagto</th>
+                                    <th class="desktop mobile tablet">Ref.</th>
+                                    <th class="desktop tablet">Recebedor</th>
+                                    <th class="desktop mobile tablet">Valor</th>
+                                    <th class="desktop mobile tablet">Situação</th>
+                                    <th class="desktop mobile tablet">Tipo</th>
+                                    <th class="none">Obs</th>
+                                    <th class="desktop mobile tablet">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($pagamentos as $pagamento): ?>
+                                    <?php
+                                    $situacaoClass = '';
+                                    if ($pagamento->situacao === 'PAGO') {
+                                        $situacaoClass = '<label class="badge badge-success">' . $pagamento->situacao . '</label>';
+                                    } elseif ($pagamento->situacao === 'PENDENTE') {
+                                        $situacaoClass = '<label class="badge badge-warning">' . $pagamento->situacao . '</label>';
+                                    } elseif ($pagamento->situacao === 'CANCELADO') {
+                                        $situacaoClass = '<label class="badge badge-danger">' . $pagamento->situacao . '</label>';
+                                    } elseif ($pagamento->situacao === 'ABERTO') {
+                                        $situacaoClass = '<label class="badge badge-info">' . $pagamento->situacao . '</label>';
+                                    } else {
+                                        $situacaoClass = '<label class="badge badge-warning">Indefinido</label>';
+                                    }
+                                    ?>
+
+                                    <tr>
+                                        <td><?php echo $pagamento->id_pagamento ?></td>
+                                        <td><?php echo $pagamento->nome_morador ?></td>
+                                        <td><?php echo $pagamento->quadra ?></td>
+                                        <td><?php echo $pagamento->numero ?></td>
+                                        <td><?php echo date('d/m/Y', strtotime($pagamento->data_pagamento)) ?></td>
+                                        <td><?php echo $pagamento->referencia ?></td>
+                                        <td><?php echo $pagamento->nome_recebedor ?></td>
+                                        <td><?php echo number_format($pagamento->valor, 2, ',', '.') ?></td>
+                                        <td><?php echo $situacaoClass ?></td>
+                                        <td><?php echo $pagamento->desc_pagamento ?></td>
+                                        <td><?php echo $pagamento->observacao ?></td>
+                                        <td>
+                                            <a href="<?php echo base_url('/pagamento/editar/' . $pagamento->id_pagamento) ?>"
+                                                class="text-blue-500 hover:underline">
+                                                Editar
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                            <tfoot>
+
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            <?php endif; ?>
         </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-                <label for="telefone" class="block font-medium">Telefone:</label>
-                <input type="text" id="telefone" name="telefone"
-                    value="<?php echo (isset($usuario) ? $usuario->telefone : '') ?>"
-                    class="w-full border border-gray-300 rounded px-3 py-2" required>
-            </div>
-            <div>
-                <label for="telefone_2" class="block font-medium">Telefone 2:</label>
-                <input type="text" id="telefone_2" name="telefone_2"
-                    value="<?php echo (isset($usuario) ? $usuario->telefone_2 : '') ?>"
-                    class="w-full border border-gray-300 rounded px-3 py-2">
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
-            <div>
-                <label for="rua" class="block font-medium">Rua:</label>
-                <input type="text" id="rua" name="rua" value="<?php echo (isset($endereco) ? $endereco->rua : '') ?>"
-                    class="w-full border border-gray-300 rounded px-3 py-2">
-            </div>
-            <div>
-                <label for="quadra" class="block font-medium">Quadra:</label>
-                <input type="text" id="quadra" name="quadra"
-                    value="<?php echo (isset($endereco) ? $endereco->quadra : '') ?>"
-                    class="w-full border border-gray-300 rounded px-3 py-2">
-            </div>
-            <div>
-                <label for="numero" class="block font-medium">Número:</label>
-                <input type="text" id="numero" name="numero"
-                    value="<?php echo (isset($endereco) ? $endereco->numero : '') ?>"
-                    class="w-full border border-gray-300 rounded px-3 py-2" required>
-            </div>
-            <div>
-                <label for="qtd_lote" class="block font-medium">Qtd Lote:</label>
-                <input type="number" id="qtd_lote" name="qtd_lote"
-                    value="<?php echo (isset($endereco) ? $endereco->qtd_lote : '') ?>"
-                    class="w-full border border-gray-300 rounded px-3 py-2">
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div class="relative">
-                <label for="senha" class="block font-medium">Senha:</label>
-                <input type="password" id="senha" name="senha"
-                    class="w-full border border-gray-300 rounded px-3 py-2"
-                    placeholder="Deixe em branco para não alterar a senha">
-                <span id="toggleSenha" class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer text-gray-500">
-                    👁️
-                </span>
-            </div>
-        </div>
-
-        <div>
-            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">
-                <?php echo $acao ?>
-            </button>
-        </div>
-    </form>
-
-    <?php if ($acao != "Inserir"): ?>
-        <div class="mt-8">
-            <h2 class="text-xl font-bold mb-4">Lista de Pagamentos de <?php echo $usuario->nome ?></h2>
-
-            <div class="overflow-x-auto">
-                <table id="dataTablePagamentos" class="datatable table-auto w-full bg-white shadow-md rounded">
-                    <thead>
-                        <tr class="bg-gray-200">
-                            <th class="px-4 py-2 text-left">Cód.</th>
-                            <th class="px-4 py-2 text-left">Morador</th>
-                            <th class="px-4 py-2 text-left">Recebedor</th>
-                            <th class="px-4 py-2 text-left">Quadra</th>
-                            <th class="px-4 py-2 text-left">Nº</th>
-                            <th class="px-4 py-2 text-left">Data Pgto</th>
-                            <th class="px-4 py-2 text-left">Ref.</th>
-                            <th class="px-4 py-2 text-left">Valor</th>
-                            <th class="px-4 py-2 text-left">Situação</th>
-                            <th class="px-4 py-2 text-left">Tipo Pagto</th>
-                            <th class="px-4 py-2 text-left">Obs</th>
-                            <th class="px-4 py-2 text-left">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($pagamentos as $pagamento): ?>
-                            <?php
-                            $situacaoClass = '';
-                            if ($pagamento->situacao === 'PAGO') {
-                                $situacaoClass = 'px-4 py-2 bg-green-100 text-green-700 font-bold rounded-full';
-                            } elseif ($pagamento->situacao === 'PENDENTE') {
-                                $situacaoClass = 'px-4 py-2 bg-yellow-100 text-yellow-700 font-bold rounded-full';
-                            } elseif ($pagamento->situacao === 'CANCELADO') {
-                                $situacaoClass = 'px-4 py-2 bg-red-100 text-red-700 font-bold rounded-full';
-                            } elseif ($pagamento->situacao === 'ABERTO') {
-                                $situacaoClass = 'px-4 py-2 bg-blue-100 text-blue-700 font-bold rounded-full';
-                            }
-                            ?>
-                            <tr class="border-t hover:bg-gray-100">
-                                <td class="px-4 py-2"><?php echo $pagamento->id_pagamento ?></td>
-                                <td class="px-4 py-2"><?php echo $pagamento->nome_morador ?></td>
-                                <td class="px-4 py-2"><?php echo $pagamento->nome_recebedor ?></td>
-                                <td class="px-4 py-2"><?php echo $pagamento->quadra ?></td>
-                                <td class="px-4 py-2"><?php echo $pagamento->numero ?></td>
-                                <td class="px-4 py-2"><?php echo date('d/m/Y', strtotime($pagamento->data_pagamento)) ?></td>
-                                <td class="px-4 py-2"><?php echo $pagamento->referencia ?></td>
-                                <td class="px-4 py-2"><?php echo number_format($pagamento->valor, 2, ',', '.') ?></td>
-                                <td class="px-4 py-2"><span class="<?= $situacaoClass; ?>"><?php echo $pagamento->situacao ?></span></td>
-                                <td class="px-4 py-2"><?php echo $pagamento->desc_pagamento ?></td>
-                                <td class="px-4 py-2"><?php echo $pagamento->observacao ?></td>
-                                <td class="px-4 py-2">
-                                    <a href="<?php echo base_url('/pagamento/editar/' . $pagamento->id_pagamento) ?>"
-                                        class="text-blue-500 hover:underline">
-                                        Editar
-                                    </a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                    <tfoot>
-                    </tfoot>
-                </table>
-            </div>
-        </div>
-    <?php endif; ?>
+    </div>
 </div>
 
-
-<?php echo $this->include('footer'); ?>
+<?php echo $this->include('template/footer'); ?>
