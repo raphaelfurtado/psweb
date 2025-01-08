@@ -6,40 +6,34 @@ $role = session('user_role');
 
 ?>
 
-<html>
+<html lang="en">
 
 <head>
-    <title>Painel do Usuário</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>PSWEB | <?php echo $titulo ?></title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="<?php echo base_url('admin'); ?>/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('admin'); ?>/vendors/base/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <link rel="stylesheet" href="<?php echo base_url('admin'); ?>/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="<?php echo base_url('admin'); ?>/css/style.css">
+    <!-- endinject -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.2.0/css/dataTables.bootstrap5.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.3/css/responsive.bootstrap5.css">
 
-    <link href=<?= base_url('css/dataTables.tailwindcss.css') ?> rel="stylesheet" />
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#1D4ED8',
-                        secondary: '#9333EA',
-                    },
-                    fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
-                    },
-                },
-            },
-        }
-    </script>
-    <script src="<?php echo base_url('js/upload.js'); ?>"></script>
+    <link rel="shortcut icon" href="<?php echo base_url('admin'); ?>/images/favicon.png" />
 </head>
 
-<body class="flex flex-col min-h-screen bg-gray-50 text-gray-800 font-sans">
+<body>
+    <div class="container-scroller">
 
-    <?php echo $this->include('template/header', ['titulo' => $titulo]); ?>
-    <?php echo $this->include('template/topbar'); ?>
+        <?php echo $this->include('template/header', ['titulo' => $titulo]); ?>
+        <?php echo $this->include('template/topbar'); ?>
 
-    <?php renderMenu($role); ?>
-    <main class="flex-grow p-4">
-        <div class="container mx-auto">
+        <?php renderMenu($role); ?>

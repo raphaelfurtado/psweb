@@ -5,28 +5,29 @@
         <div class="card">
             <div class="card-body">
                 <div class="template-demo">
-                    <a href="<?php echo base_url($link) ?>" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700">
-                        <?php echo $tituloRedirect ?>
+                    <a href="<?php echo base_url($link) ?>" class="btn btn-primary text-white">
+                        <i class="mdi mdi-plus btn-icon-prepend"></i>
+                        Adicionar
                     </a>
                 </div>
                 <br />
                 <h4 class="card-title"><?php echo $titulo ?></h4>
                 <div class="table-responsive">
-                    <table id="dataTablePagamentos" class="datatable table-auto w-full bg-white shadow-md rounded">
+                    <table id="dataTablePagamentos" class="datatable table table-striped nowrap" style="width:100%">
                         <thead>
-                            <tr class="bg-gray-200">
-                                <th class="px-4 py-2 text-left">Cód.</th>
-                                <th class="px-4 py-2 text-left">Morador</th>
-                                <th class="px-4 py-2 text-left">Recebedor</th>
-                                <th class="px-4 py-2 text-left">Quadra</th>
-                                <th class="px-4 py-2 text-left">Nº</th>
-                                <th class="px-4 py-2 text-left">Data Pagto</th>
-                                <th class="px-4 py-2 text-left">Ref.</th>
-                                <th class="px-4 py-2 text-left">Valor</th>
-                                <th class="px-4 py-2 text-left">Situação</th>
-                                <th class="px-4 py-2 text-left">Tipo</th>
-                                <th class="px-4 py-2 text-left">Obs</th>
-                                <th class="px-4 py-2 text-left">Ações</th>
+                            <tr>
+                                <th class="all">OP</th>
+                                <th class="all">Morador</th>
+                                <th class="all">Quadra</th>
+                                <th class="all">Num</th>
+                                <th class="all">Data Pagto</th>
+                                <th class="all">Ref.</th>
+                                <th class="desktop tablet">Recebedor</th>
+                                <th class="all">Valor</th>
+                                <th class="all">Situação</th>
+                                <th class="all">Tipo</th>
+                                <th class="none">Obs</th>
+                                <th class="all">Ações</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -34,28 +35,31 @@
                                 <?php
                                 $situacaoClass = '';
                                 if ($pagamento->situacao === 'PAGO') {
-                                    $situacaoClass = 'px-4 py-2 bg-green-100 text-green-700 font-bold rounded-full';
+                                    $situacaoClass = '<label class="badge badge-success">' . $pagamento->situacao . '</label>';
                                 } elseif ($pagamento->situacao === 'PENDENTE') {
-                                    $situacaoClass = 'px-4 py-2 bg-yellow-100 text-yellow-700 font-bold rounded-full';
+                                    $situacaoClass = '<label class="badge badge-warning">' . $pagamento->situacao . '</label>';
                                 } elseif ($pagamento->situacao === 'CANCELADO') {
-                                    $situacaoClass = 'px-4 py-2 bg-red-100 text-red-700 font-bold rounded-full';
+                                    $situacaoClass = '<label class="badge badge-danger">' . $pagamento->situacao . '</label>';
                                 } elseif ($pagamento->situacao === 'ABERTO') {
-                                    $situacaoClass = 'px-4 py-2 bg-blue-100 text-blue-700 font-bold rounded-full';
+                                    $situacaoClass = '<label class="badge badge-info">' . $pagamento->situacao . '</label>';
+                                } else {
+                                    $situacaoClass = '<label class="badge badge-warning">Indefinido</label>';
                                 }
                                 ?>
-                                <tr class="border-t hover:bg-gray-100">
-                                    <td class="px-4 py-2"><?php echo $pagamento->id_pagamento ?></td>
-                                    <td class="px-4 py-2"><?php echo $pagamento->nome_morador ?></td>
-                                    <td class="px-4 py-2"><?php echo $pagamento->nome_recebedor ?></td>
-                                    <td class="px-4 py-2"><?php echo $pagamento->quadra ?></td>
-                                    <td class="px-4 py-2"><?php echo $pagamento->numero ?></td>
-                                    <td class="px-4 py-2"><?php echo date('d/m/Y', strtotime($pagamento->data_pagamento)) ?></td>
-                                    <td class="px-4 py-2"><?php echo $pagamento->referencia ?></td>
-                                    <td class="px-4 py-2"><?php echo number_format($pagamento->valor, 2, ',', '.') ?></td>
-                                    <td class="px-4 py-2"><span class="<?= $situacaoClass; ?>"><?php echo $pagamento->situacao ?></span></td>
-                                    <td class="px-4 py-2"><?php echo $pagamento->desc_pagamento ?></td>
-                                    <td class="px-4 py-2"><?php echo $pagamento->observacao ?></td>
-                                    <td class="px-4 py-2">
+
+                                <tr>
+                                    <td><?php echo $pagamento->id_pagamento ?></td>
+                                    <td><?php echo $pagamento->nome_morador ?></td>
+                                    <td><?php echo $pagamento->quadra ?></td>
+                                    <td><?php echo $pagamento->numero ?></td>
+                                    <td><?php echo date('d/m/Y', strtotime($pagamento->data_pagamento)) ?></td>
+                                    <td><?php echo $pagamento->referencia ?></td>
+                                    <td><?php echo $pagamento->nome_recebedor ?></td>
+                                    <td><?php echo number_format($pagamento->valor, 2, ',', '.') ?></td>
+                                    <td><?php echo $situacaoClass ?></td>
+                                    <td><?php echo $pagamento->desc_pagamento ?></td>
+                                    <td><?php echo $pagamento->observacao ?></td>
+                                    <td>
                                         <a href="<?php echo base_url('/pagamento/editar/' . $pagamento->id_pagamento) ?>"
                                             class="text-blue-500 hover:underline">
                                             Editar
@@ -73,81 +77,5 @@
         </div>
     </div>
 </div>
-
-<div class="container mx-auto px-4 py-8">
-
-    <h2 class="text-2xl font-bold mb-4 text-center sm:text-left"><?php echo $titulo ?></h2>
-    <p class="text-green-700 font-semibold">
-        <strong>Total em caixa</strong>: R$ <?= number_format($totalPago  - $totalSaida, 2, ',', '.') ?>
-    </p>
-    <br />
-
-    <p class="mb-4 text-center sm:text-left">
-        <a href="<?php echo base_url($link) ?>" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700">
-            <?php echo $tituloRedirect ?>
-        </a>
-    </p>
-
-    <div class="overflow-x-auto">
-
-        <table id="dataTablePagamentos" class="datatable table-auto w-full bg-white shadow-md rounded">
-            <thead>
-                <tr class="bg-gray-200">
-                    <th class="px-4 py-2 text-left">Cód.</th>
-                    <th class="px-4 py-2 text-left">Morador</th>
-                    <th class="px-4 py-2 text-left">Recebedor</th>
-                    <th class="px-4 py-2 text-left">Quadra</th>
-                    <th class="px-4 py-2 text-left">Nº</th>
-                    <th class="px-4 py-2 text-left">Data Pagto</th>
-                    <th class="px-4 py-2 text-left">Ref.</th>
-                    <th class="px-4 py-2 text-left">Valor</th>
-                    <th class="px-4 py-2 text-left">Situação</th>
-                    <th class="px-4 py-2 text-left">Tipo</th>
-                    <th class="px-4 py-2 text-left">Obs</th>
-                    <th class="px-4 py-2 text-left">Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($pagamentos as $pagamento): ?>
-                    <?php
-                    $situacaoClass = '';
-                    if ($pagamento->situacao === 'PAGO') {
-                        $situacaoClass = 'px-4 py-2 bg-green-100 text-green-700 font-bold rounded-full';
-                    } elseif ($pagamento->situacao === 'PENDENTE') {
-                        $situacaoClass = 'px-4 py-2 bg-yellow-100 text-yellow-700 font-bold rounded-full';
-                    } elseif ($pagamento->situacao === 'CANCELADO') {
-                        $situacaoClass = 'px-4 py-2 bg-red-100 text-red-700 font-bold rounded-full';
-                    } elseif ($pagamento->situacao === 'ABERTO') {
-                        $situacaoClass = 'px-4 py-2 bg-blue-100 text-blue-700 font-bold rounded-full';
-                    }
-                    ?>
-                    <tr class="border-t hover:bg-gray-100">
-                        <td class="px-4 py-2"><?php echo $pagamento->id_pagamento ?></td>
-                        <td class="px-4 py-2"><?php echo $pagamento->nome_morador ?></td>
-                        <td class="px-4 py-2"><?php echo $pagamento->nome_recebedor ?></td>
-                        <td class="px-4 py-2"><?php echo $pagamento->quadra ?></td>
-                        <td class="px-4 py-2"><?php echo $pagamento->numero ?></td>
-                        <td class="px-4 py-2"><?php echo date('d/m/Y', strtotime($pagamento->data_pagamento)) ?></td>
-                        <td class="px-4 py-2"><?php echo $pagamento->referencia ?></td>
-                        <td class="px-4 py-2"><?php echo number_format($pagamento->valor, 2, ',', '.') ?></td>
-                        <td class="px-4 py-2"><span class="<?= $situacaoClass; ?>"><?php echo $pagamento->situacao ?></span></td>
-                        <td class="px-4 py-2"><?php echo $pagamento->desc_pagamento ?></td>
-                        <td class="px-4 py-2"><?php echo $pagamento->observacao ?></td>
-                        <td class="px-4 py-2">
-                            <a href="<?php echo base_url('/pagamento/editar/' . $pagamento->id_pagamento) ?>"
-                                class="text-blue-500 hover:underline">
-                                Editar
-                            </a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-            <tfoot>
-
-            </tfoot>
-        </table>
-    </div>
-</div>
-
 
 <?php echo $this->include('template/footer'); ?>
