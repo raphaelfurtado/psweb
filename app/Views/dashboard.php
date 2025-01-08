@@ -5,9 +5,6 @@
 <?php echo $this->include('template/sidebar', array('role' => $role)); ?>
 
 <h5 class="mb-0 d-inline-block">Bem-vindo, <?php echo $nome; ?></h5>
-<br />
-<small class="mb-1 text-muted">Você é
-    um(a)<?php echo $role === 'admin' ? 'morador(a) e administrador(a) do sistema' : ($role === 'user' ? 'morador(a)' : ''); ?>.</small>
 <br /><br />
 
 <div class="row">

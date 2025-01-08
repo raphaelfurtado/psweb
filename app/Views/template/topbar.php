@@ -15,6 +15,9 @@
         <ul class="navbar-nav navbar-nav-right">
             <li class="nav-item nav-profile dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+                    <?= $role === 'admin' ?
+                        '<span class="mdi mdi mdi-account-key"></span>' :
+                        '<span class="mdi mdi mdi-account"></span>'; ?>
                     <span class="nav-profile-name">Conta</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
