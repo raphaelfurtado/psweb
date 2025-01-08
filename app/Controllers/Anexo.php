@@ -35,7 +35,7 @@ class Anexo extends BaseController
                 ->join('users', 'users.id = files.id_morador', 'left')
                 ->join('endereco', 'endereco.id_usuario = files.id_morador', 'left')
                 ->orderBy('files.created_at', 'DESC')
-                ->paginate(10);
+                ->findAll();
         } else {
             $data['anexos'] = $anexoModel
                 ->select('files.*, 
@@ -54,7 +54,7 @@ class Anexo extends BaseController
                 ->join('endereco', 'endereco.id_usuario = files.id_morador', 'left')
                 ->where('files.id_morador', $user_id)
                 ->orderBy('files.created_at', 'DESC')
-                ->paginate(10);
+                ->findAll();
         }
 
         // var_dump($data);
