@@ -24,6 +24,21 @@
 </div>
 <!-- container-scroller -->
 
+<!-- controlador dos alerts na página -->
+<script>
+    $(document).ready(function () {
+        // Fade out the success alert after 3 seconds
+        setTimeout(function () {
+            $('#success-alert').fadeOut('slow');
+        }, 3000);
+
+        // Fade out the error alert after 3 seconds
+        setTimeout(function () {
+            $('#error-alert').fadeOut('slow');
+        }, 3000);
+    });
+</script>
+
 <!-- plugins:js -->
 <script src="<?php echo base_url('admin'); ?>/vendors/base/vendor.bundle.base.js"></script>
 <!-- endinject -->
@@ -45,9 +60,11 @@
 <!-- <script src="< ?php echo base_url('admin'); ?>/js/custom.js"></script> -->
 <!-- End custom js for this page-->
 <script src="https://code.jquery.com/jquery-3.7.1.js" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"
+    type="text/javascript"></script>
 <script src="<?php echo base_url('admin'); ?>/js/jquery.cookie.js" type="text/javascript"></script>
-<script src="<?php echo base_url('admin'); ?>/datatables/js/datatables-inicialization.js" type="text/javascript"></script>
+<script src="<?php echo base_url('admin'); ?>/datatables/js/datatables-inicialization.js"
+    type="text/javascript"></script>
 <script src="<?php echo base_url('admin'); ?>/datatables/js/dataTables.js" type="text/javascript"></script>
 <script src="<?php echo base_url('admin'); ?>/datatables/js/dataTables.bootstrap5.js" type="text/javascript"></script>
 <script src="<?php echo base_url('admin'); ?>/datatables/js/dataTables.responsive.js" type="text/javascript"></script>
