@@ -13,7 +13,14 @@ document.addEventListener('DOMContentLoaded', function () {
             centeredColumns: [1, 2, 4, 5], // Colunas a serem centralizadas
             modalTitleColumn: 1, // Índice da coluna para exibir no título da modal
             enableButtons: true // Adicionar botões de exportação para esta tabela
-        }
+        },
+        '#dataTableMoradores': {
+            nonSearchable: [5], // Colunas sem pesquisa
+            nonOrderable: [5], // Colunas sem ordenação
+            centeredColumns: [1, 2, 4, 5], // Colunas a serem centralizadas
+            modalTitleColumn: 1, // Índice da coluna para exibir no título da modal
+            enableButtons: true // Adicionar botões de exportação para esta tabela
+        },
     };
 
     Object.keys(tableConfigs).forEach(id => {
