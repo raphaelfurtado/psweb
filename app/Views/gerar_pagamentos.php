@@ -41,4 +41,4 @@
 </div>
 
 
-<?php echo $this->include('footer'); ?>
+<?php echo $this->include('template/footer'); ?>
