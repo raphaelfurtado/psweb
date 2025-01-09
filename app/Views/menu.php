@@ -32,9 +32,25 @@ function renderMenu($role)
             <?php endif; ?>
             <?php if ($role === 'admin'): ?>
                 <li class="nav-item">
+                    <a class="nav-link" href="<?php echo base_url('/saidas'); ?>">
+                        <i class="mdi mdi-arrow-left-bold-circle menu-icon"></i>
+                        <span class="menu-title">Saídas</span>
+                    </a>
+                </li>
+            <?php endif; ?>
+            <?php if ($role === 'admin'): ?>
+                <li class="nav-item">
                     <a class="nav-link" href="<?php echo base_url('/pagamentos'); ?>">
                         <i class="mdi mdi-cash menu-icon"></i>
                         <span class="menu-title">Pagamentos</span>
+                    </a>
+                </li>
+            <?php endif; ?>
+            <?php if ($role === 'admin'): ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo base_url('/gerarPagamentos'); ?>">
+                        <i class="mdi mdi-cash-multiple menu-icon"></i>
+                        <span class="menu-title">Gerar Pagamentos</span>
                     </a>
                 </li>
             <?php endif; ?>
