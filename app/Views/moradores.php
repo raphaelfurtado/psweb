@@ -13,44 +13,50 @@
                 <br />
                 <h4 class="card-title"><?php echo $titulo ?></h4>
                 <div class="table-responsive">
-                <table id="dataTableMoradores"  class="datatable table table-striped nowrap" style="width:100%">
-            <thead>
-                <tr>
-                    <!-- <th class="px-4 py-2">Código</th> -->
-                    <th class="desktop mobile tablet">Nome</th>
-                    <th class="desktop mobile tablet">Telefone</th>
-                    <th class="desktop mobile tablet">Telefone 2</th>
-                    <th class="desktop mobile tablet">Quadra</th>
-                    <th class="desktop mobile tablet">Número</th>
-                    <th class="desktop mobile tablet">Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php if (!empty($moradores)): ?>
-                    <?php foreach ($moradores as $morador): ?>
-                        <tr>
-                            <!-- <td class="px-4 py-2"><?php //echo $morador->id 
-                                                        ?></td> -->
-                            <td><?php echo $morador->nome ?></td>
-                            <td><?php echo $morador->telefone ?? 'Não informado'; ?></td>
-                            <td><?php echo $morador->telefone_2 ?? 'Não informado'; ?></td>
-                            <td><?php echo $morador->quadra ?? 'Não informado'; ?></td>
-                            <td><?php echo $morador->numero ?? 'Não informado'; ?></td>
-                            <td>
-                                <a href="<?php echo base_url('/user/editar/' . $morador->id_user) ?>"
-                                    class="text-blue-500 hover:underline">
-                                    Editar
-                                </a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <tr>
-                        <td colspan="3" class="text-center py-4">Nenhum morador encontrado.</td>
-                    </tr>
-                <?php endif; ?>
-            </tbody>
-        </table>
+                    <table id="dataTableMoradores" class="datatable table table-striped nowrap" style="width:100%">
+                        <thead>
+                            <tr>
+                                <!-- <th class="px-4 py-2">Código</th> -->
+                                <th class="desktop mobile tablet">Nome</th>
+                                <th class="desktop mobile tablet">Telefone</th>
+                                <th class="desktop mobile tablet">Telefone 2</th>
+                                <th class="desktop mobile tablet">Quadra</th>
+                                <th class="desktop mobile tablet">Número</th>
+                                <th class="desktop mobile tablet">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (!empty($moradores)): ?>
+                                <?php foreach ($moradores as $morador): ?>
+                                    <tr>
+                                        <!-- <td class="px-4 py-2"><?php //echo $morador->id 
+                                                                    ?></td> -->
+                                        <td><?php echo $morador->nome ?></td>
+                                        <td><?php echo $morador->telefone ?? 'Não informado'; ?></td>
+                                        <td><?php echo $morador->telefone_2 ?? 'Não informado'; ?></td>
+                                        <td><?php echo $morador->quadra ?? 'Não informado'; ?></td>
+                                        <td><?php echo $morador->numero ?? 'Não informado'; ?></td>
+                                        <td>
+                                            <a href="<?php echo base_url('/user/editar/' . $morador->id_user) ?>"
+                                                class="text-blue-500 hover:underline">
+                                                Editar
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="3" class="text-center py-4">Nenhum morador encontrado.</td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Total:</th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
+                    </table>
                 </div>
             </div>
         </div>

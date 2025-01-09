@@ -31,6 +31,18 @@ document.addEventListener('DOMContentLoaded', function () {
         const modalTitleColumn = config.modalTitleColumn || 0;
 
         const tableOptions = {
+            footerCallback: function (row, data, start, end, display) {
+
+                let api = this.api();
+            
+                // Total de registros exibidos na página atual
+                let pageTotal = display.length;
+            
+                // Atualiza o rodapé com os valores
+                $(api.column(0).footer()).html(
+                    `Total: ${pageTotal}`
+                );
+            },
             responsive: {
                 details: {
                     display: $.fn.dataTable.Responsive.display.modal({
@@ -140,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     exportOptions: {
                         columns: ':not(:last-child)' // Exclui a última coluna
                     },
-                    titleAttr: 'Exportar para PDF'
+                    titleAttr: 'Exportar para PDF',
                 }
             ];
         }
