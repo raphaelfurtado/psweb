@@ -15,14 +15,14 @@
                 <div class="table-responsive">
                 <table id="dataTableMoradores"  class="datatable table table-striped nowrap" style="width:100%">
             <thead>
-                <tr class="bg-gray-200">
+                <tr>
                     <!-- <th class="px-4 py-2">Código</th> -->
-                    <th class="px-4 py-2">Nome</th>
-                    <th class="px-4 py-2">Telefone</th>
-                    <th class="px-4 py-2">Telefone 2</th>
-                    <th class="px-4 py-2">Quadra</th>
-                    <th class="px-4 py-2">Número</th>
-                    <th class="px-4 py-2">Ações</th>
+                    <th class="desktop mobile tablet">Nome</th>
+                    <th class="desktop mobile tablet">Telefone</th>
+                    <th class="desktop mobile tablet">Telefone 2</th>
+                    <th class="desktop mobile tablet">Quadra</th>
+                    <th class="desktop mobile tablet">Número</th>
+                    <th class="desktop mobile tablet">Ações</th>
                 </tr>
             </thead>
             <tbody>
