@@ -20,11 +20,12 @@
                                 <th class="desktop mobile tablet">Morador</th>
                                 <th class="desktop mobile tablet">Quadra</th>
                                 <th class="desktop mobile tablet">Num</th>
-                                <th class="none">Data Pagto</th>
+                                <th class="desktop mobile tablet">Data Pagto</th>
                                 <th class="desktop mobile tablet">Ref.</th>
                                 <th class="desktop tablet">Recebedor</th>
                                 <th class="desktop mobile tablet">Valor</th>
                                 <th class="desktop mobile tablet">Situação</th>
+                                <th class="desktop mobile tablet">Forma</th>
                                 <th class="desktop mobile tablet">Tipo</th>
                                 <th class="none">Obs</th>
                                 <th class="desktop mobile tablet">Ações</th>
@@ -57,6 +58,7 @@
                                     <td><?php echo $pagamento->nome_recebedor ?></td>
                                     <td><?php echo number_format($pagamento->valor, 2, ',', '.') ?></td>
                                     <td><?php echo $situacaoClass ?></td>
+                                    <td><?php echo $pagamento->desc_forma_pagto ?></td>
                                     <td><?php echo $pagamento->desc_pagamento ?></td>
                                     <td><?php echo $pagamento->observacao ?></td>
                                     <td>
@@ -69,7 +71,11 @@
                             <?php endforeach; ?>
                         </tbody>
                         <tfoot>
-
+                            <tr>
+                                <th colspan="7"></th>
+                                <th>Total</th>
+                                <th colspan="5"></th>
+                            </tr>
                         </tfoot>
                     </table>
                 </div>
