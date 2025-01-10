@@ -25,11 +25,11 @@
                             Adicionar
                         </a>
                     </div>
-                <?php endif; ?>
+                <?php endif; ?> 
                 <br />
                 <h4 class="card-title">Documentos Cadastrados</h4>
                 <div class="table-responsive">
-                    <table id="example" class="table table-striped nowrap table-hover" style="width:100%">
+                    <table id="dataTableAnexos" class="table table-striped nowrap table-hover" style="width:100%">
                         <thead>
                             <tr>
                                 <th class="desktop tablet mobile">Morador</th>
@@ -54,16 +54,16 @@
                                     <td class="desktop"><?php echo $anexo['created_at']; ?></td>
                                     <td>
                                         <!-- Botão para download -->
-                                        <button type="button" class="btn btn-primary btn-rounded btn-icon"
+                                        <button title="Download do Arquivo" type="button" class="btn btn-primary btn-rounded btn-icon"
                                             onclick="window.location.href='<?php echo base_url('anexo/download/' . $anexo['stored_name']); ?>'">
-                                            <i class="mdi mdi-download"></i>
+                                            <i class="mdi mdi-download icon-sm"></i>
                                         </button>
 
                                         <?php if ($role === 'admin'): ?>
                                             <!-- Botão para deletar -->
-                                            <button type="button" class="btn btn-danger btn-rounded btn-icon"
+                                            <button title="Excluir do Arquivo" type="button" class="btn btn-danger btn-rounded btn-icon"
                                                 onclick="if (confirm('Tem certeza que deseja deletar este anexo?')) { window.location.href='<?php echo base_url('anexo/deletar/' . $anexo['id_anexo']); ?>'; }">
-                                                <i class="mdi mdi-delete"></i>
+                                                <i class="mdi mdi-delete icon-sm"></i>
                                             </button>
                                         <?php endif; ?>
                                     </td>

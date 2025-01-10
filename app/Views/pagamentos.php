@@ -13,13 +13,13 @@
                 <br />
                 <h4 class="card-title"><?php echo $titulo ?></h4>
                 <div class="table-responsive">
-                    <table id="dataTablePagamentos" class="datatable table table-striped nowrap" style="width:100%">
+                    <table id="dataTablePagamentos" class="datatable table table-striped nowrap table-hover" style="width:100%">
                         <thead>
                             <tr>
                                 <th class="desktop">OP</th>
                                 <th class="desktop mobile tablet">Morador</th>
                                 <th class="desktop mobile tablet">Quadra</th>
-                                <th class="desktop mobile tablet">Num</th>
+                                <th class="desktop mobile tablet">Nr da Casa</th>
                                 <th class="none">Data Pagto</th>
                                 <th class="desktop mobile tablet">Ref.</th>
                                 <th class="desktop tablet">Recebedor</th>
@@ -60,10 +60,11 @@
                                     <td><?php echo $pagamento->desc_pagamento ?></td>
                                     <td><?php echo $pagamento->observacao ?></td>
                                     <td>
-                                        <a href="<?php echo base_url('/pagamento/editar/' . $pagamento->id_pagamento) ?>"
-                                            class="text-blue-500 hover:underline">
-                                            Editar
-                                        </a>
+                                        <button title="Editar Registro" type="button"
+                                            class="btn btn-primary btn-rounded btn-icon"
+                                            onclick="window.location.href='<?php echo base_url('/pagamento/editar/' . $pagamento->id_pagamento) ?>'">
+                                            <i class="mdi mdi-pen icon-sm"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

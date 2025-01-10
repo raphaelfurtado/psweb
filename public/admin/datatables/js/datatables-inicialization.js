@@ -1,16 +1,16 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Configurações das tabelas: mapeia colunas não pesquisáveis, não ordenáveis, centralizadas, visíveis e visíveis no mobile
+    // Configurações das tabelas: mapeia colunas não pesquisáveis, não ordenáveis, centralizadas
     const tableConfigs = {
-        '#example': {
+        '#dataTableAnexos': {
             nonSearchable: [7], // Colunas sem pesquisa
             nonOrderable: [0, 1, 2, 3, 4, 5, 6, 7], // Colunas sem ordenação
-            centeredColumns: [1, 2, 4, 5], // Colunas a serem centralizadas
+            centeredColumns: [1, 2, 4, 5, 7], // Colunas a serem centralizadas
             modalTitleColumn: 0 // Índice da coluna para exibir no título da modal
         },
         '#dataTablePagamentos': {
-            nonSearchable: [0, 10], // Colunas sem pesquisa
-            nonOrderable: [0, 1, 2, 3, 4, 5, 6, 7, 10], // Colunas sem ordenação
-            centeredColumns: [1, 2, 4, 5], // Colunas a serem centralizadas
+            nonSearchable: [0, 11], // Colunas sem pesquisa
+            nonOrderable: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11], // Colunas sem ordenação
+            centeredColumns: [0, 2, 3, 5, 8, 11], // Colunas a serem centralizadas
             modalTitleColumn: 1, // Índice da coluna para exibir no título da modal
             enableButtons: true // Adicionar botões de exportação para esta tabela
         },
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 searchDiv.classList.add('input-group', 'mt-2');
                                 let input = document.createElement('input');
                                 input.classList.add('form-control');
-                                input.placeholder = `Pesquisar`;
+                                input.placeholder = ``;
                                 searchDiv.appendChild(input);
                                 header.appendChild(searchDiv);
 
@@ -103,8 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
                 });
             },
-            columnDefs: [
-                {
+            columnDefs: [{
                     targets: nonSearchableColumns,
                     searchable: false
                 },
@@ -117,9 +116,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Adicionar botões somente para a tabela #dataTablePagamentos
         if (config.enableButtons) {
-            tableOptions.dom = '<"top"lf>rt<"bottom d-flex flex-column align-items-center"Bp><"clear">';
-            tableOptions.buttons = [
-                {
+            tableOptions.dom = '<"top"lf>rt<"bottom d-flex flex-column"<"buttons-container"B><"pagination-container"p>><"clear">';
+            tableOptions.buttons = [{
                     extend: 'excelHtml5',
                     autoFilter: true,
                     sheetName: '',
