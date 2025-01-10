@@ -9,10 +9,11 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         '#dataTablePagamentos': {
             nonSearchable: [0], // Colunas sem pesquisa
-            nonOrderable: [0, 2, 3, 7, 10], // Colunas sem ordenação
+            nonOrderable: [0, 2, 3, 6, 7], // Colunas sem ordenação
             centeredColumns: [1, 2, 4, 5], // Colunas a serem centralizadas
             modalTitleColumn: 1, // Índice da coluna para exibir no título da modal
-            enableButtons: true // Adicionar botões de exportação para esta tabela
+            enableButtons: true, // Adicionar botões de exportação para esta tabela,
+            totalPagamento: true
         },
         '#dataTableMoradores': {
             nonSearchable: [5], // Colunas sem pesquisa
@@ -31,10 +32,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const modalTitleColumn = config.modalTitleColumn || 0;
 
         const tableOptions = {
-            order: [[0, 'asc'], [1, 'asc']],
             footerCallback: function (row, data, start, end, display) {
+
                 let api = this.api();
-            
+
                 const parseValue = (value) => {
                     // Remove separadores de milhares (.) e converte vírgula decimal (,) para ponto (.)
                     if (typeof value === 'string') {
@@ -42,24 +43,35 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                     return typeof value === 'number' ? value : 0;
                 };
-            
-                // Soma total de todos os valores filtrados (todas as páginas do filtro aplicado)
-                let filteredTotal = api
-                    .rows({ search: 'applied' }) // Seleciona todas as linhas filtradas
-                    .data()
-                    .reduce((acc, row) => acc + parseValue(row[7]), 0); // Ajuste o índice da coluna conforme necessário
-            
-                // Soma total apenas dos valores exibidos na página atual
-                let pageTotal = api
-                    .column(7, { page: 'current' }) // Ajuste o índice da coluna conforme necessário
-                    .data()
-                    .reduce((acc, val) => acc + parseValue(val), 0);
-            
-                // Atualiza o rodapé
-                $(api.column(7).footer()).html(
-                    `Total: R$ ${filteredTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`
+
+                if (config.totalPagamento) {
+                    // Soma total de todos os valores filtrados (todas as páginas do filtro aplicado)
+                    let filteredTotal = api
+                        .rows({ search: 'applied' }) // Seleciona todas as linhas filtradas
+                        .data()
+                        .reduce((acc, row) => acc + parseValue(row[7]), 0);
+
+                    // Soma total apenas dos valores exibidos na página atual
+                    let pageTotalValor = api
+                        .column(7, { page: 'current' }) // Ajuste o índice da coluna conforme necessário
+                        .data()
+                        .reduce((acc, val) => acc + parseValue(val), 0);
+                    // Atualiza o rodapé
+                    $(api.column(7).footer()).html(
+                        `Total: R$ ${filteredTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`
+                    );
+                }
+
+                // Total de registros exibidos na página atual
+                let pageTotal = display.length;
+
+                // Atualiza o rodapé com os valores
+                $(api.column(0).footer()).html(
+                    `Registros: ${pageTotal}`
                 );
-            },            
+
+
+            },
             responsive: {
                 details: {
                     display: $.fn.dataTable.Responsive.display.modal({

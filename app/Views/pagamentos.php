@@ -13,7 +13,7 @@
                 <br />
                 <h4 class="card-title"><?php echo $titulo ?></h4>
                 <div class="table-responsive">
-                    <table id="dataTablePagamentos" class="datatable table table-striped nowrap" style="width:100%">
+                    <table id="dataTablePagamentos" class="table table-striped nowrap" style="width:100%">
                         <thead>
                             <tr>
                                 <th class="desktop">OP</th>
