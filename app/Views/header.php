@@ -34,7 +34,7 @@ $role = session('user_role');
             display: flex;
             justify-content: center;
             margin-bottom: 10px;
-            margin-top: 20px;
+            margin-top: 10px;
             /* Espaço entre botões e paginação */
         }
 

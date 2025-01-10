@@ -1,25 +1,25 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Configurações das tabelas: mapeia colunas não pesquisáveis, não ordenáveis, centralizadas
     const tableConfigs = {
         '#dataTableAnexos': {
-            nonSearchable: [7], // Colunas sem pesquisa
-            nonOrderable: [0, 1, 2, 3, 4, 5, 6, 7], // Colunas sem ordenação
-            centeredColumns: [1, 2, 4, 5, 7], // Colunas a serem centralizadas
-            modalTitleColumn: 0 // Índice da coluna para exibir no título da modal
+            nonSearchable: [7],
+            nonOrderable: [0, 1, 2, 3, 4, 5, 6, 7],
+            centeredColumns: [1, 2, 4, 5, 7],
+            modalTitleColumn: 0
         },
         '#dataTablePagamentos': {
-            nonSearchable: [0, 11], // Colunas sem pesquisa
-            nonOrderable: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11], // Colunas sem ordenação
-            centeredColumns: [0, 2, 3, 5, 8, 11], // Colunas a serem centralizadas
-            modalTitleColumn: 1, // Índice da coluna para exibir no título da modal
-            enableButtons: true // Adicionar botões de exportação para esta tabela
+            nonSearchable: [0, 12],
+            nonOrderable: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+            centeredColumns: [0, 2, 3, 4, 5, 8, 9, 12],
+            modalTitleColumn: 1,
+            enableButtons: true,
+            totalPagamento: true
         },
         '#dataTableMoradores': {
-            nonSearchable: [5], // Colunas sem pesquisa
-            nonOrderable: [5], // Colunas sem ordenação
-            centeredColumns: [1, 2, 4, 5], // Colunas a serem centralizadas
-            modalTitleColumn: 1, // Índice da coluna para exibir no título da modal
-            enableButtons: true // Adicionar botões de exportação para esta tabela
+            nonSearchable: [5],
+            nonOrderable: [5],
+            centeredColumns: [1, 2, 4, 5],
+            modalTitleColumn: 1,
+            enableButtons: true
         },
     };
 
@@ -31,6 +31,34 @@ document.addEventListener('DOMContentLoaded', function () {
         const modalTitleColumn = config.modalTitleColumn || 0;
 
         const tableOptions = {
+            footerCallback: function (row, data, start, end, display) {
+                let api = this.api();
+                const parseValue = (value) => {
+                    if (typeof value === 'string') {
+                        return parseFloat(value.replace(/\./g, '').replace(',', '.')) || 0;
+                    }
+                    return typeof value === 'number' ? value : 0;
+                };
+
+                if (config.totalPagamento) {
+                    let filteredTotal = api.rows({
+                            search: 'applied'
+                        }).data()
+                        .reduce((acc, row) => acc + parseValue(row[7]), 0);
+
+                    let pageTotalValor = api.column(7, {
+                            page: 'current'
+                        }).data()
+                        .reduce((acc, val) => acc + parseValue(val), 0);
+
+                    $(api.column(7).footer()).html(
+                        `Total: R$ ${filteredTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`
+                    );
+                }
+
+                let pageTotal = display.length;
+                $(api.column(0).footer()).html(`Registros: ${pageTotal}`);
+            },
             responsive: {
                 details: {
                     display: $.fn.dataTable.Responsive.display.modal({
@@ -69,8 +97,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
                         if (header) {
                             let title = header.textContent.trim();
-
-                            // Adiciona o filtro de pesquisa na coluna
                             if (!nonSearchableColumns.includes(column.index())) {
                                 let searchDiv = document.createElement('div');
                                 searchDiv.classList.add('input-group', 'mt-2');
@@ -87,7 +113,6 @@ document.addEventListener('DOMContentLoaded', function () {
                                 });
                             }
 
-                            // Aplica a centralização nas colunas
                             if (centeredColumns.includes(column.index())) {
                                 header.style.textAlign = 'center';
                                 header.style.verticalAlign = 'middle';
@@ -114,9 +139,8 @@ document.addEventListener('DOMContentLoaded', function () {
             ]
         };
 
-        // Adicionar botões somente para a tabela #dataTablePagamentos
         if (config.enableButtons) {
-            tableOptions.dom = '<"top"lf>rt<"bottom d-flex flex-column"<"buttons-container"B><"pagination-container"p>><"clear">';
+            tableOptions.dom = '<"top"lf>rt<"bottom d-flex flex-column"<"buttons-container text-center"B><"pagination-container text-center"p>><"clear">';
             tableOptions.buttons = [{
                     extend: 'excelHtml5',
                     autoFilter: true,
@@ -124,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     className: 'btn btn-success btn-rounded btn-icon',
                     text: '<i class="mdi mdi-file-excel"></i>',
                     exportOptions: {
-                        columns: ':not(:last-child)' // Exclui a última coluna
+                        columns: ':not(:last-child)'
                     },
                     titleAttr: 'Exportar para Excel'
                 },
@@ -136,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     text: '<i class="mdi mdi-file-pdf"></i>',
                     orientation: 'landscape',
                     exportOptions: {
-                        columns: ':not(:last-child)' // Exclui a última coluna
+                        columns: ':not(:last-child)'
                     },
                     titleAttr: 'Exportar para PDF'
                 }
@@ -144,8 +168,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         let table = new DataTable(id, tableOptions);
-
-        // Força a atualização da tabela quando a janela é redimensionada
         $(window).on('resize', function () {
             table.columns.adjust().responsive.recalc();
         });

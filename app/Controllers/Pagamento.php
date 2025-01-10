@@ -31,13 +31,15 @@ class Pagamento extends BaseController
                 users.nome as nome_morador, 
                 recebedor.nome as nome_recebedor, 
                 endereco.*,
-                tipo_pagamento.descricao as desc_pagamento
+                tipo_pagamento.descricao as desc_pagamento,
+                forma_pagamento.descricao as desc_forma_pagto
               ')
             ->join('users', 'users.id = pagamento.id_usuario')
             ->join('recebedor', 'recebedor.id = pagamento.id_recebedor')
             ->join('endereco', 'endereco.id_usuario = users.id', 'left')
             ->join('tipo_pagamento', 'tipo_pagamento.codigo = pagamento.id_tipo_pagamento')
-            ->orderBy('pagamento.id', 'DESC')->findAll();
+            ->join('forma_pagamento', 'forma_pagamento.codigo = pagamento.id_forma_pagamento')
+            ->orderBy('pagamento.data_pagamento, users.nome', 'ASC')->findAll();
 
         //echo $pagadorModel->getLastQuery();
         $data['totalPago'] = $totalPago->total ?? 0;
