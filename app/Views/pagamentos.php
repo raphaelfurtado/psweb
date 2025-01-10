@@ -50,15 +50,21 @@
                                 }
 
                                 $dataVencimento = new DateTime($pagamento->data_vencimento);
-                                $dataAtual = new DateTime();
-                                $intervalo = $dataVencimento->diff($dataAtual);
-                                $diasRestantes = $intervalo->days;
+                                $dataVencimento_formatada = $dataVencimento->format('Y-m-d');
+                                $dataAtual = new DateTime("now");
+                                $dataAtual_formatada = $dataAtual->format('Y-m-d');
+                                $class = '';
 
-                                $classe = '';
-                                if ($diasRestantes <= 3 && $diasRestantes >= 0 && $pagamento->situacao != 'PAGO') {
-                                    $classe = '';//'text-warning'; // Amarelo
-                                } elseif ($diasRestantes < 0) {
-                                    $classe = '';//'text-danger'; // Vermelho
+                                if($pagamento->situacao == 'ABERTO'){
+                                    if ($dataVencimento_formatada < $dataAtual_formatada) {
+                                        $class = 'text-danger font-weight-bold';
+                                    } elseif ($dataVencimento_formatada > $dataAtual_formatada){
+                                        $class = '';
+                                    } else {
+                                        $class = 'text-warning font-weight-bold';
+                                    }
+    
+    
                                 }
                                 ?>
 
@@ -68,7 +74,7 @@
                                     <td><?php echo $pagamento->quadra ?></td>
                                     <td><?php echo $pagamento->numero ?></td>
                                     <td><?php echo date('d/m/Y', strtotime($pagamento->data_pagamento)) ?></td>
-                                    <td class="<?php echo $classe; ?>"><?php echo date('d/m/Y', strtotime($pagamento->data_vencimento)) ?></td>
+                                    <td><span class=<?= $class ?>><?php echo date('d/m/Y', strtotime($pagamento->data_vencimento)) ?></span></td>
                                     <td><?php echo $pagamento->referencia ?></td>
                                     <td><?php echo $pagamento->nome_recebedor ?></td>
                                     <td><?php echo number_format($pagamento->valor, 2, ',', '.') ?></td>
