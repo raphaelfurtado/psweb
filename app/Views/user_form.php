@@ -106,7 +106,7 @@
                                     <th class="desktop mobile tablet">Quadra</th>
                                     <th class="desktop mobile tablet">Nr da Casa</th>
                                     <th class="desktop mobile tablet">Data Pagto</th>
-                                    <th class="desktop mobile tablet">Data Venc</th>
+                                    <th class="none">Data Venc</th>
                                     <th class="desktop mobile tablet">Ref.</th>
                                     <th class="desktop tablet">Recebedor</th>
                                     <th class="desktop mobile tablet">Valor</th>
