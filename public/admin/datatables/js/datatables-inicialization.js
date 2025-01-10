@@ -7,9 +7,9 @@ document.addEventListener('DOMContentLoaded', function () {
             modalTitleColumn: 0
         },
         '#dataTablePagamentos': {
-            nonSearchable: [0, 12],
-            nonOrderable: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-            centeredColumns: [0, 2, 3, 4, 5, 8, 9, 12],
+            nonSearchable: [0, 13],
+            nonOrderable: [0, 2, 3, 7, 8],
+            centeredColumns: [0, 2, 3, 4, 5, 9, 10, 13],
             modalTitleColumn: 1,
             enableButtons: true,
             totalPagamento: true
@@ -44,14 +44,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     let filteredTotal = api.rows({
                             search: 'applied'
                         }).data()
-                        .reduce((acc, row) => acc + parseValue(row[7]), 0);
+                        .reduce((acc, row) => acc + parseValue(row[8]), 0);
 
                     let pageTotalValor = api.column(7, {
                             page: 'current'
                         }).data()
                         .reduce((acc, val) => acc + parseValue(val), 0);
 
-                    $(api.column(7).footer()).html(
+                    $(api.column(8).footer()).html(
                         `Total: R$ ${filteredTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`
                     );
                 }

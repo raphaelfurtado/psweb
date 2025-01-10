@@ -22,6 +22,7 @@
                                 <th class="desktop mobile tablet">Quadra</th>
                                 <th class="desktop mobile tablet">Nr da Casa</th>
                                 <th class="desktop mobile tablet">Data Pagto</th>
+                                <th class="desktop mobile tablet">Data Venc</th>
                                 <th class="desktop mobile tablet">Ref.</th>
                                 <th class="desktop tablet">Recebedor</th>
                                 <th class="desktop mobile tablet">Valor</th>
@@ -47,6 +48,18 @@
                                 } else {
                                     $situacaoClass = '<label class="badge badge-warning">Indefinido</label>';
                                 }
+
+                                $dataVencimento = new DateTime($pagamento->data_vencimento);
+                                $dataAtual = new DateTime();
+                                $intervalo = $dataVencimento->diff($dataAtual);
+                                $diasRestantes = $intervalo->days;
+
+                                $classe = '';
+                                if ($diasRestantes <= 3 && $diasRestantes >= 0) {
+                                    $classe = 'text-warning'; // Amarelo
+                                } elseif ($diasRestantes < 0) {
+                                    $classe = 'text-danger'; // Vermelho
+                                }
                                 ?>
 
                                 <tr>
@@ -55,6 +68,7 @@
                                     <td><?php echo $pagamento->quadra ?></td>
                                     <td><?php echo $pagamento->numero ?></td>
                                     <td><?php echo date('d/m/Y', strtotime($pagamento->data_pagamento)) ?></td>
+                                    <td class="<?php echo $classe; ?>"><?php echo date('d/m/Y', strtotime($pagamento->data_vencimento)) ?></td>
                                     <td><?php echo $pagamento->referencia ?></td>
                                     <td><?php echo $pagamento->nome_recebedor ?></td>
                                     <td><?php echo number_format($pagamento->valor, 2, ',', '.') ?></td>
@@ -74,7 +88,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th colspan="7"></th>
+                                <th colspan="8"></th>
                                 <th>Total</th>
                                 <th colspan="5"></th>
                             </tr>

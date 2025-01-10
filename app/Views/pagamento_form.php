@@ -4,7 +4,7 @@
     <?php
     $msg = session()->getFlashdata('msg');
     $msgType = session()->getFlashdata('msg_type');
-    $alertClass = $msgType === 'success' ? 'alert alert-success' : 'alert alert-danger'; 
+    $alertClass = $msgType === 'success' ? 'alert alert-success' : 'alert alert-danger';
     ?>
     <div class="alert <?= $alertClass ?>" role="alert" id="flash-message">
         <strong>PSWEB informa: </strong><?= $msg ?>
@@ -80,6 +80,12 @@
                     <label for="date">Data Pagamento</label>
                     <input type="date" id="data_pagamento" name="data_pagamento"
                         value="<?php echo (isset($pagamento) ? date('Y-m-d', strtotime($pagamento->data_pagamento)) : '') ?>"
+                        required class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="date">Data Vencimento</label>
+                    <input type="date" id="data_vencimento" name="data_vencimento"
+                        value="<?php echo (isset($pagamento) ? date('Y-m-d', strtotime($pagamento->data_vencimento)) : '') ?>"
                         required class="form-control">
                 </div>
                 <div class="form-group">
