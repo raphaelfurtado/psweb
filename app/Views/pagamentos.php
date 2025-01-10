@@ -55,10 +55,10 @@
                                 $diasRestantes = $intervalo->days;
 
                                 $classe = '';
-                                if ($diasRestantes <= 3 && $diasRestantes >= 0) {
-                                    $classe = 'text-warning'; // Amarelo
+                                if ($diasRestantes <= 3 && $diasRestantes >= 0 && $pagamento->situacao != 'PAGO') {
+                                    $classe = '';//'text-warning'; // Amarelo
                                 } elseif ($diasRestantes < 0) {
-                                    $classe = 'text-danger'; // Vermelho
+                                    $classe = '';//'text-danger'; // Vermelho
                                 }
                                 ?>
 
