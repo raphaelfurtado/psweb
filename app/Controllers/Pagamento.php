@@ -92,7 +92,7 @@ class Pagamento extends BaseController
             $pagadorData = $pagadorModel->insert($pagadorData);
 
             if ($pagadorData) {
-                session()->setFlashdata('msg', 'Dados inseridis com sucesso!');
+                session()->setFlashdata('msg', 'Dados inseridos com sucesso!');
                 session()->setFlashdata('msg_type', 'success');
             } else {
                 session()->setFlashdata('msg', 'Erro ao inserir dados.');
