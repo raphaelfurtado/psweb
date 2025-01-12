@@ -24,7 +24,7 @@
                     <th class="px-4 py-2 text-left">Cód.</th>
                     <th class="px-4 py-2 text-left">Data Pagamento</th>
                     <th class="px-4 py-2 text-left">Valor</th>
-                    <th class="px-4 py-2 text-left">Tipo Pagto</th>
+                    <th class="px-4 py-2 text-left">Tipo Saída</th>
                     <th class="px-4 py-2 text-left">Descrição</th>
                     <th class="px-4 py-2 text-left">Ações</th>
                 </tr>
@@ -50,12 +50,6 @@
                 <tr>
                     <th>Total</th>
                     <th id="totalValor"></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
                     <th></th>
                     <th></th>
                     <th></th>
