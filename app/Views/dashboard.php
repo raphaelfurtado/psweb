@@ -32,125 +32,133 @@
                             id="content-<?php echo $info['codigo']; ?>" role="tabpanel"
                             aria-labelledby="tab-<?php echo $info['codigo']; ?>-1">
                             <div class="d-flex flex-wrap justify-content-xl-between">
-                            <?php foreach ($info['id_tipo_pagamento'] as $infoPag): ?>
+                                <?php foreach ($info['id_tipo_pagamento'] as $infoPag): ?>
 
-                                <!--  INICIO CARD MENSALIDADE -->
-                                <?php if ($infoPag['tipo'] === '3'): ?>
-                                    <div
-                                        class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-                                        <i class="mdi mdi-currency-usd mr-3 icon-lg text-success"></i>
-                                        <div class="d-flex flex-column justify-content-around">
-                                            <small class="mb-1 text-muted">Contribuição Portaria</small>
-                                            <div class="d-flex">
-                                                <h5 class="mr-2 mb-0">
-                                                    <?php echo $infoPag['total_quantidade_pago']; ?>
-                                                    <small
-                                                        class="mb-1 text-muted">/<?php echo $infoPag['total_quantidade_geral']; ?></small>
-                                                    <small class="mb-1 text-muted">falta
-                                                        <?php echo $infoPag['total_quantidade_aberto']; ?>
-                                                    </small>
-                                                </h5>
-                                                <h5 class="mb-0">
-                                                    R$ <?php echo $infoPag['total_pago']; ?>
-                                                </h5>
+                                    <!--  INICIO CARD MENSALIDADE -->
+                                    <?php if ($infoPag['tipo'] === '3'): ?>
+                                        <div
+                                            class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+                                            <i class="mdi mdi-currency-usd mr-3 icon-lg text-success"></i>
+                                            <div class="d-flex flex-column justify-content-around">
+                                                <small class="mb-1 text-muted">Contribuição Portaria</small>
+                                                <div class="d-flex">
+                                                    <h5 class="mr-2 mb-0">
+                                                        <?php echo $infoPag['total_quantidade_pago']; ?>
+                                                        <small
+                                                            class="mb-1 text-muted">/<?php echo $infoPag['total_quantidade_geral']; ?></small>
+                                                        <small class="mb-1 text-muted">falta
+                                                            <?php echo $infoPag['total_quantidade_aberto']; ?>
+                                                        </small>
+                                                    </h5>
+                                                    <h5 class="mb-0">
+                                                        R$ <?php echo $infoPag['total_pago']; ?>
+                                                    </h5>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                <?php endif; ?>
-                                <!--  FIM CARD MENSALIDADE -->
+                                    <?php endif; ?>
+                                    <!--  FIM CARD MENSALIDADE -->
 
-                                <!--  INICIO CARD TAXA DO 13° -->
-                                <?php if ($infoPag['tipo'] === '1'): ?>
-                                    <div
-                                        class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-                                        <i class="mdi mdi-currency-usd mr-3 icon-lg text-success"></i>
-                                        <div class="d-flex flex-column justify-content-around">
-                                            <small class="mb-1 text-muted">Contribuição 13° Salário Portaria</small>
-                                            <div class="d-flex">
-                                                <h5 class="mr-2 mb-0">
-                                                    <?php echo $infoPag['total_quantidade_pago']; ?>
-                                                    <small class="mb-1 text-muted">/</small>
-                                                </h5>
-                                                <h5 class="mb-0">
-                                                    R$ <?php echo $infoPag['total_pago']; ?>
-                                                </h5>
+                                    <!--  INICIO CARD TAXA DO 13° -->
+
+                                    <?php if ($infoPag['tipo'] === '1'): ?>
+                                        <div
+                                            class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+                                            <i class="mdi mdi-currency-usd mr-3 icon-lg text-success"></i>
+                                            <div class="d-flex flex-column justify-content-around">
+                                                <small class="mb-1 text-muted">Contribuição 13° Salário Portaria</small>
+                                                <div class="d-flex">
+                                                    <h5 class="mr-2 mb-0">
+                                                        <?php echo $infoPag['total_quantidade_pago']; ?>
+                                                        <small class="mb-1 text-muted">/</small>
+                                                    </h5>
+                                                    <h5 class="mb-0">
+                                                        R$ <?php echo $infoPag['total_pago']; ?>
+                                                    </h5>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                <?php endif; ?>
-                                <!--  FIM CARD TAXA DO 13° -->
+                                    <?php endif; ?>
 
-                                <!--  INICIO CARD TAXA DO CONCRETO -->
-                                <?php if ($infoPag['tipo'] === '4'): ?>
-                                    <div
-                                        class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-                                        <i class="mdi mdi-truck mr-3 icon-lg text-primary"></i>
-                                        <div class="d-flex flex-column justify-content-around">
-                                            <small class="mb-1 text-muted">Contribuição Concreto</small>
-                                            <div class="d-flex">
-                                                <h5 class="mr-2 mb-0">
-                                                    <?php echo $infoPag['total_quantidade_pago']; ?>
-                                                    <small class="mb-1 text-muted">/</small>
-                                                </h5>
-                                                <h5 class="mb-0">
-                                                    R$ <?php echo $infoPag['total_pago']; ?>
-                                                </h5>
+                                    <!--  FIM CARD TAXA DO 13° -->
+
+                                    <!--  INICIO CARD TAXA DO CONCRETO -->
+                                    <?php if ($role === 'admin'): ?>
+                                        <?php if ($infoPag['tipo'] === '4'): ?>
+                                            <div
+                                                class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+                                                <i class="mdi mdi-truck mr-3 icon-lg text-primary"></i>
+                                                <div class="d-flex flex-column justify-content-around">
+                                                    <small class="mb-1 text-muted">Contribuição Concreto</small>
+                                                    <div class="d-flex">
+                                                        <h5 class="mr-2 mb-0">
+                                                            <?php echo $infoPag['total_quantidade_pago']; ?>
+                                                            <small class="mb-1 text-muted">/</small>
+                                                        </h5>
+                                                        <h5 class="mb-0">
+                                                            R$ <?php echo $infoPag['total_pago']; ?>
+                                                        </h5>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
-                                <!--  FIM CARD TAXA DO CONCRETO -->
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                    <!--  FIM CARD TAXA DO CONCRETO -->
 
-                                <!--  INICIO CARD TAXA ROÇAGEM -->
-                                <?php if ($infoPag['tipo'] === '5'): ?>
-                                    <div
-                                        class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-                                        <i class="mdi mdi-pine-tree mr-3 icon-lg text-primary"></i>
-                                        <div class="d-flex flex-column justify-content-around">
-                                            <small class="mb-1 text-muted">Contribuição Roçagem</small>
-                                            <div class="d-flex">
-                                                <h5 class="mr-2 mb-0">
-                                                    <?php echo $infoPag['total_quantidade_pago']; ?>
-                                                    <small class="mb-1 text-muted">/</small>
-                                                </h5>
-                                                <h5 class="mb-0">
-                                                    R$ <?php echo $infoPag['total_pago']; ?>
-                                                </h5>
+                                    <!--  INICIO CARD TAXA ROÇAGEM -->
+                                    <?php if ($role === 'admin'): ?>
+                                        <?php if ($infoPag['tipo'] === '5'): ?>
+                                            <div
+                                                class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+                                                <i class="mdi mdi-pine-tree mr-3 icon-lg text-primary"></i>
+                                                <div class="d-flex flex-column justify-content-around">
+                                                    <small class="mb-1 text-muted">Contribuição Roçagem</small>
+                                                    <div class="d-flex">
+                                                        <h5 class="mr-2 mb-0">
+                                                            <?php echo $infoPag['total_quantidade_pago']; ?>
+                                                            <small class="mb-1 text-muted">/</small>
+                                                        </h5>
+                                                        <h5 class="mb-0">
+                                                            R$ <?php echo $infoPag['total_pago']; ?>
+                                                        </h5>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
-                                <!--  FIM CARD TAXA ROÇAGEM -->
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                    <!--  FIM CARD TAXA ROÇAGEM -->
 
 
-                                <!--  INICIO CARD CONTRIBUIÇÕES AVULSAS -->
-                                <?php if ($infoPag['tipo'] === '2'): ?>
-                                    <div
-                                        class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-                                        <i class="mdi mdi-briefcase mr-3 icon-lg text-info"></i>
-                                        <div class="d-flex flex-column justify-content-around">
-                                            <small class="mb-1 text-muted">Contribuição Avulsa</small>
-                                            <div class="d-flex">
-                                                <h5 class="mr-2 mb-0">
-                                                    <?php echo $infoPag['total_quantidade_pago']; ?>
-                                                    <small class="mb-1 text-muted">/</small>
-                                                </h5>
-                                                <h5 class="mb-0">
-                                                    R$ <?php echo $infoPag['total_pago']; ?>
-                                                </h5>
+                                    <!--  INICIO CARD CONTRIBUIÇÕES AVULSAS -->
+                                    <?php if ($role === 'admin'): ?>
+                                        <?php if ($infoPag['tipo'] === '2'): ?>
+                                            <div
+                                                class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+                                                <i class="mdi mdi-briefcase mr-3 icon-lg text-info"></i>
+                                                <div class="d-flex flex-column justify-content-around">
+                                                    <small class="mb-1 text-muted">Contribuição Avulsa</small>
+                                                    <div class="d-flex">
+                                                        <h5 class="mr-2 mb-0">
+                                                            <?php echo $infoPag['total_quantidade_pago']; ?>
+                                                            <small class="mb-1 text-muted">/</small>
+                                                        </h5>
+                                                        <h5 class="mb-0">
+                                                            R$ <?php echo $infoPag['total_pago']; ?>
+                                                        </h5>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
-                                <!--  FIM CARD TAXA ROÇAGEM -->
-                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                    <!--  FIM CARD TAXA ROÇAGEM -->
+                                <?php endforeach; ?>
+                            </div>
                         </div>
-                    </div>
-                <?php endforeach; ?>
+                    <?php endforeach; ?>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 <!-- Repita o bloco acima com IDs e referências diferentes para outro conjunto de tabs -->
 <?php echo $this->include('template/footer'); ?>
