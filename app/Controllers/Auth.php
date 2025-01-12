@@ -10,6 +10,10 @@ class Auth extends BaseController
     {
         if ($this->request->getPost()) {
             $celular = $this->request->getPost('telefone');
+
+            // Limpa o número de telefone, removendo caracteres não numéricos
+            $celular = preg_replace('/[^0-9]/', '', $celular);
+
             $senha = $this->request->getPost('senha');
 
             $userModel = new UserModel();

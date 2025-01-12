@@ -31,7 +31,7 @@
                                     <strong>Atenção! </strong><?php echo session()->getFlashdata('error'); ?>.
                                 </div>
                             <?php endif; ?>
-                                
+
                             <h4>Bem-Vindo!</h4>
                             <form class="pt-3" method="post">
                                 <div class="form-group">
@@ -42,8 +42,8 @@
                                                 <i class="mdi mdi-account-outline text-primary"></i>
                                             </span>
                                         </div>
-                                        <input type="text" class="form-control form-control-lg border-left-0"
-                                            id="telefone" name="telefone" placeholder="Telefone">
+                                        <input type="text" class="form-control form-control-lg border-left-0 telefone"
+                                            id="telefone" name="telefone" placeholder="(99)99999-9999" maxlength="14" minlength="14">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -89,6 +89,16 @@
     <script src=".<?php echo base_url('admin'); ?>/js/hoverable-collapse.js"></script>
     <script src=".<?php echo base_url('admin'); ?>/js/template.js"></script>
     <!-- endinject -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('.telefone').mask("(99)99999-9999");
+        });
+    </script>
+
 </body>
 
 </html>
