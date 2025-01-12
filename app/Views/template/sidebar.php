@@ -29,6 +29,14 @@
             <?php endif; ?>
             <?php if ($role === 'admin'): ?>
                 <li class="nav-item">
+                    <a class="nav-link" href="<?php echo base_url('/funcionarios'); ?>">
+                        <i class="mdi mdi-worker menu-icon"></i>
+                        <span class="menu-title">Funcionários</span>
+                    </a>
+                </li>
+            <?php endif; ?>
+            <?php if ($role === 'admin'): ?>
+                <li class="nav-item">
                     <a class="nav-link" href="<?php echo base_url('/saidas'); ?>">
                         <i class="mdi mdi-arrow-left-bold-circle menu-icon"></i>
                         <span class="menu-title">Saídas</span>
@@ -92,5 +100,5 @@
         </ul>
     </nav>
     <!-- partial -->
-        <div class="main-panel">
-            <div class="content-wrapper">
+    <div class="main-panel">
+        <div class="content-wrapper">

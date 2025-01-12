@@ -59,7 +59,7 @@ class Anexo extends BaseController
 
         // var_dump($data);
         // die();
-        
+
         // echo view('anexos', $data);
         echo view('anexo_index', $data);
     }
@@ -135,11 +135,22 @@ class Anexo extends BaseController
     public function download($filename)
     {
         $filePath = WRITEPATH . 'uploads/' . $filename;
+
         if (file_exists($filePath)) {
-            return $this->response->download($filePath, null);
+            // Determina o tipo MIME do arquivo
+            $mimeType = mime_content_type($filePath);
+
+            // Configura os cabeçalhos para abrir o arquivo no navegador
+            return $this->response
+                ->setHeader('Content-Type', $mimeType)
+                ->setHeader('Content-Disposition', 'inline; filename="' . $filename . '"')
+                ->setBody(file_get_contents($filePath));
         }
+
+        // Redireciona para a página de anexos com mensagem de erro
         return redirect()->to('/anexos')->with('msg_error', 'O arquivo solicitado não foi encontrado.');
     }
+
 
     public function deletar($id)
     {

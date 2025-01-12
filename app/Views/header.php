@@ -43,6 +43,14 @@ $role = session('user_role');
             justify-content: right;
         }
     </style>
+
+    <style>
+        .error {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+    </style>
 </head>
 
 <body>
