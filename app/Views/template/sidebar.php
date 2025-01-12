@@ -8,7 +8,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="<?php echo base_url('/'); ?>">
                     <i class="mdi mdi-home menu-icon"></i>
-                    <span class="menu-title">Inicio</span>
+                    <span class="menu-title">Início</span>
                 </a>
             </li>
             <?php if ($role === 'admin'): ?>
