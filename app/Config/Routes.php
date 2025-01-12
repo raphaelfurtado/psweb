@@ -66,11 +66,17 @@ $routes->group('', ['filter' => 'role:admin'], function ($routes) {
     $routes->get('/formaPagamento/inserir', 'FormaPagamento::inserir');
     $routes->post('/formaPagamento/inserir', 'FormaPagamento::inserir');
     $routes->get('/formasPagamento', 'FormaPagamento::index');
-    
+
     # ANEXO ROTAS PRIVADAS
     $routes->get('/anexo/upload', 'Anexo::upload');
     $routes->post('/anexo/upload', 'Anexo::upload');
     $routes->get('/anexo/deletar/(:num)', 'Anexo::deletar/$1');
+
+    # FUNCIONARIOS ROTAS PRIVADAS
+    $routes->get('/funcionarios', 'Funcionario::index');
+    $routes->get('/funcionario/cadastrar', 'Funcionario::cadastrar');
+    $routes->post('/funcionario/cadastrar', 'Funcionario::cadastrar');
+    $routes->match(['get', 'post'], 'funcionario/editar/(:num)', 'Funcionario::editar/$1');
 });
 
 # ANEXO ROTAS PUBLICAS

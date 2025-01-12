@@ -25,7 +25,7 @@
                             Adicionar
                         </a>
                     </div>
-                <?php endif; ?> 
+                <?php endif; ?>
                 <br />
                 <h4 class="card-title">Documentos Cadastrados</h4>
                 <div class="table-responsive">
@@ -53,15 +53,17 @@
                                     <td><?php echo $anexo['numero']; ?></td>
                                     <td class="desktop"><?php echo $anexo['created_at']; ?></td>
                                     <td>
-                                        <!-- Botão para download -->
-                                        <button title="Download do Arquivo" type="button" class="btn btn-primary btn-rounded btn-icon"
-                                            onclick="window.location.href='<?php echo base_url('anexo/download/' . $anexo['stored_name']); ?>'">
-                                            <i class="mdi mdi-download icon-sm"></i>
+                                        <!-- Botão para abrir o arquivo em uma nova aba -->
+                                        <button title="Abrir Arquivo" type="button"
+                                            class="btn btn-primary btn-rounded btn-icon"
+                                            onclick="window.open('<?php echo base_url('anexo/download/' . $anexo['stored_name']); ?>', '_blank');">
+                                            <i class="mdi mdi-eye icon-sm"></i>
                                         </button>
 
                                         <?php if ($role === 'admin'): ?>
                                             <!-- Botão para deletar -->
-                                            <button title="Excluir do Arquivo" type="button" class="btn btn-danger btn-rounded btn-icon"
+                                            <button title="Excluir do Arquivo" type="button"
+                                                class="btn btn-danger btn-rounded btn-icon"
                                                 onclick="if (confirm('Tem certeza que deseja deletar este anexo?')) { window.location.href='<?php echo base_url('anexo/deletar/' . $anexo['id_anexo']); ?>'; }">
                                                 <i class="mdi mdi-delete icon-sm"></i>
                                             </button>

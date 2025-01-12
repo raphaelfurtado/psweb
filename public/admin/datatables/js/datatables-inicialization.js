@@ -21,6 +21,12 @@ document.addEventListener('DOMContentLoaded', function () {
             modalTitleColumn: 1,
             enableButtons: true
         },
+        '#dataTableFuncionario': {
+            nonSearchable: [0, 4],
+            nonOrderable: [0, 3, 4],
+            centeredColumns: [4],
+            modalTitleColumn: 1
+        }
     };
 
     Object.keys(tableConfigs).forEach(id => {
