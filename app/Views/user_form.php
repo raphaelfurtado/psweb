@@ -77,7 +77,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="numero">Número</label>
+                    <label for="senha">Senha</label>
                     <input type="password" id="senha" name="senha"
                         class="form-control"
                         placeholder="Deixe em branco para não alterar a senha">
