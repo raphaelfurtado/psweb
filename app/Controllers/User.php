@@ -59,7 +59,8 @@ class User extends BaseController
             ]);
 
             if (!$validation->withRequest($this->request)->run()) {
-                $data['msg'] = ['type' => 'error', 'text' => 'Erro de validação: ' . implode(', ', $validation->getErrors())];
+                session()->setFlashdata('msg', 'Erro de validação: ' . implode(', ', $validation->getErrors()));
+                session()->setFlashdata('msg_type', 'error');
                 return view('user_form', $data);
             }
 
@@ -91,12 +92,15 @@ class User extends BaseController
                 ];
 
                 if ($enderecoModel->insert($enderecoData)) {
-                    $data['msg'] = ['type' => 'success', 'text' => 'Usuário e endereço inseridos com sucesso!'];
+                    session()->setFlashdata('msg', 'Dados inseridos com sucesso!');
+                    session()->setFlashdata('msg_type', 'success');
                 } else {
-                    $data['msg'] = ['type' => 'error', 'text' => 'Usuário inserido, mas ocorreu um erro ao salvar o endereço.'];
+                    session()->setFlashdata('msg', 'Usuário inserido, mas ocorreu um erro ao inserir o endereço.');
+                    session()->setFlashdata('msg_type', 'error');
                 }
             } else {
-                $data['msg'] = ['type' => 'error', 'text' => 'Erro ao inserir usuário.'];
+                session()->setFlashdata('msg', 'Erro ao inserir dados.');
+                session()->setFlashdata('msg_type', 'error');
             }
         }
 
