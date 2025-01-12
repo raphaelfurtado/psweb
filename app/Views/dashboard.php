@@ -46,9 +46,9 @@
                                                         <?php echo $infoPag['total_quantidade_pago']; ?>
                                                         <small
                                                             class="mb-1 text-muted">/<?php echo $infoPag['total_quantidade_geral']; ?></small>
-                                                        <small class="mb-1 text-muted">falta
-                                                            <?php echo $infoPag['total_quantidade_aberto']; ?>
-                                                        </small>
+                                                        <p class="card-description">
+                                                        faltam <?php echo $infoPag['total_quantidade_aberto']; ?>
+                                                        </p>
                                                     </h5>
                                                     <h5 class="mb-0">
                                                         R$ <?php echo $infoPag['total_pago']; ?>
