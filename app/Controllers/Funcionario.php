@@ -135,6 +135,7 @@ class Funcionario extends BaseController
 
             // Recebe os dados editados via POST
             $data = [
+                'id' => $id, // Adiciona o ID no array  
                 'nome_completo' => $this->request->getPost('nome_completo'),
                 'data_nascimento' => $data_nascimento_bd,
                 'cpf' => $this->request->getPost('cpf'),
