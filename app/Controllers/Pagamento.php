@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\AnexoModel;
 use App\Models\FormaPagamentoModel;
 use App\Models\PagamentoModel;
 use App\Models\RecebedorModel;
@@ -55,6 +56,7 @@ class Pagamento extends BaseController
         $moradorModel = new UserModel();
         $tipoPagamentoModel = new TipoPagamentoModel();
         $formaPagamentoModel = new FormaPagamentoModel();
+        $anexoModel = new AnexoModel();
         $db = Database::connect();
 
         $data['recebedores'] = $recebedoresModel->orderBy('nome', 'ASC')->findAll();
@@ -89,7 +91,48 @@ class Pagamento extends BaseController
                 'data_insert' => date('Y-m-d H:i:s'),
             ];
 
-            $pagadorData = $pagadorModel->insert($pagadorData);
+            $pagadorData = $pagadorModel->insert($pagadorData, true);
+
+            $files = $this->request->getFiles();
+
+            if (!empty($files['files'])) {
+                foreach ($files['files'] as $file) {
+                    if ($file->isValid() && !$file->hasMoved()) {
+                        $mimeType = $file->getMimeType();
+                        $storedName = $file->getRandomName();
+
+                        if ($file->move(WRITEPATH . 'uploads', $storedName)) {
+                            $fileSize = $file->getSize();
+                            $originalName = $file->getClientName();
+
+                            $anexoData = [
+                                'original_name' => $originalName,
+                                'stored_name' => $storedName,
+                                'mime_type' => $mimeType,
+                                'size' => $fileSize,
+                                'type_anex' => 2, // MORADOR - Sempre vai ser morador quando for Pagamento
+                                'id_morador' => $this->request->getPost('morador'),
+                                'subject' => $this->request->getPost('subject'),
+                                'form' => 'PAGAMENTO',
+                                'identifier' => $pagadorData,
+                                'created_at' => date('Y-m-d H:i:s'),
+                            ];
+
+                            var_dump($anexoData);
+                            die();
+
+                            $anexoModel->insert($anexoData);
+                            //return redirect()->to('/anexos')->with('msg_success', 'Arquivo Salvo com Sucesso.');
+                        } else {
+                            session()->setFlashdata('msg', 'Erro ao inserir anexo.');
+                            session()->setFlashdata('msg_type', 'error');
+                        }
+                    } else {
+                        session()->setFlashdata('msg', 'Arquivo inválido ou já movido.');
+                        session()->setFlashdata('msg_type', 'error');
+                    }
+                }
+            }
 
             if ($pagadorData) {
                 session()->setFlashdata('msg', 'Dados inseridos com sucesso!');

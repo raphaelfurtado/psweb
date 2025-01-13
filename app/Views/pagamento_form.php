@@ -28,7 +28,7 @@
             <p class="card-description">
                 Adicionar registro
             </p>
-            <form method="post" class="forms-sample">
+            <form method="post" class="forms-sample" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="exampleInputName1">Selecione um morador</label>
                     <select id="exampleInputName1" name="morador" required class="form-control"
@@ -110,6 +110,23 @@
                             </option>
                         <?php endforeach; ?>
                     </select>
+                </div>
+                <div class="form-group">
+                    <label for="files">Arquivo:</label>
+                    <input type="file" id="files" name="files[]" class="file-upload-default">
+                    <div class="input-group col-xs-12">
+                        <span class="input-group-append">
+                            <button class="file-upload-browse btn btn-primary" type="button">
+                                <i class="mdi mdi-folder-upload"></i>
+                            </button>
+                        </span>
+                        <input type="text" class="form-control file-upload-info" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Titulo:</label>
+                    <input type="text" class="form-control" id="subject" name="subject" placeholder="Título do arquivo"
+                        required>
                 </div>
                 <div class="form-group">
                     <label for="observacao">Observação</label>
