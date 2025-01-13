@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
         '#dataTableFuncionario': {
             nonSearchable: [0, 4],
             nonOrderable: [0, 3, 4],
-            centeredColumns: [4],
+            centeredColumns: [0, 4],
             modalTitleColumn: 1
         }
     };
@@ -89,10 +89,14 @@ document.addEventListener('DOMContentLoaded', function () {
             language: {
                 info: 'Página _PAGE_ de _PAGES_',
                 infoEmpty: 'Sem registros',
+                emptyTable: 'Sem registros',
                 infoFiltered: '(filtrado de _MAX_ registros no total)',
                 lengthMenu: 'Mostrar _MENU_ registros por página',
                 zeroRecords: 'Registro não encontrado',
-                search: 'Pesquisar'
+                search: 'Pesquisar',
+                loadingRecords: "Carregando...",
+                processing: "Processando...",
+                zeroRecords: "Nenhum registro encontrado"
             },
             initComplete: function () {
                 this.api()
