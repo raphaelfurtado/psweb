@@ -25,7 +25,8 @@ function carregarBancos(bancoSelecionado = '') {
                 const option = document.createElement('option');
                 option.value = banco.code; // Código do banco
                 option.textContent = banco.name; // Nome do banco
-                if (banco.code === bancoSelecionado) {
+
+                if (String(banco.code) === String(bancoSelecionado)) {
                     option.selected = true; // Define como selecionado
                 }
                 selectBanco.appendChild(option);
