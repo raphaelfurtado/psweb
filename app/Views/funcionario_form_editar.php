@@ -35,7 +35,8 @@
                                         <label for="data_nascimento">Data Nascimento:</label>
                                         <input id="data_nascimento" name="data_nascimento" class="form-control"
                                             placeholder="dd/mm/yyyy" oninput="formatInputDate(this)"
-                                            value="<?= esc($funcionario['data_nascimento']) ?>" />
+                                            value="<?php echo date('d/m/Y', strtotime(esc($funcionario['data_nascimento']))) ?>" />
+
                                         <?php if (session('errors.data_nascimento')): ?>
                                             <div class="error"><?= session('errors.data_nascimento') ?></div>
                                         <?php endif; ?>
@@ -190,19 +191,83 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label>Tipo de Conta:</label>
+                                                <div>
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="radio" class="form-check-input"
+                                                                name="tipo_conta" id="contaRadios1" value="01"
+                                                                <?= isset($funcionario['tipo_conta']) && $funcionario['tipo_conta'] === '01' ? 'checked' : '' ?>>
+                                                            Corrente
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="radio" class="form-check-input"
+                                                                name="tipo_conta" id="contaRadios2" value="02"
+                                                                <?= isset($funcionario['tipo_conta']) && $funcionario['tipo_conta'] === '02' ? 'checked' : '' ?>>
+                                                            Poupança
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="radio" class="form-check-input"
+                                                                name="tipo_conta" id="contaRadios3" value="03"
+                                                                <?= isset($funcionario['tipo_conta']) && $funcionario['tipo_conta'] === '03' ? 'checked' : '' ?>>
+                                                            Salário
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <?php if (session('errors.tipo_conta')): ?>
+                                                    <div class="error"><?= session('errors.tipo_conta') ?></div>
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="salario">Salário:</label>
+                                        <input type="text" class="form-control" id="salario" name="salario"
+                                            value="<?= esc($funcionario['salario']) ?>">
+                                        <?php if (session('errors.salario')): ?>
+                                            <div class="error"><?= session('errors.salario') ?></div>
+                                        <?php endif; ?>
+                                    </div>
 
+                                    <div class="form-group">
+                                        <label for="chave_pix">Chave PIX:</label>
+                                        <input type="text" class="form-control" id="chave_pix" name="chave_pix"
+                                            value="<?= esc($funcionario['chave_pix']) ?>" />
+                                        <?php if (session('errors.chave_pix')): ?>
+                                            <div class="error"><?= session('errors.chave_pix') ?></div>
+                                        <?php endif; ?>
+                                    </div>
 
+                                    <div class="form-group">
+                                        <label for="observacao">Observações:</label>
+                                        <textarea class="form-control" id="observacao" name="observacao"
+                                            rows="4"><?= esc($funcionario['observacao']) ?></textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success btn-block">Atualizar</button>
-                    </div>
+                    <button type="submit" class="btn btn-primary mr-2"> <?= $acao; ?></button>
+                    <a href="<?php echo base_url($link) ?>" class="btn btn-light">
+                        Cancelar
+                    </a>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
-<?php echo $this->include('footer'); ?>
+<script src="<?= base_url('js/banco.js') ?>"></script>
+
+<?php echo $this->include('template/footer'); ?>
