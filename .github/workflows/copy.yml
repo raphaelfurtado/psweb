@@ -17,6 +17,6 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
+          exclude: public/index.php
           local-dir: public/
           server-dir: psweb.forcehub.com.br/
-          exclude: 'public/index.php'
