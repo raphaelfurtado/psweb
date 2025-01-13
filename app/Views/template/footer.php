@@ -79,7 +79,7 @@
 
 <script src="<?= base_url('js/custom-alert.js') ?>"></script>
 <script src="<?php echo base_url('js/custom.js'); ?>"></script>
-<script src="<?php echo base_url(''); ?>js/file-upload.js"></script>
+<script src="<?php echo base_url('admin'); ?>/js/file-upload.js"></script>
 <script src="<?= base_url('js/cep.js') ?>"></script>
 
 </body>
