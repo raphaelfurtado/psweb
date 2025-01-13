@@ -33,13 +33,16 @@ class Pagamento extends BaseController
                 recebedor.nome as nome_recebedor, 
                 endereco.*,
                 tipo_pagamento.descricao as desc_pagamento,
-                forma_pagamento.descricao as desc_forma_pagto
+                forma_pagamento.descricao as desc_forma_pagto,
+                files.id as id_anexo,
+                files.stored_name as stored_name
               ')
             ->join('users', 'users.id = pagamento.id_usuario')
             ->join('recebedor', 'recebedor.id = pagamento.id_recebedor')
             ->join('endereco', 'endereco.id_usuario = users.id', 'left')
             ->join('tipo_pagamento', 'tipo_pagamento.codigo = pagamento.id_tipo_pagamento')
             ->join('forma_pagamento', 'forma_pagamento.codigo = pagamento.id_forma_pagamento')
+            ->join('files', 'files.id_morador = pagamento.id_usuario AND files.identifier = pagamento.id AND files.form = "PAGAMENTO"', 'left')
             ->orderBy('pagamento.data_pagamento, users.nome', 'ASC')->findAll();
 
         //echo $pagadorModel->getLastQuery();
@@ -118,9 +121,6 @@ class Pagamento extends BaseController
                                 'created_at' => date('Y-m-d H:i:s'),
                             ];
 
-                            var_dump($anexoData);
-                            die();
-
                             $anexoModel->insert($anexoData);
                             //return redirect()->to('/anexos')->with('msg_success', 'Arquivo Salvo com Sucesso.');
                         } else {
@@ -156,6 +156,8 @@ class Pagamento extends BaseController
         $tipoPagamentoModel = new TipoPagamentoModel();
         $pagadorModel = new PagamentoModel();
         $formaPagamentoModel = new FormaPagamentoModel();
+        $anexoModel = new AnexoModel();
+        $file = $this->request->getFile('files');
         $db = Database::connect();
 
         $data['recebedores'] = $recebedoresModel->orderBy('nome', 'ASC')->findAll();
@@ -197,6 +199,66 @@ class Pagamento extends BaseController
 
             $pagadorData = $pagadorModel->update($id, $pagadorData);
 
+            $anexoData = [
+                'subject' => $this->request->getPost('subject'),
+            ];
+
+            $anexoModel->where('id_morador', $pagamento->id_usuario)
+                ->where('form', 'PAGAMENTO')
+                ->where('identifier', $id)
+                ->set($anexoData)->update();
+
+            if ($file && $file->isValid() && !$file->hasMoved()) {
+                $mimeType = $file->getMimeType();
+                $storedName = $file->getRandomName();
+                $file->move(WRITEPATH . 'uploads/', $storedName);
+
+                $fileSize = $file->getSize();
+                $originalName = $file->getClientName();
+
+                $anexoData = [
+                    'original_name' => $originalName,
+                    'stored_name' => $storedName,
+                    'mime_type' => $mimeType,
+                    'size' => $fileSize,
+                    'type_anex' => 2, // MORADOR - Sempre vai ser morador quando for Pagamento
+                    'id_morador' => $pagamento->id_usuario,
+                    'subject' => $this->request->getPost('subject'),
+                    'form' => 'PAGAMENTO',
+                    'identifier' => $id,
+                    'created_at' => date('Y-m-d H:i:s'),
+                ];
+
+                // Atualizar ou inserir o registro do anexo no banco
+                $anexoModel->where('id_morador', $pagamento->id_usuario)
+                    ->where('form', 'PAGAMENTO')
+                    ->where('identifier', $id)
+                    ->delete(); // Remove o registro anterior, se existir
+
+                $anexoModel->insert($anexoData);
+            }
+
+            $deleteAnexo = $this->request->getPost('delete_anexo');
+
+            if ($deleteAnexo) {
+
+                $anexo = $anexoModel->where('id_morador', $pagamento->id_usuario)
+                                    ->where('form', 'PAGAMENTO')
+                                    ->where('identifier', $id)
+                                    ->first();
+    
+                if ($anexo) {
+                    // Remover o arquivo físico
+                    $filePath = WRITEPATH . 'uploads/' . $anexo['stored_name'];
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
+    
+                    // Excluir o registro do banco de dados
+                    $anexoModel->delete($anexo['id']);
+                }
+            }
+
             if ($pagadorData) {
                 session()->setFlashdata('msg', 'Pagamento atualizado com sucesso!');
                 session()->setFlashdata('msg_type', 'success'); // Define o tipo como sucesso
@@ -207,6 +269,7 @@ class Pagamento extends BaseController
         }
 
         $data['pagamento'] = $pagadorModel->find($id);
+        $data['anexo']     = $anexoModel->getAnexoByMoradorFormIdentifier($data['pagamento']->id_usuario, 'PAGAMENTO', $id);
         $data['situacoes'] = explode("','", $matches[1]);
 
         echo view('pagamento_form', $data);

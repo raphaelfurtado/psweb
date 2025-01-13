@@ -12,4 +12,13 @@ class AnexoModel extends Model
     protected $useTimestamps = true;
     protected $createdField = 'created_at';
     protected $updatedField = false;
+
+    public function getAnexoByMoradorFormIdentifier($id_morador, $form, $identifier)
+    {
+        return $this->where('id_morador', $id_morador)
+            ->where('form', $form)
+            ->where('identifier', $identifier)
+            ->first();
+        //->findAll();
+    }
 }

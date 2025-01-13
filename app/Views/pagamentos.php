@@ -30,7 +30,7 @@
                                 <th class="desktop mobile tablet">Forma</th>
                                 <th class="desktop mobile tablet">Tipo</th>
                                 <th class="none">Obs</th>
-                                <th class="desktop mobile tablet">Ações</th>
+                                <th class="desktop mobile tablet"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -55,16 +55,14 @@
                                 $dataAtual_formatada = $dataAtual->format('Y-m-d');
                                 $class = '';
 
-                                if($pagamento->situacao == 'ABERTO'){
+                                if ($pagamento->situacao == 'ABERTO') {
                                     if ($dataVencimento_formatada < $dataAtual_formatada) {
                                         $class = 'text-danger font-weight-bold';
-                                    } elseif ($dataVencimento_formatada > $dataAtual_formatada){
+                                    } elseif ($dataVencimento_formatada > $dataAtual_formatada) {
                                         $class = '';
                                     } else {
                                         $class = 'text-warning font-weight-bold';
                                     }
-    
-    
                                 }
                                 ?>
 
@@ -83,11 +81,23 @@
                                     <td><?php echo $pagamento->desc_pagamento ?></td>
                                     <td><?php echo $pagamento->observacao ?></td>
                                     <td>
-                                        <button title="Editar Registro" type="button"
-                                            class="btn btn-primary btn-rounded btn-icon"
-                                            onclick="window.location.href='<?php echo base_url('/pagamento/editar/' . $pagamento->id_pagamento) ?>'">
-                                            <i class="mdi mdi-pen icon-sm"></i>
-                                        </button>
+                                        <div class="dropdown">
+                                            <button class="btn btn-icon btn-rounded" type="button" id="actionMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="mdi mdi-dots-horizontal"></i>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="actionMenu">
+                                                <li>
+                                                    <a class="dropdown-item" href="<?php echo base_url('/pagamento/editar/' . $pagamento->id_pagamento); ?>">
+                                                        <i class="mdi mdi-pencil"></i> Editar
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="<?php echo base_url('anexo/download/' . $pagamento->stored_name); ?>">
+                                                        <i class="mdi mdi-eye"></i> Anexo
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
