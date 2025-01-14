@@ -102,6 +102,7 @@ $routes->get('login', 'Auth::login');
 $routes->post('login', 'Auth::login');
 $routes->get('logout', 'Auth::logout');
 $routes->get('/', 'Dashboard::index');
+$routes->post('/user/alteraSenha', 'User::updateSenhaUsuario');
 
 
 /*

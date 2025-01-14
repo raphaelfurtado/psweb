@@ -15,19 +15,15 @@ function renderMenu($role)
                     </a>
                 </li>
 
+                <hr class="sidebar-divider">
+
+                <li class="nav-item nav-category"><strong>Cadastros</strong></li>
+
                 <?php if ($role === 'admin'): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo base_url('/users'); ?>">
                             <i class="mdi mdi-account-multiple menu-icon"></i>
                             <span class="menu-title">Moradores</span>
-                        </a>
-                    </li>
-                <?php endif; ?>
-                <?php if ($role === 'admin'): ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?php echo base_url('/recebedores'); ?>">
-                            <i class="mdi mdi-account-switch menu-icon"></i>
-                            <span class="menu-title">Recebedores</span>
                         </a>
                     </li>
                 <?php endif; ?>
@@ -41,12 +37,17 @@ function renderMenu($role)
                 <?php endif; ?>
                 <?php if ($role === 'admin'): ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo base_url('/saidas'); ?>">
-                            <i class="mdi mdi-arrow-left-bold-circle menu-icon"></i>
-                            <span class="menu-title">Saídas</span>
+                        <a class="nav-link" href="<?php echo base_url('/recebedores'); ?>">
+                            <i class="mdi mdi-account-switch menu-icon"></i>
+                            <span class="menu-title">Recebedores</span>
                         </a>
                     </li>
                 <?php endif; ?>
+
+                <hr class="sidebar-divider">
+
+                <li class="nav-item nav-category"><strong>Financeiro</strong></li>
+
                 <?php if ($role === 'admin'): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo base_url('/pagamentos'); ?>">
@@ -55,6 +56,16 @@ function renderMenu($role)
                         </a>
                     </li>
                 <?php endif; ?>
+
+                <?php if ($role === 'admin'): ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo base_url('/saidas'); ?>">
+                            <i class="mdi mdi-arrow-left-bold-circle menu-icon"></i>
+                            <span class="menu-title">Saídas</span>
+                        </a>
+                    </li>
+                <?php endif; ?>
+
                 <?php if ($role === 'admin'): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo base_url('/gerarPagamentos'); ?>">
@@ -63,6 +74,11 @@ function renderMenu($role)
                         </a>
                     </li>
                 <?php endif; ?>
+
+                <hr class="sidebar-divider">
+
+                <li class="nav-item nav-category"><strong>Cadastros Base</strong></li>
+
                 <?php if ($role === 'admin'): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo base_url('/formasPagamento'); ?>">
@@ -71,6 +87,7 @@ function renderMenu($role)
                         </a>
                     </li>
                 <?php endif; ?>
+
                 <?php if ($role === 'admin'): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo base_url('/tiposPagamento'); ?>">
@@ -87,6 +104,9 @@ function renderMenu($role)
                         </a>
                     </li>
                 <?php endif; ?>
+
+                <hr class="sidebar-divider">
+
                 <li class="nav-item">
                     <a class="nav-link" href="<?php echo base_url('/anexos'); ?>">
                         <i class="mdi mdi-file-document-box menu-icon"></i>

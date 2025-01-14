@@ -42,28 +42,6 @@ $role = session('user_role');
             display: flex;
             justify-content: right;
         }
-
-        .nav-category {
-            font-size: 12px;
-            font-weight: bold;
-            color: #6c757d;
-            text-transform: uppercase;
-            margin-top: 15px;
-            border-top: 1px solid #e4e4e4;
-        }
-
-        .sidebar-offcanvas .nav-category {
-            display: block;
-            /* Certifica-se de que está visível */
-        }
-
-        @media (max-width: 768px) {
-            .nav-category {
-                font-size: 14px;
-                padding: 8px 10px;
-                margin-top: 10px;
-            }
-        }
     </style>
 
     <style>

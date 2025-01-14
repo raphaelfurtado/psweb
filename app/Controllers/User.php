@@ -285,4 +285,33 @@ class User extends BaseController
 
         echo view('lista_moradores', $data);
     }
+
+    public function updateSenhaUsuario()
+    {
+        $usuarioModel = new UserModel();
+        $user_id = session()->get('user_id');
+        $usuario = $usuarioModel->find($user_id);
+
+        if (!$usuario) {
+            return redirect()->to('/')->with('msg_error', 'Usuário não encontrado!');
+        }
+
+        if ($this->request->getPost()) {
+
+            $novaSenha = $this->request->getPost('newPassword');
+            $confirmaSenha = $this->request->getPost('confirmPassword');
+
+            if ($novaSenha != $confirmaSenha) {
+                return redirect()->to('/')->with('msg_error', 'A nova senha e a confirmação da senha não coincidem. Por favor, verifique e tente novamente.');
+            } else {
+                $userData['senha'] = password_hash($novaSenha, PASSWORD_DEFAULT);
+
+                if ($usuarioModel->update($user_id, $userData)) {
+                    return redirect()->to('/')->with('msg_success', 'Senha alterada com sucesso!');
+                } else {
+                    return redirect()->to('/')->with('msg_error', 'Erro na alteração de senha contate a administração');
+                }
+            }
+        }
+    }
 }
