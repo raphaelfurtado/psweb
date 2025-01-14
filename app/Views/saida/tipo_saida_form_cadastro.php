@@ -15,7 +15,7 @@
                 <form class="forms-sample" action="<?= base_url('/tipoSaida/cadastrar') ?>" method="POST">
                     <div class="form-group col-md-6">
                         <label for="codigo">Código:</label>
-                        <input type="number" class="form-control" id="codigo" name="codigo"
+                        <input type="text" class="form-control" id="codigo" name="codigo"
                             value="<?= old('codigo') ?>" />
                         <?php if (session('errors.codigo')): ?>
                             <div class="error"><?= session('errors.codigo') ?></div>

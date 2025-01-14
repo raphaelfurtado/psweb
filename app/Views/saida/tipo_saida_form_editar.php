@@ -16,7 +16,7 @@
                     method="POST">
                     <div class="form-group col-md-6">
                         <label for="codigo">Código:</label>
-                        <input type="number" class="form-control" id="codigo" name="codigo"
+                        <input disabled type="text" class="form-control" id="codigo" name="codigo"
                             value="<?= esc($tipo_saida['codigo']) ?>" />
                         <?php if (session('errors.codigo')): ?>
                             <div class="error"><?= session('errors.codigo') ?></div>

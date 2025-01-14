@@ -36,7 +36,7 @@ class TipoSaida extends BaseController
             // Validação e inserção
             if ($tipoSaidaModel->insert($data)) {
                 // Retorno em caso de sucesso
-                return redirect()->to('/tipoSaida')->with('msg_success', 'Funcionário cadastrado com sucesso!');
+                return redirect()->to('/tipoSaida')->with('msg_success', 'Tipo de Saida cadastrado com sucesso!');
             } else {
                 // Retorno em caso de falha
                 return redirect()->back()->withInput()->with('errors', $tipoSaidaModel->errors());
