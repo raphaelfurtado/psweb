@@ -32,7 +32,7 @@
                     <table id="dataTableAnexos" class="table table-striped nowrap table-hover" style="width:100%">
                         <thead>
                             <tr>
-                                <th class="desktop tablet mobile">Cód.</th>
+                                <th class="desktop tablet mobile">OS.</th>
                                 <th class="desktop tablet mobile">Morador</th>
                                 <th class="desktop tablet mobile">Assunto</th>
                                 <th class="desktop">Origem</th>
@@ -47,7 +47,7 @@
                         <tbody>
                             <?php foreach ($anexos as $anexo): ?>
                                 <tr>
-                                    <td><?php echo $anexo['id']; ?></td>
+                                    <td><?php echo $anexo['identifier']; ?></td>
                                     <td><?php echo $anexo['nome_morador']; ?></td>
                                     <td><?php echo $anexo['nome']; ?></td>
                                     <td><?php echo $anexo['form']; ?></td>
