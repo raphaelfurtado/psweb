@@ -2,7 +2,7 @@
 
 function renderMenu($role)
 {
-?>
+    ?>
 
     <div class="container-fluid page-body-wrapper">
         <!-- partial:partials/_sidebar.html -->
@@ -47,6 +47,13 @@ function renderMenu($role)
                 <hr class="sidebar-divider">
 
                 <li class="nav-item nav-category"><strong>Financeiro</strong></li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo base_url('/pagamentos/meus-pagamentos'); ?>">
+                        <i class="mdi mdi mdi-cash-100 menu-icon"></i>
+                        <span class="menu-title">Meus pagamentos</span>
+                    </a>
+                </li>
 
                 <?php if ($role === 'admin'): ?>
                     <li class="nav-item">
@@ -113,12 +120,6 @@ function renderMenu($role)
                         <span class="menu-title">Anexos</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?php echo base_url('/pagamentos/meus-pagamentos'); ?>">
-                        <i class="mdi mdi mdi-cash-100 menu-icon"></i>
-                        <span class="menu-title">Meus pagamentos</span>
-                    </a>
-                </li>
                 <!-- <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
                     <i class="mdi mdi-account menu-icon"></i>
@@ -140,6 +141,6 @@ function renderMenu($role)
         <!-- partial -->
         <div class="main-panel">
             <div class="content-wrapper">
-            <?php
-        }
-            ?>
+                <?php
+}
+?>
