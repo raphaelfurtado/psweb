@@ -32,7 +32,7 @@
                     <table id="dataTableAnexos" class="table table-striped nowrap table-hover" style="width:100%">
                         <thead>
                             <tr>
-                                <th class="desktop tablet mobile">OS.</th>
+                                <th class="desktop tablet mobile">OP.</th>
                                 <th class="desktop tablet mobile">Morador</th>
                                 <th class="desktop tablet mobile">Assunto</th>
                                 <th class="desktop">Origem</th>
