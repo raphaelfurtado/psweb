@@ -1,7 +1,61 @@
 <?php echo $this->include('header', array('titulo' => $titulo)); ?>
 
+
+<?php if (session()->getFlashdata('msg_success')): ?>
+    <div class="alert alert-success" role="alert" id="flash-message">
+        <strong>PSWEB informa: </strong><?php echo session()->getFlashdata('msg_success'); ?>.
+    </div>
+<?php endif; ?>
+
+<?php if (session()->getFlashdata('msg_error')): ?>
+    <div class="alert alert-warning" role="alert" id="flash-message">
+        <strong>PSWEB informa: </strong><?php echo session()->getFlashdata('msg_error'); ?>.
+    </div>
+<?php endif; ?>
+
+
 <h5 class="mb-0 d-inline-block">Bem-vindo, <?php echo $nome; ?></h5>
 <br /><br />
+
+<!-- Modal de Alteração de Senha -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changePasswordLabel">Alterar Senha</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulário de Alteração de Senha -->
+                <form action="<?= base_url('/user/alteraSenha') ?>" method="POST">
+                    <div class="mb-3">
+                        <label for="newPassword" class="form-label">Nova Senha</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="newPassword" name="newPassword" required>
+                            <span class="input-group-text">
+                                <i class="mdi mdi-eye-off" id="showNewPassword"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Confirmar Nova Senha</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                                required>
+                            <span class="input-group-text">
+                                <i class="mdi mdi-eye-off" id="showConfirmPassword"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-primary">Salvar alterações</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
@@ -43,7 +97,7 @@
                                                         <small
                                                             class="mb-1 text-muted">/<?php echo $infoPag['total_quantidade_geral']; ?></small>
                                                         <p class="card-description">
-                                                        faltam <?php echo $infoPag['total_quantidade_aberto']; ?>
+                                                            faltam <?php echo $infoPag['total_quantidade_aberto']; ?>
                                                         </p>
                                                     </h5>
                                                     <h5 class="mb-0">
