@@ -22,7 +22,7 @@
                                 <th class="desktop mobile tablet">Telefone 2</th>
                                 <th class="desktop mobile tablet">Quadra</th>
                                 <th class="desktop mobile tablet">Número</th>
-                                <th class="desktop mobile tablet">Ações</th>
+                                <th class="desktop mobile tablet"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -37,11 +37,12 @@
                                         <td><?php echo $morador->quadra ?? 'Não informado'; ?></td>
                                         <td><?php echo $morador->numero ?? 'Não informado'; ?></td>
                                         <td>
-                                            <a href="<?php echo base_url('/user/editar/' . $morador->id_user) ?>"
-                                                class="text-blue-500 hover:underline">
-                                                Editar
-                                            </a>
-                                        </td>
+                                        <button title="Editar Registro" type="button"
+                                            class="btn btn-primary btn-rounded btn-icon"
+                                            onclick="window.location.href='<?php echo base_url('/user/editar/' . $morador->id_user) ?>'">
+                                            <i class="mdi mdi-pen icon-sm"></i>
+                                        </button>
+                                    </td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>

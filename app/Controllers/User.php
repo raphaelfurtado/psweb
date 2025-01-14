@@ -36,8 +36,6 @@ class User extends BaseController
         echo view('moradores', $data);
     }
 
-
-
     public function inserir()
     {
         $data['titulo'] = 'Inserir novo usuário';
@@ -52,6 +50,7 @@ class User extends BaseController
             $validation->setRules([
                 //     'nome' => 'required|min_length[3]|max_length[50]',
                 'telefone' => 'required|numeric|is_unique[users.telefone]',
+                'nome' => 'required'
                 //     'senha' => 'permit_empty|min_length[6]',
                 //     'rua' => 'required|max_length[15]',
                 //'numero' => 'required|is_unique[endereco.numero]',
@@ -78,6 +77,8 @@ class User extends BaseController
                 'telefone_2' => $this->request->getPost('telefone_2'),
                 'senha' => $this->request->getPost('senha') ? password_hash($this->request->getPost('senha'), PASSWORD_DEFAULT) : null,
                 'role' => 'user', // ou 'admin'
+                'possui_acordo' => $this->request->getPost('possui_acordo'),
+                'acordo' => $this->request->getPost('acordo')
             ];
 
             $userId = $userModel->insert($userData, true); // `true` retorna o ID do registro inserido
@@ -91,6 +92,7 @@ class User extends BaseController
                     'qtd_lote' => $this->request->getPost('qtd_lote'),
                     'data_insert' => date('Y-m-d H:i:s'),
                 ];
+
 
                 if ($enderecoModel->insert($enderecoData)) {
                     session()->setFlashdata('msg', 'Dados inseridos com sucesso!');
@@ -165,6 +167,8 @@ class User extends BaseController
                 'aniversario' => $this->request->getPost('aniversario'),
                 'telefone' => $this->request->getPost('telefone'),
                 'telefone_2' => $this->request->getPost('telefone_2'),
+                'possui_acordo' => $this->request->getPost('possui_acordo'),
+                'acordo' => $this->request->getPost('acordo')
                 //'senha' => $this->request->getPost('senha') ? password_hash($this->request->getPost('senha'), PASSWORD_DEFAULT) : null,
                 //'role' => 'user', // ou 'admin'
             ];

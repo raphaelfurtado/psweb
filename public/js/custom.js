@@ -1,71 +1,68 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const tipoAnexoSelect = document.getElementById('type_anex');
-    const moradorSelect = document.getElementById('morador');
+    const tipoAnexoSelect = document.getElementById('type_anex'); // Pode estar ausente
+    const moradorSelect = document.getElementById('morador'); // Pode estar ausente
+    const acordoTextarea = document.getElementById('acordo'); // Textarea
     const salarioInput = document.getElementById('salario'); // Campo de salário
 
     // Função para habilitar/desabilitar o select morador
     function toggleMoradorSelect() {
-        if (tipoAnexoSelect.value === '2') {
-            moradorSelect.disabled = false;
-        } else {
-            moradorSelect.disabled = true;
-            moradorSelect.value = ''; // Reseta o valor do select
+        if (tipoAnexoSelect && moradorSelect) {
+            if (tipoAnexoSelect.value === '2') {
+                moradorSelect.disabled = false;
+            } else {
+                moradorSelect.disabled = true;
+                moradorSelect.value = ''; // Reseta o valor do select
+            }
+        }
+    }
+
+    // Função para habilitar/desabilitar a textarea acordo com base nos rádios
+    function toggleAcordoTextarea() {
+        const selectedRadio = document.querySelector('input[name="possui_acordo"]:checked');
+        if (selectedRadio) {
+            if (selectedRadio.value === 'SIM') {
+                acordoTextarea.disabled = false; // Habilita a textarea
+            } else {
+                acordoTextarea.disabled = true; // Desabilita a textarea
+                acordoTextarea.value = ''; // Limpa o conteúdo da textarea
+            }
         }
     }
 
     // Formatar salário como moeda
     function formatarSalario() {
-        let valor = salarioInput.value.replace(/[^\d]/g, ''); // Remove caracteres não numéricos
+        if (salarioInput) {
+            let valor = salarioInput.value.replace(/[^\d]/g, ''); // Remove caracteres não numéricos
 
-        if (valor.length) {
-            // Coloca o ponto a cada 3 dígitos
-            valor = valor.replace(/(\d)(\d{3})(\d{3})$/, '$1.$2.$3');
-            valor = valor.replace(/(\d)(\d{3})(\d{1,2})$/, '$1.$2,$3');
-            // Coloca a vírgula para separar os centavos
-            valor = valor.replace(/(\d)(\d{2})$/, '$1,$2');
+            if (valor.length) {
+                // Coloca o ponto a cada 3 dígitos
+                valor = valor.replace(/(\d)(\d{3})(\d{3})$/, '$1.$2.$3');
+                valor = valor.replace(/(\d)(\d{3})(\d{1,2})$/, '$1.$2,$3');
+                // Coloca a vírgula para separar os centavos
+                valor = valor.replace(/(\d)(\d{2})$/, '$1,$2');
+            }
+
+            salarioInput.value = valor ? `R$ ${valor}` : ''; // Adiciona o símbolo de "R$" no início
         }
-
-        salarioInput.value = valor ? `R$ ${valor}` : ''; // Adiciona o símbolo de "R$" no início
     }
 
-    // Adiciona evento de mudança no select tipo_anexo
-    tipoAnexoSelect.addEventListener('change', toggleMoradorSelect);
+    // Adiciona evento de mudança no select tipo_anex, se existir
+    if (tipoAnexoSelect) {
+        tipoAnexoSelect.addEventListener('change', toggleMoradorSelect);
+    }
 
-    // Adiciona evento de entrada no campo salário
+    // Adiciona evento de mudança nos rádios com o nome "possui_acordo"
+    const radioGroup = document.getElementsByName('possui_acordo');
+    radioGroup.forEach(radio => {
+        radio.addEventListener('change', toggleAcordoTextarea);
+    });
+
+    // Adiciona evento de entrada no campo salário, se existir
     if (salarioInput) {
         salarioInput.addEventListener('input', formatarSalario);
     }
 
-    // Chama a função inicialmente para garantir o estado correto
+    // Garante o estado correto ao carregar a página
     toggleMoradorSelect();
+    toggleAcordoTextarea();
 });
-
-// Formatar data no formato dd/mm/yyyy
-function formatInputDate(input) {
-    let value = input.value.replace(/\D/g, ''); // Remove caracteres não numéricos
-
-    // Ajusta o dia (adiciona o zero para dias com 1 dígito)
-    if (value.length >= 1 && value.length <= 2) {
-        value = value.padStart(2, '0'); // Garante que o dia tenha 2 dígitos
-    }
-
-    // Adiciona a barra depois do dia
-    if (value.length > 2) {
-        value = value.slice(0, 2) + '/' + value.slice(2);
-    }
-
-    // Ajusta o mês (adiciona o zero para meses com 1 dígito)
-    if (value.length >= 4 && value.length <= 5) {
-        const dayPart = value.slice(0, 3); // Inclui "dd/"
-        const monthPart = value.slice(3).padStart(2, '0'); // Garante que o mês tenha 2 dígitos
-        value = dayPart + monthPart;
-    }
-
-    // Adiciona a barra depois do mês e ajusta o ano
-    if (value.length > 5) {
-        value = value.slice(0, 5) + '/' + value.slice(5, 9);
-    }
-
-    // Limita a 10 caracteres (dd/mm/yyyy)
-    input.value = value.slice(0, 10);
-}
