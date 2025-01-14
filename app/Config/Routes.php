@@ -86,6 +86,9 @@ $routes->get('/anexo/download/(:any)', 'Anexo::download/$1');
 #PAGAMENTO
 $routes->get('/pagamento/downloadPagamento/(:segment)', 'Pagamento::downloadPagamento/$1');
 
+#MORADOR
+$routes->get('/pagamentos/meus-pagamentos', 'User::pagamentosPorUsuario');
+
 # LOGIN 
 $routes->get('login', 'Auth::login');
 $routes->post('login', 'Auth::login');

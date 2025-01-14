@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Helpers\TableHelper;
 use App\Models\UserModel;
 use App\Models\EnderecoModel;
 use App\Models\PagamentoModel;
@@ -121,7 +122,10 @@ class User extends BaseController
         }
 
         // Obter pagamentos do usuário
-        $pagamentos = $this->getPagamentosPorUsuario($id);
+        $pagamentosData = $this->getPagamentosPorUsuario($id);
+        $pagamentos = $pagamentosData['data']; // Extraindo apenas os pagamentos
+
+        $pagamentosTable = TableHelper::renderPagamentosTable($pagamentos);
 
         if ($this->request->getPost()) {
             // Validar os dados recebidos
@@ -190,10 +194,34 @@ class User extends BaseController
             'tituloRedirect' => 'Voltar para Lista de Usuários',
             'usuario' => $usuario,
             'endereco' => $endereco,
-            'pagamentos' => $pagamentos['data'],
+            'pagamentosTable' => $pagamentosTable,
         ];
 
         return view('user_form', $data);
+    }
+
+    public function pagamentosPorUsuario()
+    {
+        // Pega o usuário logado da sessão
+        $session = session();
+        $idUsuario = $session->get('user_id');
+
+        if (!$idUsuario) {
+            // Redireciona caso não exista um usuário autenticado
+            return redirect()->to('/login')->with('msg', 'Usuário não autenticado!')->with('msg_type', 'error');
+        }
+
+        // Obter os pagamentos usando o método já existente
+        $pagamentosData = $this->getPagamentosPorUsuario($idUsuario);
+        $pagamentos = $pagamentosData['data'];
+
+        // Renderiza a tabela usando o helper ou diretamente na view
+        $data['pagamentosTable'] = TableHelper::renderPagamentosTable($pagamentos);
+
+        $data['titulo'] = 'Meu pagamentos';
+
+        // Carrega a view específica para exibir os pagamentos
+        return view('pagamentos_por_morador', $data);
     }
 
     private function getPagamentosPorUsuario($idUsuario)
@@ -204,16 +232,20 @@ class User extends BaseController
             ->select('pagamento.*, 
             pagamento.id as id_pagamento,
             users.nome as nome_morador, 
+            users.role as role,
             recebedor.nome as nome_recebedor, 
             endereco.*,
             tipo_pagamento.descricao as desc_pagamento,
-            forma_pagamento.descricao as desc_forma_pagto
+            forma_pagamento.descricao as desc_forma_pagto,
+            files.id as id_anexo,
+            files.stored_name as stored_name
         ')
             ->join('users', 'users.id = pagamento.id_usuario')
             ->join('recebedor', 'recebedor.id = pagamento.id_recebedor')
             ->join('endereco', 'endereco.id_usuario = users.id')
             ->join('tipo_pagamento', 'tipo_pagamento.codigo = pagamento.id_tipo_pagamento')
             ->join('forma_pagamento', 'forma_pagamento.codigo = pagamento.id_forma_pagamento')
+            ->join('files', 'files.id_morador = pagamento.id_usuario AND files.identifier = pagamento.id AND files.form = "PAGAMENTO"', 'left')
             ->where('pagamento.id_usuario', $idUsuario)
             ->orderBy('pagamento.id', 'DESC')
             ->findAll();
