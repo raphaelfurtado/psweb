@@ -8,7 +8,7 @@ class UserModel extends Model
 {
     protected $table = 'users';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['telefone', 'telefone_2', 'aniversario', 'nome', 'senha', 'role'];
+    protected $allowedFields = ['telefone', 'telefone_2', 'aniversario', 'nome', 'possui_acordo', 'acordo', 'senha', 'role'];
     protected $returnType = 'object';
 
     public function login($telefone, $senha)
@@ -21,4 +21,5 @@ class UserModel extends Model
 
         return false;
     }
+
 }

@@ -14,6 +14,7 @@ function renderMenu($role)
                         <span class="menu-title">Início</span>
                     </a>
                 </li>
+
                 <?php if ($role === 'admin'): ?>
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo base_url('/users'); ?>">
@@ -78,13 +79,21 @@ function renderMenu($role)
                         </a>
                     </li>
                 <?php endif; ?>
+                <?php if ($role === 'admin'): ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo base_url('/tipoSaida'); ?>">
+                            <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+                            <span class="menu-title">Tipos de Saída</span>
+                        </a>
+                    </li>
+                <?php endif; ?>
                 <li class="nav-item">
                     <a class="nav-link" href="<?php echo base_url('/anexos'); ?>">
                         <i class="mdi mdi-file-document-box menu-icon"></i>
                         <span class="menu-title">Anexos</span>
                     </a>
                 </li>
-                <!-- <li class="nav-item">
+                <!-- 
                 <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
                     <i class="mdi mdi-account menu-icon"></i>
                     <span class="menu-title">User Pages</span>
@@ -99,7 +108,7 @@ function renderMenu($role)
                         <li class="nav-item"> <a class="nav-link" href="#"> Lockscreen </a></li>
                     </ul>
                 </div>
-            </li> -->
+                </li> -->
             </ul>
         </nav>
         <!-- partial -->
