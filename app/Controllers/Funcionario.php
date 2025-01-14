@@ -22,7 +22,7 @@ class Funcionario extends BaseController
         // var_dump($data);
         // die();
 
-        echo view('funcionario_index', $data);
+        echo view('funcionario/funcionario_index', $data);
     }
 
     public function cadastrar()
@@ -85,7 +85,7 @@ class Funcionario extends BaseController
         $data['acao'] = 'Inserir';
         $data['msg'] = $responseMessage;
 
-        return view('funcionario_form_cadastrar', $data);
+        return view('funcionario/funcionario_form_cadastrar', $data);
     }
 
     public function editar($id)
@@ -179,6 +179,6 @@ class Funcionario extends BaseController
         $data['acao'] = 'Atualizar';
         $data['msg'] = $responseMessage;
 
-        return view('funcionario_form_editar', $data);
+        return view('funcionario/funcionario_form_editar', $data);
     }
 }

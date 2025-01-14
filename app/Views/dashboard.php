@@ -1,8 +1,4 @@
-<?php echo $this->include('template/header', array('titulo' => $titulo)); ?>
-
-<?php echo $this->include('template/topbar'); ?>
-
-<?php echo $this->include('template/sidebar', array('role' => $role)); ?>
+<?php echo $this->include('header', array('titulo' => $titulo)); ?>
 
 <h5 class="mb-0 d-inline-block">Bem-vindo, <?php echo $nome; ?></h5>
 <br /><br />
