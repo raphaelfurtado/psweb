@@ -83,6 +83,9 @@ $routes->group('', ['filter' => 'role:admin'], function ($routes) {
 $routes->get('/anexos', 'Anexo::index');
 $routes->get('/anexo/download/(:any)', 'Anexo::download/$1');
 
+#PAGAMENTO
+$routes->get('/pagamento/downloadPagamento/(:segment)', 'Pagamento::downloadPagamento/$1');
+
 # LOGIN 
 $routes->get('login', 'Auth::login');
 $routes->post('login', 'Auth::login');

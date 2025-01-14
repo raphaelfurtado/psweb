@@ -1,5 +1,17 @@
 <?php echo $this->include('header', array('titulo' => $titulo)); ?>
 
+<?php if (session()->getFlashdata('msg')): ?>
+    <?php
+    $msg = session()->getFlashdata('msg');
+    $msgType = session()->getFlashdata('msg_type');
+    $alertClass = $msgType === 'success' ? 'alert alert-success' : 'alert alert-danger';
+    ?>
+    <div class="alert <?= $alertClass ?>" role="alert" id="flash-message">
+        <strong>PSWEB informa: </strong><?= $msg ?>
+    </div>
+
+<?php endif; ?>
+
 <div class="row">
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
@@ -91,11 +103,13 @@
                                                         <i class="mdi mdi-pencil"></i> Editar
                                                     </a>
                                                 </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="<?php echo base_url('anexo/download/' . $pagamento->stored_name); ?>">
-                                                        <i class="mdi mdi-eye"></i> Anexo
-                                                    </a>
-                                                </li>
+                                                <?php if ($pagamento->stored_name != ''): ?>
+                                                    <li>
+                                                        <a class="dropdown-item" href="<?php echo base_url('/pagamento/downloadPagamento/' . $pagamento->stored_name); ?>" target="_blank">
+                                                            <i class="mdi mdi-eye"></i> Anexo
+                                                        </a>
+                                                    </li>
+                                                <?php endif; ?>
                                             </ul>
                                         </div>
                                     </td>

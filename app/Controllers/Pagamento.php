@@ -243,17 +243,17 @@ class Pagamento extends BaseController
             if ($deleteAnexo) {
 
                 $anexo = $anexoModel->where('id_morador', $pagamento->id_usuario)
-                                    ->where('form', 'PAGAMENTO')
-                                    ->where('identifier', $id)
-                                    ->first();
-    
+                    ->where('form', 'PAGAMENTO')
+                    ->where('identifier', $id)
+                    ->first();
+
                 if ($anexo) {
                     // Remover o arquivo físico
                     $filePath = WRITEPATH . 'uploads/' . $anexo['stored_name'];
                     if (file_exists($filePath)) {
                         unlink($filePath);
                     }
-    
+
                     // Excluir o registro do banco de dados
                     $anexoModel->delete($anexo['id']);
                 }
@@ -307,5 +307,29 @@ class Pagamento extends BaseController
             // Caso ocorra algum erro na execução da procedure
             return redirect()->back()->with('error', 'Erro ao gerar pagamentos: ' . $e->getMessage());
         }
+    }
+
+    public function downloadPagamento($storedName)
+    {
+        // Caminho completo do arquivo
+        $filePath = WRITEPATH . 'uploads/' . $storedName;
+
+        // Verifica se o arquivo existe
+        if (!file_exists($filePath)) {
+            // Define a mensagem de erro e redireciona
+            session()->setFlashdata('msg', 'O arquivo solicitado não foi encontrado. Verifique e tente novamente.');
+            session()->setFlashdata('msg_type', 'error'); // Define o tipo de mensagem como erro
+
+            return redirect()->back(); // Retorna para a página anterior
+        }
+
+        // Determina o tipo MIME do arquivo
+        $mimeType = mime_content_type($filePath);
+
+        // Retorna o arquivo como resposta para visualização no navegador
+        return $this->response
+            ->setHeader('Content-Type', $mimeType)
+            ->setHeader('Content-Disposition', 'inline; filename="' . basename($storedName) . '"')
+            ->setBody(file_get_contents($filePath));
     }
 }
