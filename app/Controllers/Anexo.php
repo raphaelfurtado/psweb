@@ -61,7 +61,7 @@ class Anexo extends BaseController
         // die();
 
         // echo view('anexos', $data);
-        echo view('anexo_index', $data);
+        echo view('anexo/anexo_index', $data);
     }
 
     public function upload()
@@ -129,7 +129,7 @@ class Anexo extends BaseController
         }
 
         // Se não for AJAX, renderiza a view normalmente
-        return view('anexo_form', $data);
+        return view('anexo/anexo_form', $data);
     }
 
     public function download($filename)

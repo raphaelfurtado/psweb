@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
     const tableConfigs = {
         '#dataTableAnexos': {
-            nonSearchable: [7],
-            nonOrderable: [0, 1, 2, 3, 4, 5, 6, 7],
-            centeredColumns: [1, 2, 4, 5, 7],
-            modalTitleColumn: 0
+            nonSearchable: [0, 9],
+            nonOrderable: [2, 3, 5, 6, 7, 8],
+            centeredColumns: [0, 2, 3, 5, 6, 7, 9],
+            modalTitleColumn: 1
         },
         '#dataTablePagamentos': {
             nonSearchable: [0, 13],
