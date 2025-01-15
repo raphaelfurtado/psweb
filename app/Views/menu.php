@@ -23,7 +23,7 @@ function renderMenu($role)
                 </li>
 
                 <?php if ($role === 'admin'): ?>
-                    <hr class="sidebar-divider">
+                    <hr class="sidebar-divider mt-0">
                     <li class="nav-item nav-category"><strong>Cadastros</strong></li>
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo base_url('/users'); ?>">
@@ -50,7 +50,7 @@ function renderMenu($role)
                 <?php endif; ?>
 
                 <?php if ($role === 'admin'): ?>
-                    <hr class="sidebar-divider">
+                    <hr class="sidebar-divider mt-0">
 
                     <li class="nav-item nav-category"><strong>Financeiro</strong></li>
 
@@ -83,7 +83,7 @@ function renderMenu($role)
 
                 <?php if ($role === 'admin'): ?>
 
-                    <hr class="sidebar-divider">
+                    <hr class="sidebar-divider mt-0">
 
                     <li class="nav-item nav-category"><strong>Cadastros Base</strong></li>
 

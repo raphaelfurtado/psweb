@@ -49,11 +49,24 @@ class User extends BaseController
 
             $validation->setRules([
                 //     'nome' => 'required|min_length[3]|max_length[50]',
-                'telefone' => 'required|numeric|is_unique[users.telefone]',
-                'nome' => 'required'
+                'telefone' => [
+                    'rules' => 'required|numeric|is_unique[users.telefone]',
+                    'errors' => [
+                        'required' => 'O campo telefone é obrigatório.',
+                        'numeric' => 'O campo telefone deve conter apenas números.',
+                        'is_unique' => 'Este telefone já está cadastrado.',
+                    ],
+                ],
+                'nome' => 'required',
                 //     'senha' => 'permit_empty|min_length[6]',
                 //     'rua' => 'required|max_length[15]',
-                //'numero' => 'required|is_unique[endereco.numero]',
+                'numero' => [
+                    'rules' => 'required|validateUniqueQuadraNumero[quadra]',
+                    'errors' => [
+                        'required' => 'O campo número é obrigatório.',
+                        'validateUniqueQuadraNumero' => 'Já existe uma casa com este número nesta quadra.',
+                    ],
+                ],
                 //     'quadra' => 'required',
                 //     'qtd_lote' => 'required|numeric',
             ]);
