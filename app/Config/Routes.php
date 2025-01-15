@@ -31,11 +31,12 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 
 $routes->group('', ['filter' => 'role:admin'], function ($routes) {
-    # MORADOR/USUARIO
+    # MORADOR/USUARIO ROTAS PRIVADAS
     $routes->get('/user/inserir', 'User::inserir');
     $routes->post('/user/inserir', 'User::inserir');
     $routes->get('/users', 'User::index');
     $routes->match(['get', 'post'], 'user/editar/(:num)', 'User::editar/$1');
+    $routes->post('/user/gerarPagamentosMorador', 'User::gerarPagamentosMorador'); // Executa a procedure
 
     # RECEBEDOR
     $routes->get('/recebedor/inserir', 'Recebedor::inserir');

@@ -114,7 +114,7 @@ class PagamentoModel extends Model
     public function getUsuariosSemPagamentosAnoCorrente()
     {
         $currentYear = date('Y'); // Obtém o ano atual
-
+        
         // Subquery para obter os IDs dos usuários que possuem pagamentos no ano corrente
         $subquery = $this->db->table('pagamento')
             ->select('id_usuario')
@@ -129,5 +129,4 @@ class PagamentoModel extends Model
 
         return $query->getResult(); // Retorna os resultados como um array de objetos
     }
-
 }

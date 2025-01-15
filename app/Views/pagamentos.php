@@ -9,7 +9,15 @@
     <div class="alert <?= $alertClass ?>" role="alert" id="flash-message">
         <strong>PSWEB informa: </strong><?= $msg ?>
     </div>
+<?php endif; ?>
 
+<?php if (session()->getFlashdata('msg_success')): ?>
+    <div class="alert alert-success alert-dismissible fade show mb-0" role="alert">
+        <strong>PSWEB informa:</strong> <?php echo session()->getFlashdata('msg_success'); ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 <?php endif; ?>
 
 <div class="row">
@@ -83,7 +91,8 @@
                                     <td><?php echo $pagamento->nome_morador ?></td>
                                     <td><?php echo $pagamento->quadra ?></td>
                                     <td><?php echo $pagamento->numero ?></td>
-                                    <td><?php echo date('d/m/Y', strtotime($pagamento->data_pagamento)) ?></td>
+                                    <td><?php echo isset($pagamento->data_pagamento) ? date('d/m/Y', strtotime($pagamento->data_pagamento)) : '' ?>
+                                    </td>
                                     <td><span class=<?= $class ?>><?php echo date('d/m/Y', strtotime($pagamento->data_vencimento)) ?></span></td>
                                     <td><?php echo $pagamento->referencia ?></td>
                                     <td><?php echo $pagamento->nome_recebedor ?></td>
@@ -94,18 +103,22 @@
                                     <td><?php echo $pagamento->observacao ?></td>
                                     <td>
                                         <div class="dropdown">
-                                            <button class="btn btn-icon btn-rounded" type="button" id="actionMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <button class="btn btn-icon btn-rounded" type="button" id="actionMenu"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
                                                 <i class="mdi mdi-dots-horizontal"></i>
                                             </button>
                                             <ul class="dropdown-menu" aria-labelledby="actionMenu">
                                                 <li>
-                                                    <a class="dropdown-item" href="<?php echo base_url('/pagamento/editar/' . $pagamento->id_pagamento); ?>">
+                                                    <a class="dropdown-item"
+                                                        href="<?php echo base_url('/pagamento/editar/' . $pagamento->id_pagamento); ?>">
                                                         <i class="mdi mdi-pencil"></i> Editar
                                                     </a>
                                                 </li>
                                                 <?php if ($pagamento->stored_name != ''): ?>
                                                     <li>
-                                                        <a class="dropdown-item" href="<?php echo base_url('/pagamento/downloadPagamento/' . $pagamento->stored_name); ?>" target="_blank">
+                                                        <a class="dropdown-item"
+                                                            href="<?php echo base_url('/pagamento/downloadPagamento/' . $pagamento->stored_name); ?>"
+                                                            target="_blank">
                                                             <i class="mdi mdi-eye"></i> Anexo
                                                         </a>
                                                     </li>

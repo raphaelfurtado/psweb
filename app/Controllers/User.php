@@ -8,6 +8,7 @@ use App\Models\EnderecoModel;
 use App\Models\PagamentoModel;
 use CodeIgniter\Config\Services;
 use Config\Database;
+use CodeIgniter\Database\Exceptions\DatabaseException;
 
 class User extends BaseController
 {
@@ -15,7 +16,9 @@ class User extends BaseController
     public function index()
     {
         $userModel = new UserModel();
+        $pagamentoModel = new PagamentoModel();
 
+        $moradoresPagamentoNaoCadastrado = $pagamentoModel->getUsuariosSemPagamentosAnoCorrente();
         $nome = $this->request->getGet('nome');
 
         // Realiza o JOIN com a tabela de endereços
@@ -28,10 +31,11 @@ class User extends BaseController
         }
 
         $data['moradores'] = $query->findAll();
-        $data['titulo'] = 'Lista de moradores';
+        $data['titulo'] = 'Moradores Cadastrados';
         $data['link'] = '/user/inserir';
         $data['tituloRedirect'] = '+ Inserir Novo Usuário';
         $data['nome'] = $nome ?? '';
+        $data['pagamentosNaoCadastrados'] = $moradoresPagamentoNaoCadastrado;
 
         echo view('moradores', $data);
     }
@@ -330,6 +334,30 @@ class User extends BaseController
                     return redirect()->to('/')->with('msg_error', 'Erro na alteração de senha contate a administração');
                 }
             }
+        }
+    }
+
+    public function gerarPagamentosMorador()
+    {
+        $pagamentoModel = new PagamentoModel();
+        // Recupera o ano do formulário
+        $ano = date('Y');
+        $moradores = $pagamentoModel->getUsuariosSemPagamentosAnoCorrente(); // Pega os nomes dos moradores via post
+
+        // Extrai os nomes dos moradores usando array_map
+        $nomes = implode(', ', array_map(function ($morador) {
+            return $morador->nome; // Supondo que cada objeto tenha uma propriedade 'nome'
+        }, $moradores));
+
+        try {
+            // Executa a procedure no banco de dados
+            $db = Database::connect();
+            $db->query("CALL gerar_pagamentos_ano_flexivel($ano)");
+            // Retorno de sucesso, incluindo os nomes dos moradores
+            return redirect()->to('/pagamentos')->with('msg_success', 'Pagamentos para o ano ' . $ano . ' gerados com sucesso para: ' . $nomes);
+        } catch (DatabaseException $e) {
+            // Caso ocorra algum erro na execução da procedure
+            return redirect()->to('/moradores')->with('msg_error', 'Erro ao gerar pagamentos. Contate o desenvolvedor.');
         }
     }
 }
