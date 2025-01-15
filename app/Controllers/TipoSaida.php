@@ -6,10 +6,8 @@ use App\Models\TipoSaidaModel;
 
 class TipoSaida extends BaseController
 {
-
     public function index()
     {
-
         $user_id = session()->get('user_id');
         $user_role = session()->get('user_role');
 
@@ -44,7 +42,7 @@ class TipoSaida extends BaseController
         }
         // Preparando os dados para enviar para a view
         $data['link'] = '/tipoSaida';
-        $data['tituloRedirect'] = 'Voltar para Lista de Anexos';
+        $data['tituloRedirect'] = 'Voltar para Lista de Tipos de Saída';
         $data['titulo'] = 'Cadastrar Tipo de Saída';
         $data['acao'] = 'Inserir';
 
@@ -82,12 +80,11 @@ class TipoSaida extends BaseController
         // Passa os dados para o formulário de edição
         $data['tipo_saida'] = $tipoSaida;
         $data['link'] = '/tipoSaida';
-        $data['tituloRedirect'] = 'Voltar para Lista de Anexos';
+        $data['tituloRedirect'] = 'Voltar para Lista de Tipos de Saída';
         $data['titulo'] = 'Editar Tipo de Saída';
         $data['acao'] = 'Atualizar';
 
         return view('saida/tipo_saida_form_editar', $data);
-
     }
 
 

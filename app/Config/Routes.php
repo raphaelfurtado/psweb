@@ -57,15 +57,21 @@ $routes->group('', ['filter' => 'role:admin'], function ($routes) {
     $routes->get('/saidas', 'Saida::index');
     $routes->match(['get', 'post'], 'saida/editar/(:num)', 'Saida::editar/$1');
 
-    # TIPO DE PAGAMENTO
+    # TIPO DE PAGAMENTO ROTAS PRIVADAS
     $routes->get('/tipoPagamento/inserir', 'TipoPagamento::inserir');
     $routes->post('/tipoPagamento/inserir', 'TipoPagamento::inserir');
     $routes->get('/tiposPagamento', 'TipoPagamento::index');
+    $routes->match(['get', 'post'], 'tipoPagamento/editar/(:num)', 'TipoPagamento::editar/$1');
+    $routes->get('/tipoPagamento/desativar/(:num)', 'TipoPagamento::desativar/$1');
+    $routes->get('/tipoPagamento/ativar/(:num)', 'TipoPagamento::ativar/$1');
 
-    # FORMA DE PAGAMENTO
+    # FORMA DE PAGAMENTO ROTAS PRIVADAS
     $routes->get('/formaPagamento/inserir', 'FormaPagamento::inserir');
     $routes->post('/formaPagamento/inserir', 'FormaPagamento::inserir');
     $routes->get('/formasPagamento', 'FormaPagamento::index');
+    $routes->match(['get', 'post'], 'formaPagamento/editar/(:num)', 'FormaPagamento::editar/$1');
+    $routes->get('/formaPagamento/desativar/(:num)', 'FormaPagamento::desativar/$1');
+    $routes->get('/formaPagamento/ativar/(:num)', 'FormaPagamento::ativar/$1');
 
     # ANEXO ROTAS PRIVADAS
     $routes->get('/anexo/upload', 'Anexo::upload');

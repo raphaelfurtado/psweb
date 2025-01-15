@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const tableConfigs = {
         '#dataTableAnexos': {
             nonSearchable: [0, 9],
-            nonOrderable: [2, 3, 5, 6, 7, 8],
+            nonOrderable: [2, 3, 5, 6, 7, 9],
             centeredColumns: [0, 2, 3, 5, 6, 7, 9],
             modalTitleColumn: 1
         },
@@ -28,6 +28,18 @@ document.addEventListener('DOMContentLoaded', function () {
             modalTitleColumn: 1
         },
         '#dataTableSaida': {
+            nonSearchable: [3],
+            nonOrderable: [2, 3],
+            centeredColumns: [0, 2, 3],
+            modalTitleColumn: 1
+        },
+        '#dataTableTipoPagamento': {
+            nonSearchable: [3],
+            nonOrderable: [2, 3],
+            centeredColumns: [0, 2, 3],
+            modalTitleColumn: 1
+        },
+        '#dataTableFormaPagamento': {
             nonSearchable: [3],
             nonOrderable: [2, 3],
             centeredColumns: [0, 2, 3],
