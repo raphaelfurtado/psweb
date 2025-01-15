@@ -48,7 +48,7 @@ class Pagamento extends BaseController
         //echo $pagadorModel->getLastQuery();
         $data['totalPago'] = $totalPago->total ?? 0;
         $data['totalSaida'] = $totalSaida->total ?? 0;
-        $data['titulo'] = 'Lista de Pagamento';
+        $data['titulo'] = 'Pagamentos Cadastrados';
 
         echo view('pagamentos', $data);
     }

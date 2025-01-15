@@ -267,10 +267,10 @@ class User extends BaseController
             files.stored_name as stored_name
         ')
             ->join('users', 'users.id = pagamento.id_usuario')
-            ->join('recebedor', 'recebedor.id = pagamento.id_recebedor')
+            ->join('recebedor', 'recebedor.id = pagamento.id_recebedor', 'left')
             ->join('endereco', 'endereco.id_usuario = users.id')
             ->join('tipo_pagamento', 'tipo_pagamento.codigo = pagamento.id_tipo_pagamento')
-            ->join('forma_pagamento', 'forma_pagamento.codigo = pagamento.id_forma_pagamento')
+            ->join('forma_pagamento', 'forma_pagamento.codigo = pagamento.id_forma_pagamento', 'left')
             ->join('files', 'files.id_morador = pagamento.id_usuario AND files.identifier = pagamento.id AND files.form = "PAGAMENTO"', 'left')
             ->where('pagamento.id_usuario', $idUsuario)
             ->orderBy('pagamento.id', 'DESC')

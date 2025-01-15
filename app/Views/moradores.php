@@ -26,7 +26,7 @@
                         <div class="d-flex align-items-center">
                             <label class="mr-2" style="font-size: 1rem;">
                                 <i class="text-danger mdi mdi-alert-circle"></i>
-                                Todos os usuários possuem pagamentos no ano corrente.
+                                Todos os moradores possuem pagamentos no ano corrente.
                             </label>
                         </div>
                     <?php endif; ?>
