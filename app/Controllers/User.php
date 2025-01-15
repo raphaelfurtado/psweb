@@ -72,7 +72,7 @@ class User extends BaseController
             ]);
 
             if (!$validation->withRequest($this->request)->run()) {
-                session()->setFlashdata('msg', 'Erro de validação: ' . implode(', ', $validation->getErrors()));
+                session()->setFlashdata('msg', implode(', ', $validation->getErrors()));
                 session()->setFlashdata('msg_type', 'error');
                 return view('user_form', $data);
             }
