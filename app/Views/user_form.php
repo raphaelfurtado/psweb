@@ -33,43 +33,43 @@
                 <div class="form-group">
                     <label for="nome">Nome</label>
                     <input type="text" id="nome" name="nome"
-                        value="<?php echo (isset($usuario) ? $usuario->nome : '') ?>" class="form-control" required>
+                        value="<?php echo old('nome', isset($usuario) ? $usuario->nome : ''); ?>" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label for="aniversario">Aniversário</label>
                     <input type="date" id="aniversario" name="aniversario"
-                        value="<?php echo (isset($usuario) ? $usuario->aniversario : '') ?>" class="form-control"
+                        value="<?php echo old('aniversario', isset($usuario) ? $usuario->aniversario : '') ?>" class="form-control"
                         required>
                 </div>
                 <div class="form-group">
                     <label for="telefone">Telefone</label>
                     <input type="text" id="telefone" name="telefone"
-                        value="<?php echo (isset($usuario) ? $usuario->telefone : '') ?>" class="form-control" required>
+                        value="<?php echo old('telefone', isset($usuario) ? $usuario->telefone : '') ?>" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label for="telefone_2">Telefone 2</label>
                     <input type="text" id="telefone_2" name="telefone_2"
-                        value="<?php echo (isset($usuario) ? $usuario->telefone_2 : '') ?>" class="form-control">
+                        value="<?php echo old('telefone_2', isset($usuario) ? $usuario->telefone_2 : '') ?>" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="rua">Rua</label>
                     <input type="text" id="rua" name="rua"
-                        value="<?php echo (isset($endereco) ? $endereco->rua : '') ?>" class="form-control">
+                        value="<?php echo old('rua', isset($endereco) ? $endereco->rua : '') ?>" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="quadra">Quadra</label>
                     <input type="text" id="quadra" name="quadra"
-                        value="<?php echo (isset($endereco) ? $endereco->quadra : '') ?>" class="form-control">
+                        value="<?php echo old('quadra', isset($endereco) ? $endereco->quadra : '') ?>" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="numero">Número</label>
                     <input type="text" id="numero" name="numero"
-                        value="<?php echo (isset($endereco) ? $endereco->numero : '') ?>" class="form-control" required>
+                        value="<?php echo old('numero', isset($endereco) ? $endereco->numero : '') ?>" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label for="qtd_lote">Qtd Lote</label>
                     <input type="number" id="qtd_lote" name="qtd_lote"
-                        value="<?php echo (isset($endereco) ? $endereco->qtd_lote : '') ?>" class="form-control">
+                        value="<?php echo old('qtd_lote', isset($endereco) ? $endereco->qtd_lote : '') ?>" class="form-control">
                 </div>
 
                 <div class="row">
@@ -80,7 +80,8 @@
                                 <div class="form-check">
                                     <label class="form-check-label">
                                         <input type="radio" class="form-check-input" name="possui_acordo"
-                                            id="acordoRadios2" value="NAO" <?php echo !isset($usuario) || is_null($usuario->possui_acordo) || $usuario->possui_acordo === 'NAO' ? 'checked' : ''; ?>>
+                                            id="acordoRadios2" value="NAO"
+                                            <?= old('possui_acordo', isset($usuario) ? $usuario->possui_acordo : 'NAO') === 'NAO' ? 'checked' : '' ?>>
                                         Não
                                     </label>
                                 </div>
@@ -89,7 +90,8 @@
                                 <div class="form-check">
                                     <label class="form-check-label">
                                         <input type="radio" class="form-check-input" name="possui_acordo"
-                                            id="acordoRadios1" value="SIM" <?php echo isset($usuario) && $usuario->possui_acordo === 'SIM' ? 'checked' : ''; ?>>
+                                            id="acordoRadios1" value="SIM"
+                                            <?= old('possui_acordo', isset($usuario) ? $usuario->possui_acordo : '') === 'SIM' ? 'checked' : '' ?>>
                                         Sim
                                     </label>
                                 </div>
@@ -97,11 +99,12 @@
                         </div>
                     </div>
 
+
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="acordo">Acordo</label>
                             <textarea class="form-control" id="acordo" name="acordo"
-                                rows="4"><?php echo isset($usuario) ? $usuario->acordo : '' ?></textarea>
+                                rows="4"><?php echo old('acordo', isset($usuario) ? $usuario->acordo : '') ?></textarea>
                         </div>
                     </div>
                 </div>
