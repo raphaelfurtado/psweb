@@ -58,7 +58,12 @@ class User extends BaseController
                     ],
                 ],
                 'nome' => 'required',
-                //     'senha' => 'permit_empty|min_length[6]',
+                'senha' => [
+                    'rules' => 'permit_empty|min_length[6]',
+                    'errors' => [
+                        'permit_empty|min_length[6]' => 'Senha não pode ser vazia ou menor que 6 caracteres.'
+                    ]
+                ],
                 //     'rua' => 'required|max_length[15]',
                 'numero' => [
                     'rules' => 'required|validateUniqueQuadraNumero[quadra]',
@@ -74,7 +79,7 @@ class User extends BaseController
             if (!$validation->withRequest($this->request)->run()) {
                 session()->setFlashdata('msg', implode(', ', $validation->getErrors()));
                 session()->setFlashdata('msg_type', 'error');
-                return view('user_form', $data);
+                return redirect()->back()->withInput()->with('msg', implode(', ', $validation->getErrors()))->with('msg_type', 'error');
             }
 
             // $db = Database::connect();
