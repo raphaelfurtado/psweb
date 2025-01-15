@@ -269,7 +269,7 @@ class Pagamento extends BaseController
         }
 
         $data['pagamento'] = $pagadorModel->find($id);
-        $data['anexo']     = $anexoModel->getAnexoByMoradorFormIdentifier($data['pagamento']->id_usuario, 'PAGAMENTO', $id);
+        $data['anexo'] = $anexoModel->getAnexoByMoradorFormIdentifier($data['pagamento']->id_usuario, 'PAGAMENTO', $id);
         $data['situacoes'] = explode("','", $matches[1]);
 
         echo view('pagamento_form', $data);
@@ -279,33 +279,29 @@ class Pagamento extends BaseController
     {
 
         $data['link'] = '/pagamentos';
-        $data['tituloRedirect'] = 'Voltar para Lista de Pagamentos';
         $data['titulo'] = 'Gerar Pagamentos';
         $data['acao'] = 'Gerar';
-        $data['msg'] = '';
 
-        return view('gerar_pagamentos', $data);
+        return view('pagamento/gerar_pagamentos', $data);
     }
 
     public function gerarPagamentos()
     {
         // Recupera o ano do formulário
+
         $ano = $this->request->getPost('ano');
-
         if (!$ano) {
-            return redirect()->back()->with('error', 'Ano é obrigatório.');
+            return redirect()->to('/gerarPagamentos')->with('msg_alert', 'Informe o ano!');
         }
-
         try {
             // Executa a procedure no banco de dados
             $db = Database::connect();
             $db->query("CALL gerar_pagamentos_ano_flexivel($ano)");
-
             // Retorno de sucesso
-            return redirect()->to('/gerarPagamentos')->with('success', 'Pagamentos gerados com sucesso.');
+            return redirect()->to('/gerarPagamentos')->with('msg_success', 'Pagamentos para o ano ' . $ano . ' gerados com sucesso.');
         } catch (DatabaseException $e) {
             // Caso ocorra algum erro na execução da procedure
-            return redirect()->back()->with('error', 'Erro ao gerar pagamentos: ' . $e->getMessage());
+            return redirect()->to('/gerarPagamentos')->with('msg_error', 'Erro ao gerar pagamentos. Contate o desenvolvedor.');
         }
     }
 

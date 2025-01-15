@@ -1,44 +1,80 @@
 <?php echo $this->include('header', array('titulo' => $titulo)); ?>
 
-<div class="container mx-auto p-4">
+<?php if (session()->getFlashdata('msg_success')): ?>
+    <div class="alert alert-success" role="alert" id="flash-message">
+        <strong>PSWEB informa: </strong><?php echo session()->getFlashdata('msg_success'); ?>.
+    </div>
+<?php endif; ?>
 
-    <h2 class="text-2xl font-bold mb-4 text-center sm:text-left"><?php echo $titulo ?></h2>
+<?php if (session()->getFlashdata('msg_alert')): ?>
+    <div class="alert alert-warning" role="alert" id="flash-message">
+        <strong>PSWEB informa: </strong><?php echo session()->getFlashdata('msg_error'); ?>.
+    </div>
+<?php endif; ?>
 
-    <?php if (session()->getFlashdata('error')): ?>
-        <div style="color: red;">
-            <?= session()->getFlashdata('error') ?>
-        </div>
-    <?php endif; ?>
-    <?php if (session()->getFlashdata('success')): ?>
-        <div style="color: green;">
-            <?= session()->getFlashdata('success') ?>
-        </div>
-    <?php endif; ?>
+<?php if (session()->getFlashdata('msg_error')): ?>
+    <div class="alert alert-danger" role="danger" id="flash-message">
+        <strong>PSWEB informa: </strong><?php echo session()->getFlashdata('msg_error'); ?>.
+    </div>
+<?php endif; ?>
 
-    <p class="mb-4 text-center sm:text-left">
-        <a href="<?php echo base_url($link) ?>" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
-            <?php echo $tituloRedirect ?>
-        </a>
-    </p>
-    <br />
-    <div id="content">
-        <form method="post" class="space-y-4 bg-white p-6 rounded shadow">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                    <label for="ano" class="block font-medium">Ano:</label>
-                    <input type="number" id="ano" name="ano"
-                        class="w-full border border-gray-300 rounded px-3 py-2" placeholder="Ex: 2025" required>
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="template-demo">
+                    <a href="<?php echo base_url($link) ?>" class="btn btn-primary text-white">
+                        <i class="mdi mdi-keyboard-return btn-icon-prepend"></i>
+                        Voltar para a lista de pagamentos
+                    </a>
                 </div>
+                <br />
+                <h4 class="card-title text-center"><?php echo $titulo ?></h4>
+                <form class="forms-sample" method="POST" id="gerar-pagamentos-form">
+                    <div class="form-group col-md-6">
+                        <label for="ano">Ano:</label>
+                        <input type="number" class="form-control" id="ano" name="ano" placeholder="Ex: 2025" />
+                    </div>
+                    <button id="gerar-pagamento-btn" title="Gerar" type="button" class="btn btn-primary">
+                        <?= $acao; ?>
+                    </button>
+                    <a href="<?php echo base_url($link) ?>" class="btn btn-light">
+                        Cancelar
+                    </a>
+                </form>
             </div>
-
-            <div class="flex justify-center sm:justify-start">
-                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">
-                    Gerar Pagamentos
-                </button>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
+<!-- Loading Spinner -->
+<div id="loading-spinner"
+    style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.8); z-index: 9999; text-align: center;">
+    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <p>Aguarde, estamos processando...</p>
+    </div>
+</div>
+
+<script>
+    document.getElementById('gerar-pagamento-btn').addEventListener('click', function () {
+        const ano = document.getElementById('ano').value;
+        if (!ano) {
+            alert('Por favor, insira um ano antes de continuar.');
+            return;
+        }
+
+        const confirmacao = confirm(`Você tem certeza de que deseja gerar os pagamentos para o ano ${ano}?`);
+        if (confirmacao) {
+            // Mostra o spinner de loading
+            document.getElementById('loading-spinner').style.display = 'block';
+
+            // Submete o formulário
+            document.getElementById('gerar-pagamentos-form').submit();
+        }
+    });
+</script>
 
 <?php echo $this->include('template/footer'); ?>

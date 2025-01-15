@@ -15,11 +15,10 @@ class PagamentoModel extends Model
     public function getTotalPago()
     {
         return $this->selectSum('valor', 'total')
-                    ->where('situacao', 'PAGO')
-                    ->get()
-                    ->getRow();
+            ->where('situacao', 'PAGO')
+            ->get()
+            ->getRow();
     }
-
 
     public function getInfoMensalidadePorReferencia()
     {
@@ -110,6 +109,25 @@ class PagamentoModel extends Model
 
         // Retorna a estrutura organizada
         return array_values($formattedResult);
+    }
+
+    public function getUsuariosSemPagamentosAnoCorrente()
+    {
+        $currentYear = date('Y'); // Obtém o ano atual
+
+        // Subquery para obter os IDs dos usuários que possuem pagamentos no ano corrente
+        $subquery = $this->db->table('pagamento')
+            ->select('id_usuario')
+            ->where("SUBSTR(referencia, 3, 4) = '{$currentYear}'")
+            ->groupBy('id_usuario');
+
+        // Consulta principal para buscar os usuários que não aparecem na subquery
+        $query = $this->db->table('users')
+            ->select('nome')
+            ->whereNotIn('id', $subquery) // `id` é o campo de referência para o ID do usuário
+            ->get();
+
+        return $query->getResult(); // Retorna os resultados como um array de objetos
     }
 
 }
