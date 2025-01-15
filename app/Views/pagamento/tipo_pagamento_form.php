@@ -12,10 +12,12 @@
                 </div>
                 <br />
                 <h4 class="card-title text-center"><?php echo $titulo ?></h4>
-                <form class="forms-sample" action="<?= base_url('/tipoSaida/cadastrar') ?>" method="POST">
+                <form class="forms-sample" action="<?= base_url($acao_form) ?>" method="POST">
                     <div class="form-group col-md-6">
                         <label for="codigo">Código:</label>
-                        <input type="text" class="form-control" id="codigo" name="codigo" value="<?= old('codigo') ?>" />
+                        <input type="text" class="form-control" id="codigo" name="codigo"
+                            value="<?php echo isset($tipo_pagamento) ? $tipo_pagamento->codigo : old('codigo') ?>"
+                            <?php echo $tela === 'editar' ? 'readonly' : '' ?> />
                         <?php if (session('errors.codigo')): ?>
                             <div class="error"><?= session('errors.codigo') ?></div>
                         <?php endif; ?>
@@ -24,12 +26,17 @@
                     <div class="form-group col-md-6">
                         <label for="descricao">Descrição:</label>
                         <input type="text" class="form-control" id="descricao" name="descricao"
-                            value="<?= old('descricao') ?>" />
+                            value="<?php echo isset($tipo_pagamento) ? $tipo_pagamento->descricao : old('descricao') ?>" />
                         <?php if (session('errors.descricao')): ?>
                             <div class="error"><?= session('errors.descricao') ?></div>
                         <?php endif; ?>
                     </div>
-                    <button type="submit" class="btn btn-primary mr-2"> <?= $acao; ?></button>
+                
+                    <button title="Editar Registro" 
+                            type="submit"
+                            class="btn btn-primary">
+                        <?= $acao; ?>
+                    </button>
                     <a href="<?php echo base_url($link) ?>" class="btn btn-light">
                         Cancelar
                     </a>

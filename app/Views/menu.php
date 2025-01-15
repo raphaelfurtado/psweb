@@ -89,7 +89,7 @@ function renderMenu($role)
 
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo base_url('/formasPagamento'); ?>">
-                            <i class="mdi mdi-wallet-travel menu-icon"></i>
+                            <i class="mdi mdi-format-list-bulleted menu-icon"></i>
                             <span class="menu-title">Formas de Pagamento</span>
                         </a>
                     </li>
