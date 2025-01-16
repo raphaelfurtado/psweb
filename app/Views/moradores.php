@@ -37,12 +37,12 @@
                                         <td><?php echo $morador->quadra ?? 'Não informado'; ?></td>
                                         <td><?php echo $morador->numero ?? 'Não informado'; ?></td>
                                         <td>
-                                        <button title="Editar Registro" type="button"
-                                            class="btn btn-primary btn-rounded btn-icon"
-                                            onclick="window.location.href='<?php echo base_url('/user/editar/' . $morador->id_user) ?>'">
-                                            <i class="mdi mdi-pen icon-sm"></i>
-                                        </button>
-                                    </td>
+                                            <button title="Editar Registro" type="button"
+                                                class="btn btn-primary btn-rounded btn-icon"
+                                                onclick="window.location.href='<?php echo base_url('/user/editar/' . $morador->id_user) ?>'">
+                                                <i class="mdi mdi-pen icon-sm"></i>
+                                            </button>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>
@@ -53,8 +53,9 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th>Total:</th>
-                                <th></th>
+                                <th colspan="5"></th>
+                                <th>Total</th>
+                                <th colspan="5"></th>
                             </tr>
                         </tfoot>
                     </table>
