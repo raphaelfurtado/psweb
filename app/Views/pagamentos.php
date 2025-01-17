@@ -9,6 +9,7 @@
     <div class="alert <?= $alertClass ?>" role="alert" id="flash-message">
         <strong>PSWEB informa: </strong><?= $msg ?>
     </div>
+    <br />
 <?php endif; ?>
 
 <?php if (session()->getFlashdata('msg_success')): ?>
@@ -18,6 +19,7 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
+    <br />
 <?php endif; ?>
 
 <div class="row">

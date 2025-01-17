@@ -343,7 +343,6 @@ class User extends BaseController
         // Recupera o ano do formulário
         $ano = date('Y');
         $moradores = $pagamentoModel->getUsuariosSemPagamentosAnoCorrente(); // Pega os nomes dos moradores via post
-
         // Extrai os nomes dos moradores usando array_map
         $nomes = implode(', ', array_map(function ($morador) {
             return $morador->nome; // Supondo que cada objeto tenha uma propriedade 'nome'

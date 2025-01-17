@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
         '#dataTableMoradores': {
             nonSearchable: [5],
             nonOrderable: [5],
-            centeredColumns: [1, 2, 4, 5],
+            centeredColumns: [1, 3, 4, 5],
             modalTitleColumn: 1,
             enableButtons: true
         },

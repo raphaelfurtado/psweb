@@ -23,12 +23,10 @@
                     <?php endif; ?>
 
                     <?php if (empty($pagamentosNaoCadastrados)): ?>
-                        <div class="d-flex align-items-center">
-                            <label class="mr-2" style="font-size: 1rem;">
-                                <i class="text-danger mdi mdi-alert-circle"></i>
-                                Todos os moradores possuem pagamentos no ano corrente.
-                            </label>
-                        </div>
+                        <label class="mr-2" style="font-size: 1rem;">
+                            <i class="text-danger mdi mdi-alert-circle"></i>
+                            Todos os moradores possuem pagamentos no ano corrente.
+                        </label>
                     <?php endif; ?>
                 </div>
                 <br />
@@ -99,7 +97,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="<?= base_url('/user/gerarPagamentosMorador') ?>" method="POST">
+                <form id="gera-pagamento-morador" action="<?= base_url('/user/gerarPagamentosMorador') ?>"
+                    method="POST">
                     <ul class="list-ticked" id="moradoresList">
                         <?php if (!empty($pagamentosNaoCadastrados)): ?>
                             <?php foreach ($pagamentosNaoCadastrados as $morador): ?>
@@ -120,8 +119,7 @@
     </div>
 </div>
 
-<!-- Loading Spinner -->
-<div id="loading-spinner-morador"
+<div id="loading-spinner"
     style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.8); z-index: 9999; text-align: center;">
     <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
         <div class="spinner-border text-primary" role="status">
@@ -134,10 +132,9 @@
 
 <script>
     document.getElementById('gerar-pagamento-morador-btn').addEventListener('click', function () {
-        // Mostra o spinner de loading
-        document.getElementById('loading-spinner').style.display = 'block';
-        // Submete o formulário
-        document.getElementById('gerar-pagamentos-form').submit();
+        // Mostrar o overlay de loading
+        const loadingOverlay = document.getElementById('loading-spinner');
+        loadingOverlay.style.display = 'flex';
     });
 </script>
 
