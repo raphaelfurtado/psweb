@@ -72,8 +72,9 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th>Total:</th>
-                                <th></th>
+                                <th colspan="5"></th>
+                                <th>Total</th>
+                                <th colspan="5"></th>
                             </tr>
                         </tfoot>
                     </table>
