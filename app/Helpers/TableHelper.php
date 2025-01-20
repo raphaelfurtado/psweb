@@ -75,7 +75,7 @@ class TableHelper
                                     <i class="mdi mdi-dots-horizontal"></i>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="actionMenu">
-                                    <?php if ($pagamento->role == 'admin'): ?>
+                                    <?php if (session()->get('user_role') == 'admin'): ?>
                                         <li>
                                             <a class="dropdown-item" href="<?php echo base_url('/pagamento/editar/' . $pagamento->id_pagamento); ?>">
                                                 <i class="mdi mdi-pencil"></i> Editar
