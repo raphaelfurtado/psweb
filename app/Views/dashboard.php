@@ -170,5 +170,42 @@
         </div>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Prestação de Contas</h4>
+                <div class="table-responsive">
+                    <table id="dataTablePrestContas" class="table table-striped nowrap table-hover" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th class="desktop tablet mobile">Assunto</th>
+                                <th class="desktop tablet mobile">Inserção</th>
+                                <th class="desktop tablet mobile"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($contas as $conta): ?>
+                                <tr>
+                                    <td><?php echo mb_strtoupper($conta->subject); ?></td>
+                                    <td><?php echo $conta->created_at; ?></td>
+                                    <td>
+                                        <!-- Botão para abrir o arquivo em uma nova aba -->
+                                        <button title="Abrir Arquivo" type="button"
+                                            class="btn btn-primary btn-rounded btn-icon"
+                                            onclick="window.open('<?php echo base_url('anexo/download/' . $conta->stored_name); ?>', '_blank');">
+                                            <i class="mdi mdi-eye icon-sm"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Repita o bloco acima com IDs e referências diferentes para outro conjunto de tabs -->
 <?php echo $this->include('template/footer'); ?>

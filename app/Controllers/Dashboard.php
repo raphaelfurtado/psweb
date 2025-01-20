@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\PagamentoModel;
+use App\Models\AnexoModel;
 
 class Dashboard extends BaseController
 {
@@ -10,6 +11,7 @@ class Dashboard extends BaseController
     {
 
         $pagamentoModel = new PagamentoModel();
+        $anexoModel = new AnexoModel();
 
         // Verifica se o usuário está logado
         if (!session()->has('user_id')) {
@@ -20,6 +22,7 @@ class Dashboard extends BaseController
         $data['nome'] = session()->get('user_nome');
         $data['role'] = session()->get('user_role');
         $data['informacoes'] = $pagamentoModel->getInfoMensalidadePorReferencia();
+        $data['contas'] = $anexoModel->getDocPrestacaoContas();
 
         // var_dump($pagamentoModel->getInfoMensalidadePorReferencia());
         // die();

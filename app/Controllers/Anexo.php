@@ -99,6 +99,7 @@ class Anexo extends BaseController
                                 'id_morador' => $idMorador,
                                 'subject' => $subject,
                                 'created_at' => date('Y-m-d H:i:s'),
+                                'form' => 'ANEXO'
                             ];
 
                             $anexoModel->insert($anexoData);
@@ -122,6 +123,7 @@ class Anexo extends BaseController
         $data['titulo'] = 'Upload de Arquivos';
         $data['acao'] = 'Inserir';
         $data['msg'] = $responseMessage;
+        $data['tipos'] = $anexoModel->getParametroDetalhesByMnemonico('TPANEX');
 
         // Se for uma requisição AJAX, retorna os dados em formato JSON
         if ($this->request->isAJAX()) {

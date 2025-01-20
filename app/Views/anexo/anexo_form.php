@@ -22,8 +22,9 @@
                         <label for="type_anex">Selecione o Tipo do Arquivo:</label>
                         <select class="form-control" id="type_anex" name="type_anex" required>
                             <option value="">-- Selecione --</option>
-                            <option value="1">Associação</option>
-                            <option value="2">Morador</option>
+                            <?php foreach ($tipos as $tipo): ?>
+                                <option value="<?= $tipo->codigo; ?>"><?= $tipo->descricao; ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                     <div class="form-group">

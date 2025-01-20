@@ -46,11 +46,17 @@ document.addEventListener('DOMContentLoaded', function () {
             modalTitleColumn: 1
         },
         '#dataTableSaida': {
-            nonSearchable: [0,5],
+            nonSearchable: [0, 5],
             nonOrderable: [2, 3],
             centeredColumns: [0, 2, 3],
             modalTitleColumn: 1,
             enableButtons: true
+        },
+        '#dataTablePrestContas': {
+            nonSearchable: [2],
+            nonOrderable: [2],
+            centeredColumns: [1, 2],
+            modalTitleColumn: 0
         }
     };
 
