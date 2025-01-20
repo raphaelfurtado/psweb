@@ -27,7 +27,7 @@
                 <br />
                 <h4 class="card-title">Tipos de Pagamento Cadastrados</h4>
                 <div class="table-responsive">
-                    <table id="dataTableSaida" class="table table-striped nowrap table-hover" style="width:100%">
+                    <table id="dataTableTipoSaida" class="table table-striped nowrap table-hover" style="width:100%">
                         <thead>
                             <tr>
                                 <th class="desktop tablet mobile">Código</th>

@@ -27,13 +27,13 @@ document.addEventListener('DOMContentLoaded', function () {
             centeredColumns: [0, 4],
             modalTitleColumn: 1
         },
-        '#dataTableSaida': {
+        '#dataTableTipoPagamento': {
             nonSearchable: [3],
             nonOrderable: [2, 3],
             centeredColumns: [0, 2, 3],
             modalTitleColumn: 1
         },
-        '#dataTableTipoPagamento': {
+        '#dataTableTipoSaida': {
             nonSearchable: [3],
             nonOrderable: [2, 3],
             centeredColumns: [0, 2, 3],
@@ -44,6 +44,13 @@ document.addEventListener('DOMContentLoaded', function () {
             nonOrderable: [2, 3],
             centeredColumns: [0, 2, 3],
             modalTitleColumn: 1
+        },
+        '#dataTableSaida': {
+            nonSearchable: [0,5],
+            nonOrderable: [2, 3],
+            centeredColumns: [0, 2, 3],
+            modalTitleColumn: 1,
+            enableButtons: true
         }
     };
 

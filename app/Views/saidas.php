@@ -18,7 +18,7 @@
     
     <div class="overflow-x-auto">
 
-        <table id="dataTablePagamentos" class="datatable table-auto w-full bg-white shadow-md rounded">
+        <table id="dataTableSaida" class="datatable table-auto w-full bg-white shadow-md rounded">
             <thead>
                 <tr class="bg-gray-200">
                     <th class="px-4 py-2 text-left">Cód.</th>
