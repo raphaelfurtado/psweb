@@ -146,12 +146,7 @@ class User extends BaseController
         }
 
         // Obter pagamentos do usuário
-        if (session()->get('user_role') == 'ADMIN') {
-            $pagamentosData = $this->getPagamentosPorUsuario(session()->get('user_id'));
-        } else {
-            $pagamentosData = $this->getPagamentosPorUsuario($id);
-        }
-
+        $pagamentosData = $this->getPagamentosPorUsuario($id);
         $pagamentos = $pagamentosData['data']; // Extraindo apenas os pagamentos
 
         $pagamentosTable = TableHelper::renderPagamentosTable($pagamentos);
@@ -348,6 +343,7 @@ class User extends BaseController
         // Recupera o ano do formulário
         $ano = date('Y');
         $moradores = $pagamentoModel->getUsuariosSemPagamentosAnoCorrente(); // Pega os nomes dos moradores via post
+
         // Extrai os nomes dos moradores usando array_map
         $nomes = implode(', ', array_map(function ($morador) {
             return $morador->nome; // Supondo que cada objeto tenha uma propriedade 'nome'

@@ -51,6 +51,7 @@ $routes->group('', ['filter' => 'role:admin'], function ($routes) {
     $routes->match(['get', 'post'], 'pagamento/editar/(:num)', 'Pagamento::editar/$1');
     $routes->get('/gerarPagamentos', 'Pagamento::gerarPagamentosForm'); // Exibe o formulário
     $routes->post('/gerarPagamentos', 'Pagamento::gerarPagamentos'); // Executa a procedure
+    $routes->get('/pagamento/excluir/(:num)', 'Pagamento::excluir/$1');
 
     # SAÍDAS
     $routes->get('/saida/inserir', 'Saida::inserir');

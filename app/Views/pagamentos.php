@@ -116,6 +116,13 @@
                                                         <i class="mdi mdi-pencil"></i> Editar
                                                     </a>
                                                 </li>
+                                                <li>
+                                                    <a class="dropdown-item"
+                                                        href="<?php echo base_url('/pagamento/excluir/' . $pagamento->id_pagamento); ?>"
+                                                        onclick="return confirm('Tem certeza de que deseja excluir este pagamento?');">
+                                                        <i class="mdi mdi-delete"></i> Excluir
+                                                    </a>
+                                                </li>
                                                 <?php if ($pagamento->stored_name != ''): ?>
                                                     <li>
                                                         <a class="dropdown-item"

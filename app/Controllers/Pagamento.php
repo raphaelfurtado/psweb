@@ -275,6 +275,42 @@ class Pagamento extends BaseController
         echo view('pagamento_form', $data);
     }
 
+    public function excluir($id)
+    {
+        $pagamentoModel = new PagamentoModel();
+        $anexoModel = new AnexoModel();
+
+        // Verificar se o pagamento existe
+        $pagamento = $pagamentoModel->find($id);
+
+        if (!$pagamento) {
+            return redirect()->to('/pagamentos')->with('msg', 'Pagamento não encontrado.')->with('msg_type', 'error');
+        }
+
+        // Excluir anexos relacionados, se existirem
+        $anexos = $anexoModel->where('form', 'PAGAMENTO')->where('identifier', $id)->findAll();
+
+        foreach ($anexos as $anexo) {
+            $filePath = WRITEPATH . 'uploads/' . $anexo['stored_name'];
+
+            // Remover arquivo físico, se existir
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+
+            // Excluir registro do anexo no banco
+            $anexoModel->delete($anexo['id']);
+        }
+
+        // Excluir o pagamento
+        if ($pagamentoModel->delete($id)) {
+            return redirect()->to('/pagamentos')->with('msg', 'Pagamento excluído com sucesso!')->with('msg_type', 'success');
+        } else {
+            return redirect()->to('/pagamentos')->with('msg', 'Erro ao excluir pagamento.')->with('msg_type', 'error');
+        }
+    }
+
+
     public function gerarPagamentosForm()
     {
 
