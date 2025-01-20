@@ -146,7 +146,12 @@ class User extends BaseController
         }
 
         // Obter pagamentos do usuário
-        $pagamentosData = $this->getPagamentosPorUsuario($id);
+        if (session()->get('user_role') == 'ADMIN') {
+            $pagamentosData = $this->getPagamentosPorUsuario(session()->get('user_id'));
+        } else {
+            $pagamentosData = $this->getPagamentosPorUsuario($id);
+        }
+
         $pagamentos = $pagamentosData['data']; // Extraindo apenas os pagamentos
 
         $pagamentosTable = TableHelper::renderPagamentosTable($pagamentos);
