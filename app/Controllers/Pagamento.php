@@ -80,6 +80,9 @@ class Pagamento extends BaseController
         if ($this->request->getPost()) {
             $pagadorModel = new PagamentoModel();
 
+            $valor = str_replace('.', '', $this->request->getPost('valor')); // Remove os separadores de milhar
+            $valor = str_replace(',', '.', $valor);
+
             $pagadorData = [
                 'id_usuario' => $this->request->getPost('morador'),
                 'id_recebedor' => $this->request->getPost('recebedor'),
@@ -88,7 +91,7 @@ class Pagamento extends BaseController
                 'data_pagamento' => $this->request->getPost('data_pagamento'),
                 'data_vencimento' => $this->request->getPost('data_vencimento'),
                 'referencia' => $this->request->getPost('referencia'),
-                'valor' => $this->request->getPost('valor'),
+                'valor' => $valor,
                 'situacao' => $this->request->getPost('situacao'),
                 'observacao' => $this->request->getPost('observacao'),
                 'data_insert' => date('Y-m-d H:i:s'),
@@ -96,42 +99,37 @@ class Pagamento extends BaseController
 
             $pagadorData = $pagadorModel->insert($pagadorData, true);
 
-            $files = $this->request->getFiles();
+            $files = $this->request->getFile('files');
 
-            if (!empty($files['files'])) {
-                foreach ($files['files'] as $file) {
-                    if ($file->isValid() && !$file->hasMoved()) {
-                        $mimeType = $file->getMimeType();
-                        $storedName = $file->getRandomName();
+            if ($files->isValid() && !$files->hasMoved()) {
+                $mimeType = $files->getMimeType();
+                $storedName = $files->getRandomName();
 
-                        if ($file->move(WRITEPATH . 'uploads', $storedName)) {
-                            $fileSize = $file->getSize();
-                            $originalName = $file->getClientName();
+                if ($files->move(WRITEPATH . 'uploads', $storedName)) {
+                    $fileSize = $files->getSize();
+                    $originalName = $files->getClientName();
 
-                            $anexoData = [
-                                'original_name' => $originalName,
-                                'stored_name' => $storedName,
-                                'mime_type' => $mimeType,
-                                'size' => $fileSize,
-                                'type_anex' => 2, // MORADOR - Sempre vai ser morador quando for Pagamento
-                                'id_morador' => $this->request->getPost('morador'),
-                                'subject' => $this->request->getPost('subject'),
-                                'form' => 'PAGAMENTO',
-                                'identifier' => $pagadorData,
-                                'created_at' => date('Y-m-d H:i:s'),
-                            ];
+                    $anexoData = [
+                        'original_name' => $originalName,
+                        'stored_name' => $storedName,
+                        'mime_type' => $mimeType,
+                        'size' => $fileSize,
+                        'type_anex' => 2, // MORADOR - Sempre vai ser morador quando for Pagamento
+                        'id_morador' => $this->request->getPost('morador'),
+                        'subject' => $this->request->getPost('subject'),
+                        'form' => 'PAGAMENTO',
+                        'identifier' => $pagadorData,
+                        'created_at' => date('Y-m-d H:i:s'),
+                    ];
 
-                            $anexoModel->insert($anexoData);
-                            //return redirect()->to('/anexos')->with('msg_success', 'Arquivo Salvo com Sucesso.');
-                        } else {
-                            session()->setFlashdata('msg', 'Erro ao inserir anexo.');
-                            session()->setFlashdata('msg_type', 'error');
-                        }
-                    } else {
-                        session()->setFlashdata('msg', 'Arquivo inválido ou já movido.');
-                        session()->setFlashdata('msg_type', 'error');
-                    }
+                    $anexoModel->insert($anexoData);
+                } else {
+                    session()->setFlashdata('msg', 'Erro ao mover o arquivo.');
+                    session()->setFlashdata('msg_type', 'error');
                 }
+            } else {
+                session()->setFlashdata('msg', 'Arquivo inválido ou já movido.');
+                session()->setFlashdata('msg_type', 'error');
             }
 
             if ($pagadorData) {
@@ -184,6 +182,9 @@ class Pagamento extends BaseController
         if ($this->request->getPost()) {
             $pagadorModel = new PagamentoModel();
 
+            $valor = str_replace('.', '', $this->request->getPost('valor')); // Remove os separadores de milhar
+            $valor = str_replace(',', '.', $valor);
+
             $pagadorData = [
                 'id_recebedor' => $this->request->getPost('recebedor'),
                 'id_tipo_pagamento' => $this->request->getPost('tipoPagamento'),
@@ -191,7 +192,7 @@ class Pagamento extends BaseController
                 'data_pagamento' => $this->request->getPost('data_pagamento'),
                 'data_vencimento' => $this->request->getPost('data_vencimento'),
                 'referencia' => $this->request->getPost('referencia'),
-                'valor' => $this->request->getPost('valor'),
+                'valor' => $valor,
                 'situacao' => $this->request->getPost('situacao'),
                 'observacao' => $this->request->getPost('observacao'),
                 'data_insert' => date('Y-m-d H:i:s'),

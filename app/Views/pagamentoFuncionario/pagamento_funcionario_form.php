@@ -30,9 +30,19 @@
             </p>
             <form method="post" class="forms-sample" enctype="multipart/form-data">
                 <div class="form-group">
+                    <label for="exampleInputName1">Selecione um funcionário</label>
+                    <select id="exampleInputName1" name="funcionario" required class="form-control">
+                        <option value="">-- Selecione --</option>
+                        <?php foreach ($funcionarios as $funcionario): ?>
+                            <option value="<?= $funcionario['id']; ?>" <?= (isset($saida) && $saida->id_funcionario == $funcionario['id']) ? 'selected' : ''; ?>>
+                                <?= $funcionario['nome_completo']; ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="exampleInputName1">Selecione um Tipo de Saída: (de onde está saindo o valor)</label>
-                    <select id="exampleInputName1" name="tipoPagamento" required class="form-control"
-                        <?= isset($pagamento) ? 'disabled' : ''; ?>>
+                    <select id="exampleInputName1" name="tipoPagamento" required class="form-control">
                         <option value="">-- Selecione --</option>
                         <?php foreach ($tiposPagamento as $tipoPagamento): ?>
                             <option value="<?= $tipoPagamento->codigo; ?>" <?= (isset($saida) && $saida->id_tipo_pagamento == $tipoPagamento->codigo) ? 'selected' : ''; ?>>
@@ -81,6 +91,39 @@
                         value="<?php echo isset($saida) ? number_format($saida->valor, 2, ',', '.') : '' ?>"
                         class="form-control"
                         oninput="formatarMoeda(this)">
+                </div>
+                <div class="form-group">
+                    <label for="files">Arquivo:</label>
+
+                    <?php if (!empty($anexo)): ?>
+                        <!-- Exibir informações do anexo atual -->
+                        <p>
+                            <a href="<?php echo base_url('/pagamento/downloadPagamento/' . $anexo['stored_name']); ?>" target="_blank">
+                                <i class="mdi mdi-eye"></i> <?php echo $anexo['original_name']; ?>
+                            </a>
+                        </p>
+                        <!-- Botão para excluir o anexo -->
+                        <div class="form-check">
+                            <input type="checkbox" id="delete_anexo" name="delete_anexo" class="form-check-input">
+                            <label for="delete_anexo" class="form-check-label">Excluir Anexo</label>
+                        </div>
+                    <?php endif; ?>
+
+                    <!-- Campo para upload de novo anexo -->
+                    <input type="file" id="file" name="file" class="file-upload-default">
+                    <div class="input-group col-xs-12">
+                        <span class="input-group-append">
+                            <button class="file-upload-browse btn btn-primary" type="button">
+                                <i class="mdi mdi-folder-upload"></i>
+                            </button>
+                        </span>
+                        <input type="text" class="form-control file-upload-info" disabled>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Título:</label>
+                    <input type="text" class="form-control" id="subject" name="subject" placeholder="Título do arquivo"
+                        value="<?php echo (isset($anexo) ? $anexo['subject'] : '') ?>">
                 </div>
                 <div class="form-group">
                     <label for="observacao">Observação</label>

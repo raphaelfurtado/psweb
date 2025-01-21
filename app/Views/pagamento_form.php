@@ -97,7 +97,8 @@
                 <div class="form-group">
                     <label for="valor">Valor</label>
                     <input type="text" id="valor" name="valor"
-                        value="<?php echo (isset($pagamento) ? $pagamento->valor : '') ?>"
+                        value="<?php echo isset($pagamento) ? number_format($pagamento->valor, 2, ',', '.') : '' ?>"
+                        oninput="formatarMoeda(this)"
                         class="form-control">
                 </div>
                 <div class="form-group">

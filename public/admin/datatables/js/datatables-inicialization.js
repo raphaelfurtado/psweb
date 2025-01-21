@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
             enableButtons: true
         },
         '#dataTablePagamentosFuncionario': {
-            nonSearchable: [0,5],
+            nonSearchable: [0,7],
             nonOrderable: [2, 3],
             centeredColumns: [0, 2, 3],
             modalTitleColumn: 1,
