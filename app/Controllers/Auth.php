@@ -60,6 +60,7 @@ class Auth extends BaseController
                 ];
                 // Tenta atualizar os dados do usuário
                 if ($userModel->update($userId, $userData)) {
+                    session()->set('consent_policy', 'S'); // Atualiza na sessão
                     return redirect()->to('/')->with('msg_success', 'Política de privacidade aceita.'); // Redireciona com mensagem de sucesso
                 } else {
                     return redirect()->to('/login')->with('error', 'Erro de validação, entre em contato com a administração.'); // Redireciona com mensagem de erro

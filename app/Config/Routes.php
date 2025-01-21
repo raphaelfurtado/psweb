@@ -96,23 +96,27 @@ $routes->group('', ['filter' => 'role:admin'], function ($routes) {
 });
 
 # ANEXO ROTAS PUBLICAS
-$routes->get('/anexos', 'Anexo::index');
-$routes->get('/anexo/download/(:any)', 'Anexo::download/$1');
+$routes->get('/anexos', 'Anexo::index', ['filter' => 'auth']);
+$routes->get('/anexo/download/(:any)', 'Anexo::download/$1', ['filter' => 'auth']);
 
 #PAGAMENTO
-$routes->get('/pagamento/downloadPagamento/(:segment)', 'Pagamento::downloadPagamento/$1');
+$routes->get('/pagamento/downloadPagamento/(:segment)', 'Pagamento::downloadPagamento/$1', ['filter' => 'auth']);
 
 #MORADOR
-$routes->get('/pagamentos/meus-pagamentos', 'User::pagamentosPorUsuario');
+$routes->get('/pagamentos/meus-pagamentos', 'User::pagamentosPorUsuario', ['filter' => 'auth']);
 
 # LOGIN ROTAS PUBLICAS
 $routes->get('login', 'Auth::login');
 $routes->post('login', 'Auth::login');
 $routes->get('logout', 'Auth::logout');
-$routes->get('/', 'Dashboard::index');
-$routes->post('/user/alteraSenha', 'User::updateSenhaUsuario');
-$routes->get('/consent', 'Auth::consent');
-$routes->post('/consent/policy', 'Auth::updatePolicy');
+
+# PÁGINA DE CONSENTIMENTO (sem necessidade de filtro de consentimento)
+$routes->get('/consent', 'Auth::consent');  // Página onde o usuário aceita a política de privacidade
+$routes->post('/consent/policy', 'Auth::updatePolicy');  // Atualiza o consentimento do usuário
+
+# ROTAS PROTEGIDAS COM O FILTRO DE AUTENTICAÇÃO E CONSENTIMENTO
+$routes->get('/', 'Dashboard::index', ['filter' => 'auth']);  // Página inicial, requer login e consentimento
+$routes->post('/user/alteraSenha', 'User::updateSenhaUsuario', ['filter' => 'auth']);  // Alteração de senha, requer login e consentimento
 
 
 
