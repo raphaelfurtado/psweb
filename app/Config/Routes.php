@@ -105,12 +105,15 @@ $routes->get('/pagamento/downloadPagamento/(:segment)', 'Pagamento::downloadPaga
 #MORADOR
 $routes->get('/pagamentos/meus-pagamentos', 'User::pagamentosPorUsuario');
 
-# LOGIN 
+# LOGIN ROTAS PUBLICAS
 $routes->get('login', 'Auth::login');
 $routes->post('login', 'Auth::login');
 $routes->get('logout', 'Auth::logout');
 $routes->get('/', 'Dashboard::index');
 $routes->post('/user/alteraSenha', 'User::updateSenhaUsuario');
+$routes->get('/consent', 'Auth::consent');
+$routes->post('/consent/policy', 'Auth::updatePolicy');
+
 
 
 /*

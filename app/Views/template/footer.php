@@ -6,16 +6,159 @@
 <!-- partial:partials/_footer.html -->
 <footer class="footer">
     <div class="d-sm-flex justify-content-center justify-content-sm-between">
-        <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © bootstrapdash.com
-            2020</span>
-        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Customizado por <a href="#"
-                target="_blank">SoftBean</a>
-            <script>
-                document.write(new Date().getFullYear())
-            </script>
+        <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">
+            Copyright © bootstrapdash.com 2020
+        </span>
+        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">
+            <a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#softbeanAdDialogLogged">
+                Desenvolvido por SoftBean
+            </a>
+        </span>
+        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">
+            <a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#politicaPrivacidadeDialogLogged">
+                Politica de privacidade.
+            </a>
         </span>
     </div>
 </footer>
+
+<div id="politicaPrivacidadeDialogLogged" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="politicaPrivacidadeLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="politicaPrivacidadeLabel">Política de Privacidade</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="mdi mdi-window-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-sample" action="<?= base_url('updatePolicy') ?>" method="POST">
+                    <p>Nosso sistema foi desenvolvido com o objetivo de oferecer transparência e praticidade na
+                        gestão das taxas de pagamento do loteamento fechado Porta do Sol.</p>
+                    <h5>Finalidade do Sistema</h5>
+                    <p>O sistema é utilizado para os seguintes propósitos principais:</p>
+                    <ul>
+                        <li><strong>Exibição de Pagamentos Realizados:</strong> Permitir que você consulte os
+                            pagamentos realizados, incluindo valores pagos, datas e possíveis pendências,
+                            garantindo
+                            maior controle sobre suas obrigações financeiras.</li>
+                        <li><strong>Prestação de Contas da Associação de Moradores:</strong> Disponibilizar
+                            informações sobre receitas, despesas e investimentos, para que você acompanhe e
+                            audite a
+                            gestão dos recursos de maneira clara e acessível.</li>
+                    </ul>
+                    <h5>Tratamento dos Dados Pessoais</h5>
+                    <p>Os dados pessoais coletados e armazenados no sistema têm como finalidade exclusiva a
+                        gestão
+                        financeira do loteamento e a prestação de contas. Não utilizamos seus dados para outros
+                        fins
+                        que não sejam aqueles explicitados nesta política.</p>
+                    <h5>Quais Dados Coletamos?</h5>
+                    <p>Para que o sistema funcione corretamente, coletamos e armazenamos os seguintes dados:</p>
+                    <ul>
+                        <li>Nome completo, telefone e endereço do morador;</li>
+                        <li>Informações relacionadas aos pagamentos, como valores, datas e status (pago/em
+                            aberto);
+                        </li>
+                        <li>Dados necessários para identificação do lote (número, quadra, entre outros).</li>
+                    </ul>
+                    <h5>Transparência e Segurança</h5>
+                    <p>Garantimos que todas as informações armazenadas são tratadas de forma segura e
+                        confidencial.
+                        Apenas os administradores do sistema, autorizados pela associação de moradores, têm
+                        acesso
+                        aos dados pessoais, e isso ocorre exclusivamente para os fins descritos acima.</p>
+                    <h5>Seus Direitos</h5>
+                    <p>Conforme a Lei Geral de Proteção de Dados (LGPD), você, como titular dos dados, possui os
+                        seguintes direitos:</p>
+                    <ul>
+                        <li>Acessar suas informações pessoais armazenadas no sistema;</li>
+                        <li>Solicitar correção de dados incompletos, inexatos ou desatualizados;</li>
+                        <li>Requerer a exclusão de seus dados pessoais, caso deseje encerrar seu vínculo com a
+                            associação;</li>
+                        <li>Obter informações detalhadas sobre como seus dados estão sendo tratados.</li>
+                    </ul>
+                    <p>Para exercer qualquer um desses direitos, entre em contato com a associação de moradores
+                        por
+                        meio do e-mail <a href="mailto:raphaelaraujo075@gmail.com">raphaelaraujo075@gmail.com</a> ou
+                        do telefone/whatsapp <a href="tel:+5591983759167">(91) 98375-9167</a>.</p>
+                    <h5>Compartilhamento de Informações</h5>
+                    <p>Os dados pessoais coletados não serão compartilhados com terceiros, exceto em situações
+                        previstas em lei ou mediante sua autorização explícita.</p>
+                    <h5>Alterações na Política</h5>
+                    <p>Esta Política de Privacidade pode ser alterada de tempos em tempos para refletir
+                        melhorias no
+                        sistema ou atender a novas exigências legais. Sempre que ocorrerem mudanças, você será
+                        informado(a) e terá acesso à nova versão do documento.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Propaganda da Softbean -->
+<div id="softbeanAdDialogLogged" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="softbeanAdLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="softbeanAdLabel">Conheça a Softbean</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="mdi mdi-window-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form-sample">
+                    <p>🚀 <strong>Transforme suas ideias em soluções digitais com a Softbean!</strong></p>
+                    <p>Somos especialistas no desenvolvimento de softwares personalizados para atender às
+                        necessidades específicas do seu negócio. De sistemas internos a aplicativos avançados,
+                        criamos soluções que impulsionam sua empresa.</p>
+                    <h5>Por que escolher a Softbean?</h5>
+                    <ul class="list-star">
+                        <li><strong>Personalização Completa:</strong> Sistemas feitos sob medida, adaptados às
+                            demandas do seu negócio.</li>
+                        <li><strong>Agilidade e Inovação:</strong> Utilizamos tecnologias de ponta para garantir
+                            eficiência e resultados rápidos.</li>
+                        <li><strong>Suporte Especializado:</strong> Nossa equipe está sempre pronta para te
+                            atender.</li>
+                    </ul>
+                    <h5>Entre em Contato</h5>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-5">
+                            <h6>👤 <strong>Raphael Araújo Furtado</strong></h6>
+                            <ul class="list-ticked">
+                                <li><strong>Cel/WhatsApp:</strong> <a href="tel:+NUMERO_RAPHAEL">(91) 98064-7336</a>
+                                </li>
+                                <li><strong>E-mail:</strong> <a
+                                        href="mailto:EMAIL_RAPHAEL">raphaelaraujo075@gmail.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <h6>👤 <strong>Victor Pereira da Silva</strong></h6>
+                            <ul class="list-ticked">
+                                <li><strong>Cel/WhatsApp:</strong> <a href="tel:+EMAIL_VICTOR">(91) 98339-0797</a>
+                                </li>
+                                <li><strong>E-mail:</strong> <a href="mailto:EMAIL_VICTOR">victorps91@gmail.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <br />
+                    <p>💡 <strong>Lógica a serviço da produtividade!</strong></p>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- partial -->
 </div>
 <!-- main-panel ends -->
