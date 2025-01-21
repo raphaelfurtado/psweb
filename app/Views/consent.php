@@ -33,7 +33,7 @@
                             gestão das taxas de pagamento do loteamento fechado Porta do Sol.
                         </p>
 
-                        <p>Esta página só irá aparecer no seu primeiero acesso.</p>
+                        <p>Esta página só irá aparecer no seu primeiro acesso.</p>
                         <br />
                         <h5>Finalidade do Sistema</h5>
                         <p>O sistema é utilizado para os seguintes propósitos principais:</p>
