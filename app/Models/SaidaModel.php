@@ -8,7 +8,7 @@ class SaidaModel extends Model
 {
     protected $table = 'saida';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['id_recebedor', 'id_tipo_pagamento', 'id_forma_pagamento', 'data_pagamento', 'referencia', 'valor', 'situacao', 'observacao', 'data_insert'];
+    protected $allowedFields = ['id_funcionario', 'id_tipo_pagamento', 'id_forma_pagamento', 'id_tipo_saida','data_pagamento', 'referencia', 'valor', 'situacao', 'observacao', 'data_insert'];
     protected $returnType = 'object';
 
     public function getTotalSaida()

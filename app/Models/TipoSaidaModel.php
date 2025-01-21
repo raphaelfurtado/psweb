@@ -8,6 +8,7 @@ class TipoSaidaModel extends Model
 {
     protected $table = 'tipo_saida'; // Nome da tabela
     protected $primaryKey = 'id'; // Chave primária
+    protected $returnType = 'object';
 
     // Campos permitidos para inserção e atualização
     protected $allowedFields = [

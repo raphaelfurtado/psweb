@@ -39,36 +39,36 @@
                         <tbody>
                             <?php foreach ($list as $tipo_saida): ?>
                                 <tr>
-                                    <td><?php echo $tipo_saida['codigo']; ?></td>
-                                    <td><?php echo $tipo_saida['descricao']; ?></td>
+                                    <td><?php echo $tipo_saida->codigo; ?></td>
+                                    <td><?php echo $tipo_saida->descricao; ?></td>
                                     <td>
-                                        <?php if ($tipo_saida['registro_ativo'] === '1'): ?>
+                                        <?php if ($tipo_saida->registro_ativo === '1'): ?>
                                             <label class="badge badge-success">ATIVO</label>
                                         <?php endif; ?>
 
-                                        <?php if ($tipo_saida['registro_ativo'] === '0'): ?>
+                                        <?php if ($tipo_saida->registro_ativo === '0'): ?>
                                             <label class="badge badge-danger">INATIVO</label>
                                         <?php endif; ?>
                                     </td>
                                     <td>
                                         <button title="Editar Registro" type="button"
                                             class="btn btn-primary btn-rounded btn-icon"
-                                            onclick="window.location.href='<?php echo base_url('/tipoSaida/editar/' . $tipo_saida['id']) ?>'">
+                                            onclick="window.location.href='<?php echo base_url('/tipoSaida/editar/' . $tipo_saida->id) ?>'">
                                             <i class="mdi mdi-pen icon-sm"></i>
                                         </button>
 
-                                        <?php if ($tipo_saida['registro_ativo'] === '1'): ?>
+                                        <?php if ($tipo_saida->registro_ativo === '1'): ?>
                                             <button title="Desativar Registro" type="button"
                                                 class="btn btn-danger btn-rounded btn-icon"
-                                                onclick="if (confirm('Tem certeza que deseja desativar o uso deste registro ?')) { window.location.href='<?php echo base_url('/tipoSaida/desativar/' . $tipo_saida['id']); ?>'; }">
+                                                onclick="if (confirm('Tem certeza que deseja desativar o uso deste registro ?')) { window.location.href='<?php echo base_url('/tipoSaida/desativar/' . $tipo_saida->id); ?>'; }">
                                                 <i class="mdi mdi-delete icon-sm"></i>
                                             </button>
                                         <?php endif; ?>
 
-                                        <?php if ($tipo_saida['registro_ativo'] === '0'): ?>
+                                        <?php if ($tipo_saida->registro_ativo === '0'): ?>
                                             <button title="Ativar Registro" type="button"
                                                 class="btn btn-success btn-rounded btn-icon"
-                                                onclick="if (confirm('Tem certeza que deseja ativar o uso deste registro ?')) { window.location.href='<?php echo base_url('/tipoSaida/ativar/' . $tipo_saida['id']); ?>'; }">
+                                                onclick="if (confirm('Tem certeza que deseja ativar o uso deste registro ?')) { window.location.href='<?php echo base_url('/tipoSaida/ativar/' . $tipo_saida->id); ?>'; }">
                                                 <i class="mdi mdi-check icon-sm"></i>
                                             </button>
                                         <?php endif; ?>

@@ -51,6 +51,13 @@ document.addEventListener('DOMContentLoaded', function () {
             centeredColumns: [0, 2, 3],
             modalTitleColumn: 1,
             enableButtons: true
+        },
+        '#dataTablePagamentosFuncionario': {
+            nonSearchable: [0,5],
+            nonOrderable: [2, 3],
+            centeredColumns: [0, 2, 3],
+            modalTitleColumn: 1,
+            enableButtons: true
         }
     };
 
