@@ -30,48 +30,45 @@
             </p>
             <form method="post" class="forms-sample" enctype="multipart/form-data">
                 <div class="form-group">
-                    <label for="exampleInputName1">Selecione um morador</label>
-                    <select id="exampleInputName1" name="morador" required class="form-control"
-                        <?= isset($pagamento) ? 'disabled' : ''; ?>>
+                    <label for="exampleInputName1">Selecione um funcionário</label>
+                    <select id="exampleInputName1" name="funcionario" required class="form-control">
                         <option value="">-- Selecione --</option>
-                        <?php foreach ($moradores as $morador): ?>
-                            <option value="<?= $morador->id; ?>" <?= (isset($pagamento) && $pagamento->id_usuario == $morador->id) ? 'selected' : ''; ?>>
-                                <?= $morador->nome; ?>
+                        <?php foreach ($funcionarios as $funcionario): ?>
+                            <option value="<?= $funcionario['id']; ?>" <?= (isset($saida) && $saida->id_funcionario == $funcionario['id']) ? 'selected' : ''; ?>>
+                                <?= $funcionario['nome_completo']; ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="recebedor">Selecione um Recebedor</label>
-                    <select id="recebedor" name="recebedor" required class="form-control">
-                        <option value="">-- Selecione --</option>
-                        <?php foreach ($recebedores as $recebedor): ?>
-                            <option value="<?= $recebedor->id; ?>" <?= (isset($pagamento) && $pagamento->id_recebedor == $recebedor->id) ? 'selected' : ''; ?>>
-                                <?= $recebedor->nome; ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="tipoPagamento">Selecione um Tipo de Pagamento</label>
-                    <select id="tipoPagamento" name="tipoPagamento" required
-                        class="form-control">
+                    <label for="exampleInputName1">Selecione um Tipo de Saída: (de onde está saindo o valor)</label>
+                    <select id="exampleInputName1" name="tipoPagamento" required class="form-control">
                         <option value="">-- Selecione --</option>
                         <?php foreach ($tiposPagamento as $tipoPagamento): ?>
-                            <option value="<?= $tipoPagamento->codigo; ?>" <?= (isset($pagamento) && $pagamento->id_tipo_pagamento == $tipoPagamento->codigo) ? 'selected' : ''; ?>>
+                            <option value="<?= $tipoPagamento->codigo; ?>" <?= (isset($saida) && $saida->id_tipo_pagamento == $tipoPagamento->codigo) ? 'selected' : ''; ?>>
                                 <?= $tipoPagamento->descricao; ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="formaPagamento">Selecione uma forma de Pagamento</label>
-                    <select id="formaPagamento" name="formaPagamento" required
-                        class="form-control">
+                    <label for="formaPagamento">Selecione uma forma de Pagamento:</label>
+                    <select id="formaPagamento" name="formaPagamento" required class="form-control">
                         <option value="">-- Selecione --</option>
                         <?php foreach ($formasPagamento as $formaPagamento): ?>
-                            <option value="<?= $formaPagamento->codigo; ?>" <?= (isset($pagamento) && $pagamento->id_forma_pagamento == $formaPagamento->codigo) ? 'selected' : ''; ?>>
+                            <option value="<?= $formaPagamento->codigo; ?>" <?= (isset($saida) && $saida->id_forma_pagamento == $formaPagamento->codigo) ? 'selected' : ''; ?>>
                                 <?= $formaPagamento->descricao; ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="tipoSaida">Tipo saída:</label>
+                    <select id="tipoSaida" name="tipoSaida" required class="form-control">
+                        <option value="">-- Selecione --</option>
+                        <?php foreach ($tiposSaida as $tipoSaida): ?>
+                            <option value="<?= $tipoSaida->codigo; ?>" <?= (isset($saida) && $saida->id_tipo_saida == $tipoSaida->codigo) ? 'selected' : ''; ?>>
+                                <?= $tipoSaida->descricao; ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
@@ -79,38 +76,21 @@
                 <div class="form-group">
                     <label for="date">Data Pagamento</label>
                     <input type="date" id="data_pagamento" name="data_pagamento"
-                        value="<?php echo (isset($pagamento) ? date('Y-m-d', strtotime($pagamento->data_pagamento)) : '') ?>"
-                        required class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="date">Data Vencimento</label>
-                    <input type="date" id="data_vencimento" name="data_vencimento"
-                        value="<?php echo (isset($pagamento) ? date('Y-m-d', strtotime($pagamento->data_vencimento)) : '') ?>"
+                        value="<?php echo (isset($saida) ? date('Y-m-d', strtotime($saida->data_pagamento)) : '') ?>"
                         required class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="referencia">Referência</label>
                     <input type="text" id="referencia" name="referencia"
-                        value="<?php echo (isset($pagamento) ? $pagamento->referencia : '') ?>" required
+                        value="<?php echo (isset($saida) ? $saida->referencia : '') ?>"
                         class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="valor">Valor</label>
                     <input type="text" id="valor" name="valor"
-                        value="<?php echo isset($pagamento) ? number_format($pagamento->valor, 2, ',', '.') : '' ?>"
-                        oninput="formatarMoeda(this)"
-                        class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="situacao">Situação</label>
-                    <select id="situacao" name="situacao" required class="form-control">
-                        <option value="">-- Selecione --</option>
-                        <?php foreach ($situacoes as $situacao): ?>
-                            <option value="<?= $situacao; ?>" <?= (isset($pagamento) && $pagamento->situacao == $situacao) ? 'selected' : ''; ?>>
-                                <?= ucfirst($situacao); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
+                        value="<?php echo isset($saida) ? number_format($saida->valor, 2, ',', '.') : '' ?>"
+                        class="form-control"
+                        oninput="formatarMoeda(this)">
                 </div>
                 <div class="form-group">
                     <label for="files">Arquivo:</label>
@@ -130,7 +110,7 @@
                     <?php endif; ?>
 
                     <!-- Campo para upload de novo anexo -->
-                    <input type="file" id="files" name="files" class="file-upload-default">
+                    <input type="file" id="file" name="file" class="file-upload-default">
                     <div class="input-group col-xs-12">
                         <span class="input-group-append">
                             <button class="file-upload-browse btn btn-primary" type="button">
@@ -147,7 +127,7 @@
                 </div>
                 <div class="form-group">
                     <label for="observacao">Observação</label>
-                    <textarea name="observacao" class="form-control"><?php echo isset($pagamento) ? htmlspecialchars($pagamento->observacao) : ''; ?></textarea>
+                    <textarea name="observacao" class="form-control"><?php echo isset($saida) ? htmlspecialchars($saida->observacao) : ''; ?></textarea>
 
                 </div>
                 <button type="submit" class="btn btn-primary mr-2"><?php echo $acao; ?></button>

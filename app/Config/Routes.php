@@ -59,6 +59,13 @@ $routes->group('', ['filter' => 'role:admin'], function ($routes) {
     $routes->get('/saidas', 'Saida::index');
     $routes->match(['get', 'post'], 'saida/editar/(:num)', 'Saida::editar/$1');
 
+    #PAGAMENTO FUNCIONARIOS
+    $routes->get('/pagamentoFuncionario/inserir', 'PagamentoFuncionario::inserir');
+    $routes->post('/pagamentoFuncionario/inserir', 'PagamentoFuncionario::inserir');
+    $routes->get('/pagamentosFuncionarios', 'PagamentoFuncionario::index');
+    $routes->match(['get', 'post'], 'pagamentoFuncionario/editar/(:num)', 'PagamentoFuncionario::editar/$1');
+    $routes->get('/pagamentoFuncionario/excluir/(:num)', 'PagamentoFuncionario::excluir/$1');
+
     # TIPO DE PAGAMENTO ROTAS PRIVADAS
     $routes->get('/tipoPagamento/inserir', 'TipoPagamento::inserir');
     $routes->post('/tipoPagamento/inserir', 'TipoPagamento::inserir');

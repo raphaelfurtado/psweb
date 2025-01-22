@@ -98,7 +98,7 @@
                                     <td><span class=<?= $class ?>><?php echo date('d/m/Y', strtotime($pagamento->data_vencimento)) ?></span></td>
                                     <td><?php echo $pagamento->referencia ?></td>
                                     <td><?php echo $pagamento->nome_recebedor ?></td>
-                                    <td><?php echo number_format($pagamento->valor, 2, ',', '.') ?></td>
+                                    <td>R$ <?php echo number_format($pagamento->valor, 2, ',', '.') ?></td>
                                     <td><?php echo $situacaoClass ?></td>
                                     <td><?php echo $pagamento->desc_forma_pagto ?></td>
                                     <td><?php echo $pagamento->desc_pagamento ?></td>

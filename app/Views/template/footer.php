@@ -225,6 +225,7 @@
 <script src="<?php echo base_url('admin'); ?>/js/file-upload.js"></script>
 <script src="<?= base_url('js/cep.js') ?>"></script>
 <script src="<?= base_url('js/modal.js') ?>"></script>
+<script src="<?php echo base_url('js/util.js'); ?>"></script>
 
 </body>
 

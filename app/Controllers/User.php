@@ -168,14 +168,6 @@ class User extends BaseController
             // }
 
             // Atualizar endereço
-
-            $enderecoData = [
-                'rua' => $this->request->getPost('rua'),
-                'numero' => $this->request->getPost('numero'),
-                'quadra' => $this->request->getPost('quadra'),
-                'qtd_lote' => $this->request->getPost('qtd_lote'),
-            ];
-
             $enderecoModel->where('id_usuario', $id)->set([
                 'rua' => $this->request->getPost('rua'),
                 'numero' => $this->request->getPost('numero'),
