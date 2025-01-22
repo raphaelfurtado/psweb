@@ -26,6 +26,7 @@ class Saida extends BaseController
                 tipo_pagamento.descricao as desc_pagamento
               ')
             ->join('tipo_pagamento', 'tipo_pagamento.codigo = saida.id_tipo_pagamento')
+            ->where('id_funcionario', null)
             ->orderBy('saida.id', 'DESC')->findAll();
 
         //echo $saidaModel->getLastQuery();
