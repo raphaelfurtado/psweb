@@ -11,7 +11,7 @@
                     </a>
                 </div>
                 <br />
-                <h4 class="card-title">Tipos de Saída Cadastradas</h4>
+                <h4 class="card-title">Pagamentos de funcionários Cadastrados</h4>
                 <div class="table-responsive">
                     <table id="dataTablePagamentosFuncionario" class="table table-striped nowrap table-hover" style="width:100%">
                         <thead>
