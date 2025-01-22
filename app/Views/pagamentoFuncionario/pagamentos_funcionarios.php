@@ -66,10 +66,7 @@
                             <tr>
                                 <th>Total</th>
                                 <th id="totalValor"></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
+                                <th colspan="6"></th>
                             </tr>
                         </tfoot>
                     </table>

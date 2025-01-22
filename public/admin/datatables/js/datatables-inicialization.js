@@ -53,11 +53,11 @@ document.addEventListener('DOMContentLoaded', function () {
             enableButtons: true
         },
         '#dataTablePagamentosFuncionario': {
-            nonSearchable: [0,7],
+            nonSearchable: [0,5],
             nonOrderable: [2, 3],
             centeredColumns: [0, 2, 3],
             modalTitleColumn: 1,
-            enableButtons: true
+            enableButtons: true,
         }
     };
 
@@ -71,12 +71,14 @@ document.addEventListener('DOMContentLoaded', function () {
         const tableOptions = {
             footerCallback: function (row, data, start, end, display) {
                 let api = this.api();
-                const parseValue = (value) => {
-                    if (typeof value === 'string') {
-                        return parseFloat(value.replace(/\./g, '').replace(',', '.')) || 0;
-                    }
-                    return typeof value === 'number' ? value : 0;
-                };
+                function parseValue(value) {
+                    // Remove "R$" e espaços extras
+                    let numericValue = value.replace('R$', '').trim();
+                    // Substitui o separador de milhar e ajusta o decimal
+                    numericValue = numericValue.replace(/\./g, '').replace(',', '.');
+                    // Converte para número
+                    return parseFloat(numericValue) || 0;
+                }
 
                 if (config.totalPagamento) {
                     let filteredTotal = api.rows({
