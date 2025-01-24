@@ -27,7 +27,7 @@ $role = session('user_role');
     <link rel="stylesheet" href="https://cdn.datatables.net/2.2.0/css/dataTables.bootstrap5.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.3/css/responsive.bootstrap5.css">
 
-    <link rel="shortcut icon" href="<?php echo base_url('admin'); ?>/images/favicon.png" />
+    <link rel="shortcut icon" href="<?php echo base_url('admin'); ?>/images/favicon-psweb.png" />
 
     <style>
         .buttons-container {

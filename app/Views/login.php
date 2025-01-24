@@ -5,7 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>PSWEB - Login</title>
+    <title>PSWEB | Login</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="<?php echo base_url('admin'); ?>/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="<?php echo base_url('admin'); ?>/vendors/base/vendor.bundle.base.css">
@@ -15,7 +15,7 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="<?php echo base_url('admin'); ?>/css/style.css">
     <!-- endinject -->
-    <link rel="shortcut icon" href="<?php echo base_url('admin'); ?>/images/favicon.png" />
+    <link rel="shortcut icon" href="<?php echo base_url('admin'); ?>/images/favicon-psweb.png" />
 </head>
 
 <body>

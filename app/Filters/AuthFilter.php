@@ -15,7 +15,7 @@ class AuthFilter implements FilterInterface
             return redirect()->to('/login')->with('error', 'Você precisa estar logado para acessar esta página.');
         }
 
-        // Se o usuário não aceitou a política de privacidade, redireciona para a página de consentimento
+        // Se o usuário não aceitou a política de privacidade, redireciona para a página de login
         if (session()->get('consent_policy') === 'N' && $request->uri->getPath() !== 'consent') {
             return redirect()->to('/login');  // Redireciona para a página de consentimento
         }
