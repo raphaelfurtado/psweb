@@ -1,9 +1,79 @@
 <?php
+
+$role = session('user_role');
+
 ?>
 
 </div>
 <!-- content-wrapper ends -->
 <!-- partial:partials/_footer.html -->
+
+<style>
+    .bottom-navbar .nav-item.active .menu-icon {
+        color: #E11D48;
+        /* Vermelho vibrante para itens ativos */
+    }
+
+    .bottom-navbar .nav-item.active .menu-title {
+        color: #E11D48;
+        /* Vermelho vibrante para texto ativo */
+    }
+
+    .bottom-navbar .nav-link {
+        flex-direction: column;
+        padding: 0.5rem 0;
+    }
+
+    .bottom-navbar .menu-icon {
+        font-size: 1.5rem;
+    }
+
+    .bottom-navbar .menu-title {
+        font-size: 0.75rem;
+    }
+
+    body {
+        padding-bottom: 60px;
+        /* Espaço para o menu fixo */
+    }
+</style>
+
+<nav class="bottom-navbar fixed-bottom d-md-none" style="background-color: #1E293B; border-top: 1px solid #374151;">
+    <div class="container justify-content-around">
+        <ul class="nav page-navigation w-100 justify-content-around">
+            <li class="nav-item">
+                <a class="nav-link text-center text-light" href="<?php echo base_url('/'); ?>">
+                    <i class="mdi mdi-home-outline menu-icon" style="font-size: 1.5rem; color: #4F46E5;"></i>
+                    <span class="menu-title d-block" style="font-size: 0.75rem; color: #A1A1AA;">Inicio</span>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link text-center text-light"
+                    href="<?php echo base_url('/pagamentos/meus-pagamentos'); ?>">
+                    <i class="mdi mdi mdi-cash-100 menu-icon" style="font-size: 1.5rem; color: #4F46E5;"></i>
+                    <span class="menu-title d-block" style="font-size: 0.75rem; color: #A1A1AA;">Meus Pagamentos</span>
+                </a>
+            </li>
+            <?php if ($role === 'admin'): ?>
+                <li class="nav-item">
+                    <a class="nav-link text-center text-light" href="<?php echo base_url('/users'); ?>">
+                        <i class="mdi mdi-account-multiple menu-icon" style="font-size: 1.5rem; color: #4F46E5;"></i>
+                        <span class="menu-title d-block" style="font-size: 0.75rem; color: #A1A1AA;">Moradores</span>
+                    </a>
+                </li>
+            <?php endif; ?>
+            <?php if ($role === 'admin'): ?>
+                <li class="nav-item">
+                    <a class="nav-link text-center text-light" href="<?php echo base_url('/pagamentos'); ?>">
+                        <i class="mdi mdi-cash menu-icon" style="font-size: 1.5rem; color: #4F46E5;"></i>
+                        <span class="menu-title d-block" style="font-size: 0.75rem; color: #A1A1AA;">Pagamentos</span>
+                    </a>
+                </li>
+            <?php endif; ?>
+        </ul>
+    </div>
+</nav>
+
 <footer class="footer">
     <div class="d-sm-flex justify-content-center justify-content-sm-between">
         <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">
@@ -226,7 +296,6 @@
 <script src="<?= base_url('js/cep.js') ?>"></script>
 <script src="<?= base_url('js/modal.js') ?>"></script>
 <script src="<?php echo base_url('js/util.js'); ?>"></script>
-
 </body>
 
 </html>
