@@ -109,7 +109,7 @@ class PagamentoFuncionario extends BaseController
                         'type_anex' => 1,
                         'id_funcionario' => $this->request->getPost('funcionario'),
                         'subject' => $this->request->getPost('subject'),
-                        'form' => 'SAIDA',
+                        'form' => 'PAGAMENTO_FUNC',
                         'identifier' => $saidaData,
                         'created_at' => date('Y-m-d H:i:s'),
                     ];
@@ -126,7 +126,7 @@ class PagamentoFuncionario extends BaseController
 
             if ($saidaData) {
                 session()->setFlashdata('msg', 'Dados inseridos com sucesso!');
-                session()->setFlashdata('msg_type', 'success');;
+                session()->setFlashdata('msg_type', 'success');
             } else {
                 session()->setFlashdata('msg', 'Erro ao inserir dados.');
                 session()->setFlashdata('msg_type', 'error');
@@ -177,7 +177,7 @@ class PagamentoFuncionario extends BaseController
             ];
 
             $anexoModel->where('id_funcionario', $saida->id_funcionario)
-                ->where('form', 'SAIDA')
+                ->where('form', 'PAGAMENTO_FUNC')
                 ->where('identifier', $id)
                 ->set($anexoData)->update();
 
@@ -198,14 +198,14 @@ class PagamentoFuncionario extends BaseController
                     'type_anex' => 1, // ASSOCIAÇÃO 
                     'id_funcionario' => $saida->id_funcionario,
                     'subject' => $this->request->getPost('subject'),
-                    'form' => 'SAIDA',
+                    'form' => 'PAGAMENTO_FUNC',
                     'identifier' => $id,
                     'created_at' => date('Y-m-d H:i:s'),
                 ];
 
                 // Atualizar ou inserir o registro do anexo no banco
                 $anexoModel->where('id_funcionario', $saida->id_funcionario)
-                    ->where('form', 'SAIDA')
+                    ->where('form', 'PAGAMENTO_FUNC')
                     ->where('identifier', $id)
                     ->delete(); // Remove o registro anterior, se existir
 
@@ -217,7 +217,7 @@ class PagamentoFuncionario extends BaseController
             if ($deleteAnexo) {
 
                 $anexo = $anexoModel->where('id_funcionario', $saida->id_funcionario)
-                    ->where('form', 'SAIDA')
+                    ->where('form', 'PAGAMENTO_FUNC')
                     ->where('identifier', $id)
                     ->first();
 
@@ -265,7 +265,7 @@ class PagamentoFuncionario extends BaseController
         $data['saida'] = $saida;
         $data['totalPago'] = $totalPago->total ?? 0;
         $data['totalSaida'] = $totalSaida->total ?? 0;
-        $data['anexo'] = $anexoModel->getAnexoByFuncionarioFormIdentifier($data['saida']->id_funcionario, 'SAIDA', $id);
+        $data['anexo'] = $anexoModel->getAnexoByFuncionarioFormIdentifier($data['saida']->id_funcionario, 'PAGAMENTO_FUNC', $id);
 
         echo view('pagamentoFuncionario/pagamento_funcionario_form', $data);
     }
@@ -283,7 +283,7 @@ class PagamentoFuncionario extends BaseController
         }
 
         // Excluir anexos relacionados, se existirem
-        $anexos = $anexoModel->where('form', 'SAIDA')->where('identifier', $id)->findAll();
+        $anexos = $anexoModel->where('form', 'PAGAMENTO_FUNC')->where('identifier', $id)->findAll();
 
         foreach ($anexos as $anexo) {
             $filePath = WRITEPATH . 'uploads/' . $anexo['stored_name'];

@@ -60,11 +60,15 @@ class Saida extends BaseController
         $data['msg'] = '';
 
         if ($this->request->getPost()) {
+
+            $valor = str_replace('.', '', $this->request->getPost('valor')); // Remove os separadores de milhar
+            $valor = str_replace(',', '.', $valor); // Troca a vírgula pelo ponto
+
             $saidaData = [
                 'id_tipo_pagamento' => $this->request->getPost('tipoPagamento'),
                 'id_forma_pagamento' => $this->request->getPost('formaPagamento'),
                 'data_pagamento' => $this->request->getPost('data_pagamento'),
-                'valor' => $this->request->getPost('valor'),
+                'valor' => $valor,
                 'observacao' => $this->request->getPost('observacao'),
                 'data_insert' => date('Y-m-d H:i:s'),
             ];
@@ -72,9 +76,11 @@ class Saida extends BaseController
             $saidaData = $saidaModel->insert($saidaData);
 
             if ($saidaData) {
-                $data['msg'] = 'Saída inserida com sucesso!';
+                session()->setFlashdata('msg', 'Dados inseridos com sucesso!');
+                session()->setFlashdata('msg_type', 'success');
             } else {
-                $data['msg'] = 'Erro ao inserir pagamento.';
+                session()->setFlashdata('msg', 'Erro ao inserir pagamento.');
+                session()->setFlashdata('msg_type', 'error');
             }
         }
 
@@ -114,11 +120,14 @@ class Saida extends BaseController
 
         if ($this->request->getPost()) {
 
+            $valor = str_replace('.', '', $this->request->getPost('valor')); // Remove os separadores de milhar
+            $valor = str_replace(',', '.', $valor);
+
             $saidaData = [
                 'id_tipo_pagamento' => $this->request->getPost('tipoPagamento'),
                 'id_forma_pagamento' => $this->request->getPost('formaPagamento'),
                 'data_pagamento' => $this->request->getPost('data_pagamento'),
-                'valor' => $this->request->getPost('valor'),
+                'valor' => $valor,
                 'observacao' => $this->request->getPost('observacao'),
                 'data_insert' => date('Y-m-d H:i:s'),
             ];
@@ -126,9 +135,11 @@ class Saida extends BaseController
             $saidaData = $saidaModel->update($id, $saidaData);
 
             if ($saidaData) {
-                $data['msg'] = 'Saída atualizada com sucesso!';
+                session()->setFlashdata('msg', 'Dados atualizados com sucesso!');
+                session()->setFlashdata('msg_type', 'success');
             } else {
-                $data['msg'] = 'Erro ao atualizar saída.';
+                session()->setFlashdata('msg', 'Erro ao atualizar saída pagamento.');
+                session()->setFlashdata('msg_type', 'error');
             }
 
             return redirect()->to('/saidas');
