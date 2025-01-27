@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\AnexoModel;
 use App\Models\FormaPagamentoModel;
 use App\Models\PagamentoModel;
 use App\Models\RecebedorModel;
@@ -33,7 +34,7 @@ class Saida extends BaseController
 
         $totalPago = $pagamentoModel->getTotalPago();
         $totalSaida = $saidaModel->getTotalSaida();
-        
+
         $data['titulo'] = 'Lista de Saída';
         $data['totalPago'] = $totalPago->total ?? 0;
         $data['totalSaida'] = $totalSaida->total ?? 0;
@@ -48,6 +49,7 @@ class Saida extends BaseController
         $formaPagamentoModel = new FormaPagamentoModel();
         $pagamentoModel = new PagamentoModel();
         $saidaModel = new SaidaModel();
+        $anexoModel = new AnexoModel();
 
         $data['recebedores'] = $recebedoresModel->orderBy('nome', 'ASC')->findAll();
         $data['tiposPagamento'] = $tipoPagamentoModel->orderBy('descricao', 'ASC')->findAll();
@@ -73,7 +75,39 @@ class Saida extends BaseController
                 'data_insert' => date('Y-m-d H:i:s'),
             ];
 
-            $saidaData = $saidaModel->insert($saidaData);
+            $saidaData = $saidaModel->insert($saidaData, true);
+
+            $file = $this->request->getFile('file');
+
+            if ($file->isValid() && !$file->hasMoved()) {
+                $mimeType = $file->getMimeType();
+                $storedName = $file->getRandomName();
+
+                if ($file->move(WRITEPATH . 'uploads', $storedName)) {
+                    $fileSize = $file->getSize();
+                    $originalName = $file->getClientName();
+
+                    $anexoData = [
+                        'original_name' => $originalName,
+                        'stored_name' => $storedName,
+                        'mime_type' => $mimeType,
+                        'size' => $fileSize,
+                        'type_anex' => 1, // ASSOCIAÇÃO
+                        'subject' => $this->request->getPost('subject'),
+                        'form' => 'SAIDA',
+                        'identifier' => $saidaData,
+                        'created_at' => date('Y-m-d H:i:s'),
+                    ];
+
+                    $anexoModel->insert($anexoData);
+                } else {
+                    session()->setFlashdata('msg', 'Erro ao mover o arquivo.');
+                    session()->setFlashdata('msg_type', 'error');
+                }
+            } else {
+                session()->setFlashdata('msg', 'Arquivo inválido ou já movido.');
+                session()->setFlashdata('msg_type', 'error');
+            }
 
             if ($saidaData) {
                 session()->setFlashdata('msg', 'Dados inseridos com sucesso!');
@@ -100,11 +134,13 @@ class Saida extends BaseController
         $formaPagamentoModel = new FormaPagamentoModel();
         $pagamentoModel = new PagamentoModel();
         $saidaModel = new SaidaModel();
+        $anexoModel = new AnexoModel();
 
         $data['tiposPagamento'] = $tipoPagamentoModel->orderBy('descricao', 'ASC')->findAll();
         $data['formasPagamento'] = $formaPagamentoModel->orderBy('descricao', 'ASC')->findAll();
         $totalPago = $pagamentoModel->getTotalPago();
         $totalSaida = $saidaModel->getTotalSaida();
+        $file = $this->request->getFile('file');
 
         $data['titulo'] = 'Editar Saída ' . $id;
         $data['acao'] = 'Atualizar';
@@ -119,6 +155,69 @@ class Saida extends BaseController
         }
 
         if ($this->request->getPost()) {
+
+            $anexoData = [
+                'subject' => $this->request->getPost('subject'),
+            ];
+
+            $anexoModel->where('id_funcionario', null)
+                ->where('form', 'SAIDA')
+                ->where('identifier', $id)
+                ->set($anexoData)->update();
+
+            if ($file && $file->isValid() && !$file->hasMoved()) {
+                $mimeType = $file->getMimeType();
+                $storedName = $file->getRandomName();
+                $file->move(WRITEPATH . 'uploads/', $storedName);
+
+                $fileSize = $file->getSize();
+                $originalName = $file->getClientName();
+
+                $anexoData = [
+                    'original_name' => $originalName,
+                    'stored_name' => $storedName,
+                    'mime_type' => $mimeType,
+                    'size' => $fileSize,
+                    'type_anex' => 1, // ASSOCIAÇÃO 
+                    'subject' => $this->request->getPost('subject'),
+                    'form' => 'SAIDA',
+                    'identifier' => $id,
+                    'created_at' => date('Y-m-d H:i:s'),
+                ];
+
+                // Atualizar ou inserir o registro do anexo no banco
+                $anexoModel->where('id_funcionario', null)
+                    ->where('form', 'SAIDA')
+                    ->where('identifier', $id)
+                    ->delete(); // Remove o registro anterior, se existir
+
+                $anexoModel->insert($anexoData);
+            }
+
+            $deleteAnexo = $this->request->getPost('delete_anexo');
+
+            if ($deleteAnexo) {
+
+                $anexo = $anexoModel->where('id_funcionario', null)
+                    ->where('form', 'SAIDA')
+                    ->where('identifier', $id)
+                    ->first();
+
+                if ($anexo) {
+                    // Remover o arquivo físico
+                    $filePath = WRITEPATH . 'uploads/' . $anexo['stored_name'];
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
+
+                    // Excluir o registro do banco de dados
+                    $anexoModel->delete($anexo['id']);
+                }
+            }
+
+            if (!$saida) {
+                return redirect()->to('/pagamentosFuncionarios')->with('error', 'Pagamento não encontrado.');
+            }
 
             $valor = str_replace('.', '', $this->request->getPost('valor')); // Remove os separadores de milhar
             $valor = str_replace(',', '.', $valor);
@@ -141,13 +240,12 @@ class Saida extends BaseController
                 session()->setFlashdata('msg', 'Erro ao atualizar saída pagamento.');
                 session()->setFlashdata('msg_type', 'error');
             }
-
-            return redirect()->to('/saidas');
         }
 
         $data['saida'] = $saida;
         $data['totalPago'] = $totalPago->total ?? 0;
         $data['totalSaida'] = $totalSaida->total ?? 0;
+        $data['anexo'] = $anexoModel->getAnexoByFuncionarioFormIdentifier(null, 'SAIDA', $id);
 
         echo view('saida_form', $data);
     }
