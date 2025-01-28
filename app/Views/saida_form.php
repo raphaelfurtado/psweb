@@ -76,6 +76,13 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="referencia">Referência</label>
+                        <input type="text" id="referencia" name="referencia"
+                            value="<?php echo (isset($saida) ? $saida->referencia : '') ?>"
+                            class="form-control">
+                    </div>
+
+                    <div class="form-group">
                         <label for="files">Arquivo:</label>
 
                         <?php if (!empty($anexo)): ?>

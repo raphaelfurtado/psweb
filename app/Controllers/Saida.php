@@ -71,6 +71,7 @@ class Saida extends BaseController
                 'id_forma_pagamento' => $this->request->getPost('formaPagamento'),
                 'data_pagamento' => $this->request->getPost('data_pagamento'),
                 'valor' => $valor,
+                'referencia' => $this->request->getPost('referencia'),
                 'observacao' => $this->request->getPost('observacao'),
                 'data_insert' => date('Y-m-d H:i:s'),
             ];
@@ -227,6 +228,7 @@ class Saida extends BaseController
                 'id_forma_pagamento' => $this->request->getPost('formaPagamento'),
                 'data_pagamento' => $this->request->getPost('data_pagamento'),
                 'valor' => $valor,
+                'referencia' => $this->request->getPost('referencia'),
                 'observacao' => $this->request->getPost('observacao'),
                 'data_insert' => date('Y-m-d H:i:s'),
             ];
@@ -242,7 +244,7 @@ class Saida extends BaseController
             }
         }
 
-        $data['saida'] = $saida;
+        $data['saida'] = $saidaModel->find($id);;
         $data['totalPago'] = $totalPago->total ?? 0;
         $data['totalSaida'] = $totalSaida->total ?? 0;
         $data['anexo'] = $anexoModel->getAnexoByFuncionarioFormIdentifier(null, 'SAIDA', $id);

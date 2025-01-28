@@ -1,64 +1,79 @@
 <?php echo $this->include('header', array('titulo' => $titulo)); ?>
 
-<div class="container mx-auto px-4 py-8">
+<?php if (session()->getFlashdata('msg_error')): ?>
+    <div class="alert alert-danger" role="danger" id="flash-message">
+        <strong>PSWEB informa: </strong><?php echo session()->getFlashdata('msg_error'); ?>.
+    </div>
+<?php endif; ?>
 
-    <h2 class="text-2xl font-bold mb-4 text-center sm:text-left"><?php echo $titulo ?></h2>
-
-    <p class="mb-4 text-center sm:text-left">
-        <a href="<?php echo base_url($link) ?>" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700">
-            <?php echo $tituloRedirect ?>
-        </a>
-        <p class="text-green-700 font-semibold">
-            <strong>Total em caixa</strong>: R$ <?= number_format($totalPago - $totalSaida, 2, ',', '.') ?>
-        </p>
-        <p class="text-blue-700 font-semibold">
-            Total de saídas: R$ <?= number_format($totalSaida, 2, ',', '.') ?>
-        </p>
-    </p>
-    
-    <div class="overflow-x-auto">
-
-        <table id="dataTableSaida" class="datatable table-auto w-full bg-white shadow-md rounded">
-            <thead>
-                <tr class="bg-gray-200">
-                    <th class="px-4 py-2 text-left">Cód.</th>
-                    <th class="px-4 py-2 text-left">Data Pagamento</th>
-                    <th class="px-4 py-2 text-left">Valor</th>
-                    <th class="px-4 py-2 text-left">Tipo Saída</th>
-                    <th class="px-4 py-2 text-left">Descrição</th>
-                    <th class="px-4 py-2 text-left">Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($saidas as $saida): ?>
-                    <tr class="border-t hover:bg-gray-100">
-                        <td class="px-4 py-2"><?php echo $saida->id ?></td>
-                        <td class="px-4 py-2"><?php echo date('d/m/Y', strtotime($saida->data_pagamento)) ?></td>
-                        <td class="px-4 py-2">R$ <?php echo number_format($saida->valor, 2, ',', '.') ?></td>
-                        <td class="px-4 py-2"><?php echo $saida->desc_pagamento ?></td>
-                        <td class="px-4 py-2"><?php echo $saida->observacao ?></td>
-                        <td class="px-4 py-2">
-                            <a href="<?php echo base_url('/saida/editar/' . $saida->id) ?>"
-                                class="text-blue-500 hover:underline">
-                                Editar
-                            </a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th>Total</th>
-                    <th id="totalValor"></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </tfoot>
-        </table>
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="template-demo">
+                    <a href="<?php echo base_url($link) ?>" class="btn btn-primary text-white">
+                        <i class="mdi mdi-plus btn-icon-prepend"></i>
+                        Adicionar
+                    </a>
+                </div>
+                <br />
+                <h4 class="card-title"><?php echo $titulo ?></h4>
+                <div class="table-responsive">
+                    <table id="dataTableSaida" class="datatable table table-striped nowrap" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Cód.</th>
+                                <th>Data Pagamento</th>
+                                <th>Referência</th>
+                                <th>Tipo Saída</th>
+                                <th>Descrição</th>
+                                <th class="none"></th>
+                                <th class="none"></th>
+                                <th class="none"></th>
+                                <th>Valor</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (!empty($saidas)): ?>
+                                <?php foreach ($saidas as $saida): ?>
+                                    <tr>
+                                        <td><?php echo $saida->id ?></td>
+                                        <td><?php echo date('d/m/Y', strtotime($saida->data_pagamento)) ?></td>
+                                        <td><?php echo $saida->referencia ?></td>
+                                        <td><?php echo $saida->desc_pagamento ?></td>
+                                        <td><?php echo $saida->observacao ?></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>R$ <?php echo number_format($saida->valor, 2, ',', '.') ?></td>
+                                        <td>
+                                            <button title="Editar Registro" type="button"
+                                                class="btn btn-primary btn-rounded btn-icon"
+                                                onclick="window.location.href='<?php echo base_url('/saida/editar/' . $saida->id) ?>'">
+                                                <i class="mdi mdi-pen icon-sm"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="3" class="text-center py-4">Nenhum registro encontrado.</td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="8"></th>
+                                <th>Total</th>
+                                <th colspan="5"></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
 
 <?php echo $this->include('template/footer'); ?>

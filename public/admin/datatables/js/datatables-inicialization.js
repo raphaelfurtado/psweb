@@ -50,7 +50,8 @@ document.addEventListener('DOMContentLoaded', function () {
             nonOrderable: [2, 3],
             centeredColumns: [0, 2, 3],
             modalTitleColumn: 1,
-            enableButtons: true
+            enableButtons: true,
+            totalPagamento: true
         },
         '#dataTablePrestContas': {
             nonSearchable: [2],
