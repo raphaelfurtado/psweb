@@ -16,6 +16,11 @@
     <link rel="stylesheet" href="<?php echo base_url('admin'); ?>/css/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="<?php echo base_url('admin'); ?>/images/favicon-psweb.png" />
+
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#007bff">
+    <link rel="icon" sizes="192x192" href="../icons/favicon-psweb.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="../icons/favicon-psweb.png">
 </head>
 
 <body>
@@ -288,6 +293,52 @@
             $('.telefone').mask("(99)99999-9999");
         });
     </script>
+
+    
+<script>
+    // Detecta se o usuário está no celular
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    if (isMobile) {
+        // Verifica se o navegador suporta a API de instalação (somente em navegadores como Chrome ou Edge)
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Impede o prompt automático
+            e.preventDefault();
+            deferredPrompt = e;
+
+            // Mostra uma mensagem ao usuário sobre o atalho
+            const addToHomeScreenBanner = document.createElement('div');
+            addToHomeScreenBanner.innerHTML = `
+                <div id="add-to-home-banner" style="position: fixed; bottom: 20px; left: 10px; right: 10px; background: #007bff; color: white; padding: 10px; text-align: center; border-radius: 5px; z-index: 9999;">
+                    <p>Adicione este site à sua tela inicial para fácil acesso!</p>
+                    <button id="add-to-home-button" style="background: white; color: #007bff; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Adicionar</button>
+                </div>
+            `;
+            document.body.appendChild(addToHomeScreenBanner);
+
+            // Lida com o clique no botão de adicionar
+            document.getElementById('add-to-home-button').addEventListener('click', () => {
+                addToHomeScreenBanner.style.display = 'none';
+                deferredPrompt.prompt(); // Exibe o prompt padrão do navegador
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('Usuário aceitou adicionar o atalho!');
+                    } else {
+                        console.log('Usuário rejeitou adicionar o atalho.');
+                    }
+                    deferredPrompt = null;
+                });
+            });
+        });
+
+        // Exibe instruções manuais para navegadores que não suportam a API
+        if (!window.matchMedia('(display-mode: standalone)').matches && !deferredPrompt) {
+            alert('Use o menu do navegador para adicionar este site à sua tela inicial.');
+        }
+    }
+</script>
+
 
 
 </body>
