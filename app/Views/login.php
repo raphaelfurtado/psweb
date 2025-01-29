@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="<?php echo base_url('admin'); ?>/css/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="<?php echo base_url('admin'); ?>/images/favicon-psweb.png" />
+
+    <link rel="manifest" href="../manifest.json">
 </head>
 
 <body>
@@ -284,8 +286,52 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             $('.telefone').mask("(99)99999-9999");
+        });
+    </script>
+
+    <script>
+        // Registrar o Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('../service-worker.js')
+                .then((registration) => {
+                    //console.log('Service Worker registrado com sucesso:', registration);
+                })
+                .catch((error) => {
+                    //console.log('Falha ao registrar o Service Worker:', error);
+                });
+        }
+
+        // Gerenciar o evento beforeinstallprompt
+        let deferredPrompt;
+        const installButton = document.getElementById('installButton');
+
+        window.addEventListener('beforeinstallprompt', (event) => {
+            console.log('Evento beforeinstallprompt disparado!');
+            event.preventDefault();
+            deferredPrompt = event;
+
+            // Mostra o botão de instalação
+            installButton.style.display = 'block';
+
+            installButton.addEventListener('click', () => {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('Usuário aceitou a instalação');
+                    } else {
+                        console.log('Usuário recusou a instalação');
+                    }
+                    deferredPrompt = null;
+                });
+            });
+        });
+
+        // Verificar se o PWA já está instalado
+        window.addEventListener('appinstalled', () => {
+            console.log('PWA instalado com sucesso!');
+            installButton.style.display = 'none';
         });
     </script>
 </body>
