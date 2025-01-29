@@ -1,10 +1,9 @@
 const CACHE_NAME = 'pwa-example-v1';
 const ASSETS = [
-  '/',
-  '/index.html',
+  '/index.php/login',
   '/styles.css',
-  'https://via.placeholder.com/192x192.png?text=Ícone+192x192',
-  'https://via.placeholder.com/512x512.png?text=Ícone+512x512'
+  './icons/favicon-psweb-192.png',
+  './icons/favicon-psweb-512.png'
 ];
 
 // Instala o Service Worker e armazena os arquivos em cache

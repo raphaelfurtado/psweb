@@ -46,6 +46,11 @@
                                 </div>
                             <?php endif; ?>
                             <br />
+                            <div class="form-group">
+                                <button id="installButton" class="btn btn-sm btn-outline-primary" style="display: none;">
+                                    📲 Adicionar à Tela Inicial
+                                </button>
+                            </div>
                             <h4>Bem-Vindo!</h4>
                             <form class="pt-3" method="post">
                                 <div class="form-group">
@@ -308,7 +313,7 @@
         const installButton = document.getElementById('installButton');
 
         window.addEventListener('beforeinstallprompt', (event) => {
-            console.log('Evento beforeinstallprompt disparado!');
+            //console.log('Evento beforeinstallprompt disparado!');
             event.preventDefault();
             deferredPrompt = event;
 

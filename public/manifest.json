@@ -2,7 +2,7 @@
   "name": "App Porta do Sol",
   "short_name": "PWA-PHP",
   "description": "App de gerenciamento de condomínios.",
-  "start_url": "/login",
+  "start_url": "/index.php/login",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#007bff",
