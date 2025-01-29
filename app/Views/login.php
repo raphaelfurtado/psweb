@@ -289,57 +289,55 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             $('.telefone').mask("(99)99999-9999");
         });
     </script>
 
-    
-<script>
-    // Detecta se o usuário está no celular
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-    if (isMobile) {
-        // Verifica se o navegador suporta a API de instalação (somente em navegadores como Chrome ou Edge)
+    <script>
+        // Registrar o Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./service-worker.js')
+                .then((registration) => {
+                    console.log('Service Worker registrado com sucesso:', registration);
+                })
+                .catch((error) => {
+                    console.log('Falha ao registrar o Service Worker:', error);
+                });
+        }
+
+        // Gerenciar o evento beforeinstallprompt
         let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            // Impede o prompt automático
-            e.preventDefault();
-            deferredPrompt = e;
+        const installButton = document.getElementById('installButton');
 
-            // Mostra uma mensagem ao usuário sobre o atalho
-            const addToHomeScreenBanner = document.createElement('div');
-            addToHomeScreenBanner.innerHTML = `
-                <div id="add-to-home-banner" style="position: fixed; bottom: 20px; left: 10px; right: 10px; background: #007bff; color: white; padding: 10px; text-align: center; border-radius: 5px; z-index: 9999;">
-                    <p>Adicione este site à sua tela inicial para fácil acesso!</p>
-                    <button id="add-to-home-button" style="background: white; color: #007bff; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Adicionar</button>
-                </div>
-            `;
-            document.body.appendChild(addToHomeScreenBanner);
+        window.addEventListener('beforeinstallprompt', (event) => {
+            console.log('Evento beforeinstallprompt disparado!');
+            event.preventDefault();
+            deferredPrompt = event;
 
-            // Lida com o clique no botão de adicionar
-            document.getElementById('add-to-home-button').addEventListener('click', () => {
-                addToHomeScreenBanner.style.display = 'none';
-                deferredPrompt.prompt(); // Exibe o prompt padrão do navegador
+            // Mostra o botão de instalação
+            installButton.style.display = 'block';
+
+            installButton.addEventListener('click', () => {
+                deferredPrompt.prompt();
                 deferredPrompt.userChoice.then((choiceResult) => {
                     if (choiceResult.outcome === 'accepted') {
-                        console.log('Usuário aceitou adicionar o atalho!');
+                        console.log('Usuário aceitou a instalação');
                     } else {
-                        console.log('Usuário rejeitou adicionar o atalho.');
+                        console.log('Usuário recusou a instalação');
                     }
                     deferredPrompt = null;
                 });
             });
         });
 
-        // Exibe instruções manuais para navegadores que não suportam a API
-        if (!window.matchMedia('(display-mode: standalone)').matches && !deferredPrompt) {
-            alert('Use o menu do navegador para adicionar este site à sua tela inicial.');
-        }
-    }
-</script>
-
-
+        // Verificar se o PWA já está instalado
+        window.addEventListener('appinstalled', () => {
+            console.log('PWA instalado com sucesso!');
+            installButton.style.display = 'none';
+        });
+    </script>
 
 </body>
 
