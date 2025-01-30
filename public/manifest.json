@@ -1,6 +1,6 @@
 {
   "name": "App Porta do Sol",
-  "short_name": "PWA-PHP",
+  "short_name": "PSWEB",
   "description": "App de gerenciamento de condomínios.",
   "start_url": "/index.php/login",
   "display": "standalone",
