@@ -132,7 +132,7 @@ class PagamentoModel extends Model
 
     public function getEntrada($referencia)
     {
-        $sql = "SELECT FORMAT(SUM(valor), 2, 'pt_BR') AS entrada FROM pagamento WHERE situacao = 'PAGO' AND referencia = ?";
+        $sql = "SELECT FORMAT(SUM(valor), 2, 'pt_BR') AS entrada FROM pagamento WHERE id_tipo_pagamento in (3,4,5) AND situacao = 'PAGO' AND referencia = ?";
         $query = $this->db->query($sql, [$referencia]);
         return $query->getResult();
     }
@@ -147,7 +147,7 @@ class PagamentoModel extends Model
     public function getTotalCaixa($referencia)
     {
         $sql = "SELECT FORMAT(
-                    (SELECT SUM(valor) FROM pagamento WHERE situacao = 'PAGO' AND referencia = ?) -
+                    (SELECT SUM(valor) FROM pagamento WHERE id_tipo_pagamento in (3,4,5) AND situacao = 'PAGO' AND referencia = ?) -
                     (SELECT SUM(valor) FROM saida WHERE referencia = ?), 
                     2, 'pt_BR') AS total_em_caixa";
         $query = $this->db->query($sql, [$referencia, $referencia]);
