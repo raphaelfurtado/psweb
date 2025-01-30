@@ -46,7 +46,7 @@
                                 </div>
                             <?php endif; ?>
                             <br />
-                            
+
                             <h4>Bem-Vindo!</h4>
                             <form class="pt-3" method="post">
                                 <div class="form-group">
@@ -292,35 +292,9 @@
         });
     </script>
 
-    <script>
-        // Registrar o Service Worker
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('../service-worker.js')
-                .then((registration) => {
-                    //console.log('Service Worker registrado com sucesso:', registration);
-                })
-                .catch((error) => {
-                    //console.log('Falha ao registrar o Service Worker:', error);
-                });
-        }
-
-        // Gerenciar o evento beforeinstallprompt
-        let deferredPrompt;
-        const installButton = document.getElementById('installButton');
-
-        window.addEventListener('beforeinstallprompt', (event) => {
-            //console.log('Evento beforeinstallprompt disparado!');
-            event.preventDefault();
-            deferredPrompt = event;
-
-        });
-
-        // Verificar se o PWA já está instalado
-        window.addEventListener('appinstalled', () => {
-            console.log('PWA instalado com sucesso!');
-            installButton.style.display = 'none';
-        });
-    </script>
+    <!-- load service worker -->
+    <script src="../app.js"></script>
+    <!-- /load service worker -->
 </body>
 
 </html>
