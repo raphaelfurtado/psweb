@@ -1,3 +1,4 @@
+
 <?php
 // Inclua o componente de menu
 include 'menu.php';

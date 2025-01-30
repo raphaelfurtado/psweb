@@ -23,10 +23,25 @@ class Dashboard extends BaseController
         $data['role'] = session()->get('user_role');
         $data['informacoes'] = $pagamentoModel->getInfoMensalidadePorReferencia();
         $data['contas'] = $anexoModel->getDocPrestacaoContas();
+        $data['referencias_caixa'] = $pagamentoModel->getMonthsList();
 
-        // var_dump($pagamentoModel->getInfoMensalidadePorReferencia());
+        // var_dump($pagamentoModel->getMonthsList());
         // die();
 
         return view('dashboard', $data);
+    }
+
+
+    public function getCaixaResumo($ref)
+    {
+        $pagamentoModel = new PagamentoModel();
+        $refCaixa = $ref;
+
+        $dadosCaixa = [
+            'entrada' => $pagamentoModel->getEntrada($refCaixa), // Simulação de valores
+            'saida' => $pagamentoModel->getSaida($refCaixa),
+            'valor_caixa' => $pagamentoModel->getTotalCaixa($refCaixa)
+        ];
+        return $this->response->setJSON($dadosCaixa);
     }
 }

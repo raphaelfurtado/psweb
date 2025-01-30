@@ -41,7 +41,7 @@
 
 <script>
     // Inicializando tabelas
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Todas as tabelas com a classe .datatable serão configuradas automaticamente
         $('.datatable').DataTable();
     });
@@ -51,6 +51,5 @@
 <!-- Inicializar DataTable com configurações específicas -->
 <script src="<?= base_url('js/dataTablePagamentos.js') ?>"></script>
 <script src="<?= base_url('js/dataTableMoradores.js') ?>"></script>
-
 
 </html>

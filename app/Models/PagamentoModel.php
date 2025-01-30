@@ -114,7 +114,7 @@ class PagamentoModel extends Model
     public function getUsuariosSemPagamentosAnoCorrente()
     {
         $currentYear = date('Y'); // Obtém o ano atual
-        
+
         // Subquery para obter os IDs dos usuários que possuem pagamentos no ano corrente
         $subquery = $this->db->table('pagamento')
             ->select('id_usuario')
@@ -128,5 +128,47 @@ class PagamentoModel extends Model
             ->get();
 
         return $query->getResult(); // Retorna os resultados como um array de objetos
+    }
+
+    public function getEntrada($referencia)
+    {
+        $sql = "SELECT FORMAT(SUM(valor), 2, 'pt_BR') AS entrada FROM pagamento WHERE id_tipo_pagamento = 3 AND situacao = 'PAGO' AND referencia = ?";
+        $query = $this->db->query($sql, [$referencia]);
+        return $query->getResult();
+    }
+
+    public function getSaida($referencia)
+    {
+        $sql = "SELECT FORMAT(SUM(valor), 2, 'pt_BR') AS saida FROM saida WHERE id_tipo_pagamento = 3 AND referencia = ?";
+        $query = $this->db->query($sql, [$referencia]);
+        return $query->getResult();
+    }
+
+    public function getTotalCaixa($referencia)
+    {
+        $sql = "SELECT FORMAT(
+                    (SELECT SUM(valor) FROM pagamento WHERE id_tipo_pagamento = 3 AND situacao = 'PAGO' AND referencia = ?) -
+                    (SELECT SUM(valor) FROM saida WHERE id_tipo_pagamento = 3 AND referencia = ?), 
+                    2, 'pt_BR') AS total_em_caixa";
+        $query = $this->db->query($sql, [$referencia, $referencia]);
+        return $query->getResult();
+    }
+
+    public function getMonthsList() {
+        $months = [];
+        $currentYear = date('Y');
+        $nextYear = $currentYear + 1;
+        // Adiciona os meses do ano corrente
+        for ($month = 1; $month <= 12; $month++) {
+            $key = str_pad($month, 2, '0', STR_PAD_LEFT) . $currentYear;
+            $months[$key] = $key;
+        }
+        // Adiciona os três primeiros meses do próximo ano
+        for ($month = 1; $month <= 3; $month++) {
+            $key = str_pad($month, 2, '0', STR_PAD_LEFT) . $nextYear;
+            $months[$key] = $key;
+        }
+    
+        return (object) $months;
     }
 }

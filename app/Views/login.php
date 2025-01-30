@@ -17,7 +17,7 @@
     <!-- endinject -->
     <link rel="shortcut icon" href="<?php echo base_url('admin'); ?>/images/favicon-psweb.png" />
 
-    <link rel="manifest" href="../manifest.json">
+    <!-- <link rel="manifest" href="../manifest.json"> -->
 </head>
 
 <body>
@@ -293,7 +293,7 @@
     </script>
 
     <!-- load service worker -->
-    <script src="../app.js"></script>
+    <!-- <script src="../app.js"></script> -->
     <!-- /load service worker -->
 </body>
 

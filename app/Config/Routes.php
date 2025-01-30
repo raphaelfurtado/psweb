@@ -100,6 +100,10 @@ $routes->group('', ['filter' => 'role:admin'], function ($routes) {
     $routes->match(['get', 'post'], 'tipoSaida/editar/(:num)', 'TipoSaida::editar/$1');
     $routes->get('/tipoSaida/desativar/(:num)', 'TipoSaida::desativar/$1');
     $routes->get('/tipoSaida/ativar/(:num)', 'TipoSaida::ativar/$1');
+
+    # DASHBOARD ROTAS PRIVADAS
+    $routes->post('/caixa/(:num)', 'Dashboard::getCaixaResumo/$1');
+
 });
 
 # ANEXO ROTAS PUBLICAS

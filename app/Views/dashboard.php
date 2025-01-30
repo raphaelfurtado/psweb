@@ -35,6 +35,7 @@
                     <?php endforeach; ?>
                 </ul>
 
+
                 <!-- Conteúdo das Abas -->
                 <div class="tab-content py-0 px-0">
                     <?php foreach ($informacoes as $index => $info): ?>
@@ -207,5 +208,51 @@
         </div>
     </div>
 </div>
+
+<?php if ($role === 'admin'): ?>
+    <div class="row">
+        <div class="col-md-6 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Resumo de Caixa</h4>
+                    <div class="form-group">
+                        <label for="ref_caixa">Referência:</label>
+                        <select class="form-control form-control-sm" id="ref_caixa" name="ref_caixa">
+                            <?php foreach ($referencias_caixa as $referencia): ?>
+                                <option value="<?= $referencia; ?>"><?= $referencia; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="d-flex border-md-right flex-grow-1 align-items-left justify-content-left p-3 item">
+                        <i class="mdi mdi-currency-usd mr-3 icon-lg text-success"></i>
+                        <div class="d-flex flex-column justify-content-around">
+                            <small class="mb-1 text-muted">Entrada (mensalidade):</small>
+                            <h5 class="mr-2 mb-0" id="entrada">R$ 0</h5>
+                        </div>
+                    </div>
+
+                    <div class="d-flex border-md-right flex-grow-1 align-items-left justify-content-left p-3 item">
+                        <i class="mdi mdi-currency-usd mr-3 icon-lg text-danger"></i>
+                        <div class="d-flex flex-column justify-content-around">
+                            <small class="mb-1 text-muted">Saída (mensalidade):</small>
+                            <h5 class="mr-2 mb-0" id="saida">R$ 0</h5>
+                        </div>
+                    </div>
+
+                    <div class="d-flex border-md-right flex-grow-1 align-items-left justify-content-left p-3 item">
+                        <i class="mdi mdi-currency-usd mr-3 icon-lg text-primary"></i>
+                        <div class="d-flex flex-column justify-content-around">
+                            <small class="mb-1 text-muted">Valor em caixa:</small>
+                            <h5 class="mr-2 mb-0" id="valor_caixa">R$ 0</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
+<div id="resumo-url" data-url-resumo="<?= base_url('/caixa') ?>"></div>
 <!-- Repita o bloco acima com IDs e referências diferentes para outro conjunto de tabs -->
 <?php echo $this->include('template/footer'); ?>
