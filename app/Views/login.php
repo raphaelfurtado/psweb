@@ -16,8 +16,6 @@
     <link rel="stylesheet" href="<?php echo base_url('admin'); ?>/css/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="<?php echo base_url('admin'); ?>/images/favicon-psweb.png" />
-
-    <link rel="manifest" href="../manifest.json">
 </head>
 
 <body>
@@ -291,10 +289,6 @@
             $('.telefone').mask("(99)99999-9999");
         });
     </script>
-
-    <!-- load service worker -->
-    <script src="../app.js"></script>
-    <!-- /load service worker -->
 </body>
 
 </html>
