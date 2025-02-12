@@ -23,14 +23,14 @@
                         <thead>
                             <tr>
                                 <th>Cód.</th>
-                                <th>Data Pagamento</th>
-                                <th>Referência</th>
-                                <th>Tipo Saída</th>
-                                <th>Descrição</th>
+                                <th class="mobile desktop">Data Pagamento</th>
+                                <th class="mobile desktop">Referência</th>
+                                <th class="mobile desktop">Tipo Saída</th>
+                                <th class="mobile desktop">Descrição</th>
                                 <th class="none"></th>
                                 <th class="none"></th>
                                 <th class="none"></th>
-                                <th>Valor</th>
+                                <th class="mobile desktop">Valor</th>
                                 <th></th>
                             </tr>
                         </thead>
