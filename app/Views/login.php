@@ -17,7 +17,6 @@
     <!-- endinject -->
     <link rel="shortcut icon" href="<?php echo base_url('admin'); ?>/images/favicon-psweb.png" />
 
-    <!-- <link rel="manifest" href="../manifest.json"> -->
 </head>
 
 <body>
@@ -291,10 +290,13 @@
             $('.telefone').mask("(99)99999-9999");
         });
     </script>
+<<<<<<< HEAD
 
     <!-- load service worker -->
     <!-- <script src="../app.js"></script> -->
     <!-- /load service worker -->
+=======
+>>>>>>> rapha
 </body>
 
 </html>
