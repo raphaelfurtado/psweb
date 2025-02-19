@@ -24,7 +24,7 @@
                 <ul class="nav nav-tabs" id="tab-unique-id-1">
                     <?php foreach ($informacoes as $index => $info): ?>
                         <li class="nav-item">
-                            <a class="nav-link <?php echo $index === 0 ? 'active' : ''; ?>"
+                            <a class="nav-link <?php echo $info['codigo'] == date('mY') ? 'active' : '' ?>"
                                 id="tab-<?php echo $info['codigo']; ?>" data-toggle="tab"
                                 href="#content-<?php echo $info['codigo']; ?>" role="tab"
                                 aria-controls="content-<?php echo $info['codigo']; ?>-1"
@@ -39,7 +39,7 @@
                 <!-- Conteúdo das Abas -->
                 <div class="tab-content py-0 px-0">
                     <?php foreach ($informacoes as $index => $info): ?>
-                        <div class="tab-pane fade <?php echo $index === 0 ? 'show active' : ''; ?>"
+                        <div class="tab-pane fade <?php echo $info['codigo'] == date('mY') ? 'show active' : '' ?>"
                             id="content-<?php echo $info['codigo']; ?>" role="tabpanel"
                             aria-labelledby="tab-<?php echo $info['codigo']; ?>-1">
                             <div class="d-flex flex-wrap justify-content-xl-between">
