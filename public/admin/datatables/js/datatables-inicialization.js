@@ -76,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const modalTitleColumn = config.modalTitleColumn || 0;
 
         const tableOptions = {
+            pageLength: 100,
             footerCallback: function (row, data, start, end, display) {
                 let api = this.api();
                 function parseValue(value) {
