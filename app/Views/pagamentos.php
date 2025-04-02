@@ -68,7 +68,7 @@
                                 } elseif ($pagamento->situacao === 'ABERTO') {
                                     $situacaoClass = '<label class="badge badge-info">' . $pagamento->situacao . '</label>';
                                 } else {
-                                    $situacaoClass = '<label class="badge badge-warning">Indefinido</label>';
+                                    $situacaoClass = '<label class="badge badge-secondary">' . $pagamento->situacao . '</label>';
                                 }
 
                                 $dataVencimento = new DateTime($pagamento->data_vencimento);
@@ -119,7 +119,7 @@
                                                 <li>
                                                     <a class="dropdown-item"
                                                         href="<?php echo base_url('/pagamento/excluir/' . $pagamento->id_pagamento); ?>"
-                                                        onclick="return confirm('Tem certeza de que deseja excluir este pagamento?');">
+                                                        onclick="return confirm('Tem certeza de que deseja excluir este pagamento <?php echo $pagamento->id_pagamento?>?');">
                                                         <i class="mdi mdi-delete"></i> Excluir
                                                     </a>
                                                 </li>

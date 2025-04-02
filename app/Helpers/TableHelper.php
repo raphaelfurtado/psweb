@@ -84,7 +84,7 @@ class TableHelper
                                         <li>
                                             <a class="dropdown-item"
                                                 href="<?php echo base_url('/pagamento/excluir/' . $pagamento->id_pagamento); ?>"
-                                                onclick="return confirm('Tem certeza de que deseja excluir este pagamento?');">
+                                                onclick="return confirm('Tem certeza de que deseja excluir este pagamento <?php echo $pagamento->id_pagamento ?>?');">
                                                 <i class="mdi mdi-delete"></i> Excluir
                                             </a>
                                         </li>
