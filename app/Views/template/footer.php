@@ -38,7 +38,7 @@ $role = session('user_role');
     }
 </style>
 
-<nav class="bottom-navbar fixed-bottom d-md-none" style="background-color: #1E293B; border-top: 1px solid #374151;">
+<nav class="bottom-navbar fixed-bottom d-md-none" style="background-color: #1E293B; border-top: 1px solid #374151; z-index: 1030;">
     <div class="container justify-content-around">
         <ul class="nav page-navigation w-100 justify-content-around">
             <li class="nav-item">
@@ -239,14 +239,14 @@ $role = session('user_role');
 
 <!-- controlador dos alerts na página -->
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         // Fade out the success alert after 3 seconds
-        setTimeout(function () {
+        setTimeout(function() {
             $('#success-alert').fadeOut('slow');
         }, 3000);
 
         // Fade out the error alert after 3 seconds
-        setTimeout(function () {
+        setTimeout(function() {
             $('#error-alert').fadeOut('slow');
         }, 3000);
     });
