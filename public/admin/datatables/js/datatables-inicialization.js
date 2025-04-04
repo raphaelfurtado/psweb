@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
             modalTitleColumn: 0
         },
         '#dataTablePagamentosFuncionario': {
-            nonSearchable: [0,5],
+            nonSearchable: [0, 5],
             nonOrderable: [2, 3],
             centeredColumns: [0, 2, 3],
             modalTitleColumn: 1,
@@ -90,13 +90,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 if (config.totalPagamento) {
                     let filteredTotal = api.rows({
-                            search: 'applied'
-                        }).data()
+                        search: 'applied'
+                    }).data()
                         .reduce((acc, row) => acc + parseValue(row[8]), 0);
 
                     let pageTotalValor = api.column(7, {
-                            page: 'current'
-                        }).data()
+                        page: 'current'
+                    }).data()
                         .reduce((acc, val) => acc + parseValue(val), 0);
 
                     $(api.column(8).footer()).html(
@@ -141,6 +141,47 @@ document.addEventListener('DOMContentLoaded', function () {
                 zeroRecords: "Nenhum registro encontrado"
             },
             initComplete: function () {
+                let api = this.api();
+
+                // Criar inputs de data
+                let filterContainer = document.createElement('div');
+                filterContainer.classList.add('d-flex', 'gap-2', 'mb-2');
+                filterContainer.innerHTML = `
+        <label>Data Inicial: <input type="date" id="filter-start" class="form-control form-control-sm"></label>
+        <label>Data Final: <input type="date" id="filter-end" class="form-control form-control-sm"></label>
+    `;
+
+                $(this.api().table().container()).before(filterContainer);
+
+                // Filtro personalizado (data de pagamento)
+                $.fn.dataTable.ext.search.push(function (settings, data) {
+                    if (settings.nTable !== api.table().node()) return true; // Aplica apenas à tabela correta
+
+                    let minDate = document.getElementById('filter-start').value ? new Date(document.getElementById('filter-start').value) : null;
+                    let maxDate = document.getElementById('filter-end').value ? new Date(document.getElementById('filter-end').value) : null;
+                    let rowDate = data[4]; // Alterar índice conforme necessário (coluna "Data Pagto")
+
+                    if (!rowDate) return false; // Se não houver data, não exibir
+
+                    let dateParts = rowDate.split('/');
+                    let formattedDate = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]); // Formato DD/MM/YYYY
+
+                    if (
+                        (minDate === null && maxDate === null) ||
+                        (minDate === null && formattedDate <= maxDate) ||
+                        (minDate <= formattedDate && maxDate === null) ||
+                        (minDate <= formattedDate && formattedDate <= maxDate)
+                    ) {
+                        return true;
+                    }
+                    return false;
+                });
+
+
+                // Reaplicar filtro ao mudar as datas
+                document.getElementById('filter-start').addEventListener('change', () => api.draw());
+                document.getElementById('filter-end').addEventListener('change', () => api.draw());
+
                 this.api()
                     .columns()
                     .every(function () {
@@ -181,41 +222,41 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             },
             columnDefs: [{
-                    targets: nonSearchableColumns,
-                    searchable: false
-                },
-                {
-                    targets: nonOrderableColumns,
-                    orderable: false
-                }
+                targets: nonSearchableColumns,
+                searchable: false
+            },
+            {
+                targets: nonOrderableColumns,
+                orderable: false
+            }
             ]
         };
 
         if (config.enableButtons) {
             tableOptions.dom = '<"top"lf>rt<"bottom d-flex flex-column"<"buttons-container text-center"B><"pagination-container text-center"p>><"clear">';
             tableOptions.buttons = [{
-                    extend: 'excelHtml5',
-                    autoFilter: true,
-                    sheetName: '',
-                    className: 'btn btn-success btn-rounded btn-icon',
-                    text: '<i class="mdi mdi-file-excel"></i>',
-                    exportOptions: {
-                        columns: ':not(:last-child)'
-                    },
-                    titleAttr: 'Exportar para Excel'
+                extend: 'excelHtml5',
+                autoFilter: true,
+                sheetName: '',
+                className: 'btn btn-success btn-rounded btn-icon',
+                text: '<i class="mdi mdi-file-excel"></i>',
+                exportOptions: {
+                    columns: ':not(:last-child)'
                 },
-                {
-                    extend: 'pdfHtml5',
-                    download: 'open',
-                    messageTop: '',
-                    className: 'btn btn-danger btn-rounded btn-icon',
-                    text: '<i class="mdi mdi-file-pdf"></i>',
-                    orientation: 'landscape',
-                    exportOptions: {
-                        columns: ':not(:last-child)'
-                    },
-                    titleAttr: 'Exportar para PDF'
-                }
+                titleAttr: 'Exportar para Excel'
+            },
+            {
+                extend: 'pdfHtml5',
+                download: 'open',
+                messageTop: '',
+                className: 'btn btn-danger btn-rounded btn-icon',
+                text: '<i class="mdi mdi-file-pdf"></i>',
+                orientation: 'landscape',
+                exportOptions: {
+                    columns: ':not(:last-child)'
+                },
+                titleAttr: 'Exportar para PDF'
+            }
             ];
         }
 
