@@ -290,13 +290,6 @@
             $('.telefone').mask("(99)99999-9999");
         });
     </script>
-<<<<<<< HEAD
-
-    <!-- load service worker -->
-    <!-- <script src="../app.js"></script> -->
-    <!-- /load service worker -->
-=======
->>>>>>> rapha
 </body>
 
 </html>
