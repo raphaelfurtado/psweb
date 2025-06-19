@@ -37,6 +37,7 @@ class TableHelper
                         'PENDENTE' => '<label class="badge badge-warning">' . $pagamento->situacao . '</label>',
                         'CANCELADO' => '<label class="badge badge-danger">' . $pagamento->situacao . '</label>',
                         'ABERTO' => '<label class="badge badge-info">' . $pagamento->situacao . '</label>',
+                        'ISENTO' => '<label class="badge badge-secondary">' . $pagamento->situacao . '</label>',
                         default => '<label class="badge badge-warning">Indefinido</label>',
                     };
 
