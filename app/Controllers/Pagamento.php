@@ -43,6 +43,7 @@ class Pagamento extends BaseController
             ->join('tipo_pagamento', 'tipo_pagamento.codigo = pagamento.id_tipo_pagamento')
             ->join('forma_pagamento', 'forma_pagamento.codigo = pagamento.id_forma_pagamento', 'left')
             ->join('files', 'files.id_morador = pagamento.id_usuario AND files.identifier = pagamento.id AND files.form = "PAGAMENTO"', 'left')
+            // ->where('pagamento.id_usuario', 143)
             ->orderBy('pagamento.data_pagamento, users.nome', 'ASC')->findAll();
 
         //echo $pagadorModel->getLastQuery();
