@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+    //upload
     const tableConfigs = {
         '#dataTableAnexos': {
             nonSearchable: [0, 9],
