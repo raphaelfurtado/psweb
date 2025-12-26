@@ -119,10 +119,10 @@
                                                         <i class="mdi mdi-delete"></i> Excluir
                                                     </a>
                                                 </li>
-                                                <?php if ($pagamento->stored_name != ''): ?>
+                                                <?php if (!empty($pagamento->id_anexo)): ?>
                                                     <li>
                                                         <a class="dropdown-item"
-                                                            href="<?php echo base_url('/pagamento/downloadPagamento/' . $pagamento->stored_name); ?>"
+                                                            href="<?php echo base_url('/pagamento/downloadPagamento/' . $pagamento->id_anexo); ?>"
                                                             target="_blank">
                                                             <i class="mdi mdi-eye"></i> Anexo
                                                         </a>

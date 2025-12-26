@@ -117,7 +117,9 @@ class App extends BaseConfig
      * The default timezone that will be used in your application to display
      * dates with the date helper, and can be retrieved through app_timezone()
      */
-    public string $appTimezone = 'UTC';
+    //public string $appTimezone = 'UTC';
+
+    public string $appTimezone = 'America/Sao_Paulo';
 
     /**
      * --------------------------------------------------------------------------

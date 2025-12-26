@@ -116,20 +116,17 @@
                     <label for="files">Arquivo:</label>
 
                     <?php if (!empty($anexo)): ?>
-                        <!-- Exibir informações do anexo atual -->
                         <p>
-                            <a href="<?php echo base_url('/pagamento/downloadPagamento/' . $anexo['stored_name']); ?>" target="_blank">
+                            <a href="<?php echo base_url('/pagamento/downloadPagamento/' . $anexo['id']); ?>" target="_blank">
                                 <i class="mdi mdi-eye"></i> <?php echo $anexo['original_name']; ?>
                             </a>
                         </p>
-                        <!-- Botão para excluir o anexo -->
                         <div class="form-check">
                             <input type="checkbox" id="delete_anexo" name="delete_anexo" class="form-check-input">
                             <label for="delete_anexo" class="form-check-label">Excluir Anexo</label>
                         </div>
                     <?php endif; ?>
 
-                    <!-- Campo para upload de novo anexo -->
                     <input type="file" id="files" name="files" class="file-upload-default">
                     <div class="input-group col-xs-12">
                         <span class="input-group-append">

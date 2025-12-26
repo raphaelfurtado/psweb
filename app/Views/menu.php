@@ -2,7 +2,7 @@
 
 function renderMenu($role)
 {
-?>
+    ?>
 
     <div class="container-fluid page-body-wrapper">
         <!-- partial:partials/_sidebar.html -->
@@ -81,6 +81,13 @@ function renderMenu($role)
                             <span class="menu-title">Pagamentos Funcionários</span>
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo base_url('/relatorios'); ?>">
+                            <i class="mdi mdi-file-chart menu-icon"></i>
+                            <span class="menu-title">Relatórios</span>
+                        </a>
+                    </li>
                 <?php endif; ?>
 
 
@@ -144,6 +151,6 @@ function renderMenu($role)
         <!-- partial -->
         <div class="main-panel">
             <div class="content-wrapper">
-            <?php
-        }
-            ?>
+                <?php
+}
+?>

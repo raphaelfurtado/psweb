@@ -18,9 +18,9 @@ class Anexo extends BaseController
         $data['link'] = '/anexo/upload';
         $data['role'] = $user_role;
         $data['pager'] = $anexoModel->pager;
-        if ($user_role == 'admin') {
-            $data['anexos'] = $anexoModel
-                ->select('files.*,
+
+        // Query base comum
+        $builder = $anexoModel->select('files.*,
                       files.id as id_anexo, 
                       files.mime_type as tipo,
                       files.subject as nome,
@@ -30,37 +30,17 @@ class Anexo extends BaseController
                            WHEN files.type_anex = 1 THEN "ASSOCIAÇÃO"
                            WHEN files.type_anex = 2 THEN "MORADOR"
                        END) as tipo_anexo,
-                      endereco.*
-                     ')
+                      endereco.*')
                 ->join('users', 'users.id = files.id_morador', 'left')
                 ->join('endereco', 'endereco.id_usuario = files.id_morador', 'left')
-                ->orderBy('files.created_at', 'DESC')
-                ->findAll();
+                ->orderBy('files.created_at', 'DESC');
+
+        if ($user_role == 'admin') {
+            $data['anexos'] = $builder->findAll();
         } else {
-            $data['anexos'] = $anexoModel
-                ->select('files.*, 
-              files.id as id_anexo, 
-              files.mime_type as tipo,
-              files.subject as nome,
-              users.nome as nome_morador,
-              DATE_FORMAT(files.created_at, "%d/%m/%Y %H:%i") as created_at,
-              (CASE 
-                   WHEN files.type_anex = 1 THEN "ASSOCIAÇÃO"
-                   WHEN files.type_anex = 2 THEN "MORADOR"
-               END) as tipo_anexo,
-              endereco.*
-             ')
-                ->join('users', 'users.id = files.id_morador', 'left')
-                ->join('endereco', 'endereco.id_usuario = files.id_morador', 'left')
-                ->where('files.id_morador', $user_id)
-                ->orderBy('files.created_at', 'DESC')
-                ->findAll();
+            $data['anexos'] = $builder->where('files.id_morador', $user_id)->findAll();
         }
 
-        // var_dump($data);
-        // die();
-
-        // echo view('anexos', $data);
         echo view('anexo/anexo_index', $data);
     }
 
@@ -69,30 +49,44 @@ class Anexo extends BaseController
         $anexoModel = new AnexoModel();
         $moradorModel = new UserModel();
 
-        // Inicialize a variável $responseMessage com uma mensagem padrão
         $responseMessage = '';
 
-        // Verifica se é uma requisição POST
         if ($this->request->getPost()) {
             $files = $this->request->getFiles();
             $typeAnex = $this->request->getPost('type_anex');
             $idMorador = $this->request->getPost('id_morador');
             $subject = $this->request->getPost('subject');
 
-            // Valida se arquivos foram enviados
             if (!empty($files['files'])) {
                 foreach ($files['files'] as $file) {
                     if ($file->isValid() && !$file->hasMoved()) {
                         $mimeType = $file->getMimeType();
-                        $storedName = $file->getRandomName();
+                        $newName = $file->getRandomName(); // Nome aleatório seguro
 
-                        if ($file->move(WRITEPATH . 'uploads', $storedName)) {
+                        // --- LÓGICA DE PASTAS (ANO/MES) ---
+                        $ano = date('Y');
+                        $mes = date('m');
+                        
+                        // Caminho relativo para salvar no Banco (ex: 2026/01)
+                        $relativePath = $ano . '/' . $mes; 
+                        
+                        // Caminho físico completo onde o arquivo vai ficar
+                        $uploadPath = WRITEPATH . 'uploads/' . $relativePath;
+
+                        // Verifica se o diretório existe, se não, cria recursivamente
+                        if (!is_dir($uploadPath)) {
+                            mkdir($uploadPath, 0755, true);
+                        }
+
+                        // Tenta mover o arquivo
+                        if ($file->move($uploadPath, $newName)) {
                             $fileSize = $file->getSize();
                             $originalName = $file->getClientName();
 
                             $anexoData = [
                                 'original_name' => $originalName,
-                                'stored_name' => $storedName,
+                                // Salva o caminho relativo + nome (ex: 2026/01/x8s7...png)
+                                'stored_name' => $relativePath . '/' . $newName,
                                 'mime_type' => $mimeType,
                                 'size' => $fileSize,
                                 'type_anex' => $typeAnex,
@@ -116,7 +110,6 @@ class Anexo extends BaseController
             }
         }
 
-        // Preparando os dados para enviar para a view
         $data['moradores'] = $moradorModel->orderBy('nome', 'ASC')->findAll();
         $data['link'] = '/anexos';
         $data['tituloRedirect'] = 'Voltar para Lista de Anexos';
@@ -125,34 +118,49 @@ class Anexo extends BaseController
         $data['msg'] = $responseMessage;
         $data['tipos'] = $anexoModel->getParametroDetalhesByMnemonico('TPANEX');
 
-        // Se for uma requisição AJAX, retorna os dados em formato JSON
         if ($this->request->isAJAX()) {
             return $this->response->setJSON($data);
         }
 
-        // Se não for AJAX, renderiza a view normalmente
         return view('anexo/anexo_form', $data);
     }
 
-    public function download($filename)
+    // ALTERADO: Recebe o ID em vez do nome do arquivo
+    public function download($id)
     {
-        $filePath = WRITEPATH . 'uploads/' . $filename;
+        $anexoModel = new AnexoModel();
+        $arquivo = $anexoModel->find($id);
 
-        if (file_exists($filePath)) {
-            // Determina o tipo MIME do arquivo
-            $mimeType = mime_content_type($filePath);
-
-            // Configura os cabeçalhos para abrir o arquivo no navegador
-            return $this->response
-                ->setHeader('Content-Type', $mimeType)
-                ->setHeader('Content-Disposition', 'inline; filename="' . $filename . '"')
-                ->setBody(file_get_contents($filePath));
+        if (!$arquivo) {
+            return redirect()->to('/anexos')->with('msg_error', 'Registro do arquivo não encontrado.');
         }
 
-        // Redireciona para a página de anexos com mensagem de erro
-        return redirect()->to('/anexos')->with('msg_error', 'O arquivo solicitado não foi encontrado.');
-    }
+        // Tenta o caminho exato salvo no banco (serve para os novos e antigos se estiverem corretos)
+        $fullPath = WRITEPATH . 'uploads/' . $arquivo['stored_name'];
 
+        // --- LÓGICA DE SEGURANÇA (FALLBACK) ---
+        // Se o arquivo não existir no caminho indicado, verifica se está solto na raiz 'uploads'
+        if (!file_exists($fullPath)) {
+            // Pega apenas o nome do arquivo (remove pastas se houver)
+            $onlyName = basename($arquivo['stored_name']);
+            $fallbackPath = WRITEPATH . 'uploads/' . $onlyName;
+
+            if (file_exists($fallbackPath)) {
+                $fullPath = $fallbackPath;
+            } else {
+                // Se não achar nem na pasta específica nem na raiz
+                return redirect()->to('/anexos')->with('msg_error', 'O arquivo físico não foi encontrado no servidor.');
+            }
+        }
+
+        // Se chegou aqui, o $fullPath é válido
+        $mimeType = mime_content_type($fullPath);
+
+        return $this->response
+            ->setHeader('Content-Type', $mimeType)
+            ->setHeader('Content-Disposition', 'inline; filename="' . $arquivo['original_name'] . '"')
+            ->setBody(file_get_contents($fullPath));
+    }
 
     public function deletar($id)
     {
@@ -163,13 +171,28 @@ class Anexo extends BaseController
             return redirect()->to('/anexos')->with('msg_error', 'Arquivo não encontrado.');
         }
 
-        $filePath = WRITEPATH . 'uploads/' . $anexo['stored_name'];
+        // Caminho padrão (baseado no banco)
+        $fullPath = WRITEPATH . 'uploads/' . $anexo['stored_name'];
 
-        if (file_exists($filePath)) {
-            unlink($filePath);
+        // --- LÓGICA DE SEGURANÇA ---
+        if (!file_exists($fullPath)) {
+            // Tenta achar na raiz caso seja um arquivo antigo
+            $onlyName = basename($anexo['stored_name']);
+            $fallbackPath = WRITEPATH . 'uploads/' . $onlyName;
+
+            if (file_exists($fallbackPath)) {
+                $fullPath = $fallbackPath;
+            }
         }
+
+        // Se o arquivo existe (seja na pasta nova ou na raiz), apaga.
+        if (file_exists($fullPath)) {
+            unlink($fullPath);
+        }
+        
+        // Remove do banco de dados
         $anexoModel->delete($id);
+        
         return redirect()->to('/anexos')->with('msg_success', 'Arquivo deletado com sucesso.');
     }
-
 }

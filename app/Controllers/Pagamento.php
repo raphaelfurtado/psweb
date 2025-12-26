@@ -10,6 +10,7 @@ use App\Models\SaidaModel;
 use App\Models\TipoPagamentoModel;
 use App\Models\UserModel;
 use CodeIgniter\Database\Exceptions\DatabaseException;
+use CodeIgniter\I18n\Time;
 use Config\Database;
 
 class Pagamento extends BaseController
@@ -23,9 +24,10 @@ class Pagamento extends BaseController
         $totalPago = $pagadorModel->getTotalPago();
         $totalSaida = $saidaModel->getTotalSaida();
 
-
         $data['link'] = 'pagamento/inserir';
         $data['tituloRedirect'] = '+ Inserir Novo Pagamento';
+
+        // Seleciona files.id como id_anexo para usar no link de download
         $data['pagamentos'] = $pagadorModel
             ->select('pagamento.*, 
                 pagamento.id as id_pagamento,
@@ -34,7 +36,7 @@ class Pagamento extends BaseController
                 endereco.*,
                 tipo_pagamento.descricao as desc_pagamento,
                 forma_pagamento.descricao as desc_forma_pagto,
-                files.id as id_anexo,
+                files.id as id_anexo, 
                 files.stored_name as stored_name
               ')
             ->join('users', 'users.id = pagamento.id_usuario')
@@ -43,10 +45,8 @@ class Pagamento extends BaseController
             ->join('tipo_pagamento', 'tipo_pagamento.codigo = pagamento.id_tipo_pagamento')
             ->join('forma_pagamento', 'forma_pagamento.codigo = pagamento.id_forma_pagamento', 'left')
             ->join('files', 'files.id_morador = pagamento.id_usuario AND files.identifier = pagamento.id AND files.form = "PAGAMENTO"', 'left')
-            // ->where('pagamento.id_usuario', 143)
             ->orderBy('pagamento.data_pagamento, users.nome', 'ASC')->findAll();
 
-        //echo $pagadorModel->getLastQuery();
         $data['totalPago'] = $totalPago->total ?? 0;
         $data['totalSaida'] = $totalSaida->total ?? 0;
         $data['titulo'] = 'Pagamentos Cadastrados';
@@ -81,7 +81,7 @@ class Pagamento extends BaseController
         if ($this->request->getPost()) {
             $pagadorModel = new PagamentoModel();
 
-            $valor = str_replace('.', '', $this->request->getPost('valor')); // Remove os separadores de milhar
+            $valor = str_replace('.', '', $this->request->getPost('valor'));
             $valor = str_replace(',', '.', $valor);
 
             $pagadorData = [
@@ -98,7 +98,7 @@ class Pagamento extends BaseController
                 'data_insert' => date('Y-m-d H:i:s'),
             ];
 
-            $pagadorData = $pagadorModel->insert($pagadorData, true);
+            $pagadorID = $pagadorModel->insert($pagadorData, true);
 
             $files = $this->request->getFile('files');
 
@@ -106,21 +106,31 @@ class Pagamento extends BaseController
                 $mimeType = $files->getMimeType();
                 $storedName = $files->getRandomName();
 
-                if ($files->move(WRITEPATH . 'uploads', $storedName)) {
+                // --- NOVA ESTRUTURA: Cria pasta Ano/Mes ---
+                $ano = date('Y');
+                $mes = date('m');
+                $relativePath = $ano . '/' . $mes;
+                $uploadPath = WRITEPATH . 'uploads/' . $relativePath;
+
+                if (!is_dir($uploadPath)) {
+                    mkdir($uploadPath, 0755, true);
+                }
+
+                if ($files->move($uploadPath, $storedName)) {
                     $fileSize = $files->getSize();
                     $originalName = $files->getClientName();
 
                     $anexoData = [
                         'original_name' => $originalName,
-                        'stored_name' => $storedName,
+                        'stored_name' => $relativePath . '/' . $storedName, // Salva caminho relativo
                         'mime_type' => $mimeType,
                         'size' => $fileSize,
-                        'type_anex' => 2, // MORADOR - Sempre vai ser morador quando for Pagamento
+                        'type_anex' => 2,
                         'id_morador' => $this->request->getPost('morador'),
                         'subject' => $this->request->getPost('subject'),
                         'form' => 'PAGAMENTO',
-                        'identifier' => $pagadorData,
-                        'created_at' => date('Y-m-d H:i:s'),
+                        'identifier' => $pagadorID,
+                        'created_at' => Time::now('America/Sao_Paulo')->toDateTimeString(), // <--- CORRIGIDO
                     ];
 
                     $anexoModel->insert($anexoData);
@@ -128,12 +138,9 @@ class Pagamento extends BaseController
                     session()->setFlashdata('msg', 'Erro ao mover o arquivo.');
                     session()->setFlashdata('msg_type', 'error');
                 }
-            } else {
-                session()->setFlashdata('msg', 'Arquivo inválido ou já movido.');
-                session()->setFlashdata('msg_type', 'error');
             }
 
-            if ($pagadorData) {
+            if ($pagadorID) {
                 session()->setFlashdata('msg', 'Dados inseridos com sucesso!');
                 session()->setFlashdata('msg_type', 'success');
             } else {
@@ -183,7 +190,7 @@ class Pagamento extends BaseController
         if ($this->request->getPost()) {
             $pagadorModel = new PagamentoModel();
 
-            $valor = str_replace('.', '', $this->request->getPost('valor')); // Remove os separadores de milhar
+            $valor = str_replace('.', '', $this->request->getPost('valor'));
             $valor = str_replace(',', '.', $valor);
 
             $pagadorData = [
@@ -199,31 +206,43 @@ class Pagamento extends BaseController
                 'data_insert' => date('Y-m-d H:i:s'),
             ];
 
-            $pagadorData = $pagadorModel->update($id, $pagadorData);
+            $pagadorModel->update($id, $pagadorData);
 
-            $anexoData = [
+            // Atualiza assunto
+            $anexoDataUpdate = [
                 'subject' => $this->request->getPost('subject'),
             ];
-
             $anexoModel->where('id_morador', $pagamento->id_usuario)
                 ->where('form', 'PAGAMENTO')
                 ->where('identifier', $id)
-                ->set($anexoData)->update();
+                ->set($anexoDataUpdate)->update();
 
+            // Lógica de UPLOAD NOVO na edição
             if ($file && $file->isValid() && !$file->hasMoved()) {
                 $mimeType = $file->getMimeType();
                 $storedName = $file->getRandomName();
-                $file->move(WRITEPATH . 'uploads/', $storedName);
+
+                // --- ESTRUTURA DE PASTAS ---
+                $ano = date('Y');
+                $mes = date('m');
+                $relativePath = $ano . '/' . $mes;
+                $uploadPath = WRITEPATH . 'uploads/' . $relativePath;
+
+                if (!is_dir($uploadPath)) {
+                    mkdir($uploadPath, 0755, true);
+                }
+
+                $file->move($uploadPath, $storedName);
 
                 $fileSize = $file->getSize();
                 $originalName = $file->getClientName();
 
                 $anexoData = [
                     'original_name' => $originalName,
-                    'stored_name' => $storedName,
+                    'stored_name' => $relativePath . '/' . $storedName,
                     'mime_type' => $mimeType,
                     'size' => $fileSize,
-                    'type_anex' => 2, // MORADOR - Sempre vai ser morador quando for Pagamento
+                    'type_anex' => 2,
                     'id_morador' => $pagamento->id_usuario,
                     'subject' => $this->request->getPost('subject'),
                     'form' => 'PAGAMENTO',
@@ -231,42 +250,49 @@ class Pagamento extends BaseController
                     'created_at' => date('Y-m-d H:i:s'),
                 ];
 
-                // Atualizar ou inserir o registro do anexo no banco
+                // Remove registro anterior do banco
                 $anexoModel->where('id_morador', $pagamento->id_usuario)
                     ->where('form', 'PAGAMENTO')
                     ->where('identifier', $id)
-                    ->delete(); // Remove o registro anterior, se existir
+                    ->delete();
 
                 $anexoModel->insert($anexoData);
             }
 
+            // Lógica de DELETAR ANEXO
             $deleteAnexo = $this->request->getPost('delete_anexo');
 
             if ($deleteAnexo) {
-
                 $anexo = $anexoModel->where('id_morador', $pagamento->id_usuario)
                     ->where('form', 'PAGAMENTO')
                     ->where('identifier', $id)
                     ->first();
 
                 if ($anexo) {
-                    // Remover o arquivo físico
+                    // --- FALLBACK DE DELETE (Apaga do novo ou do antigo) ---
                     $filePath = WRITEPATH . 'uploads/' . $anexo['stored_name'];
+
+                    if (!file_exists($filePath)) {
+                        $fallbackPath = WRITEPATH . 'uploads/' . basename($anexo['stored_name']);
+                        if (file_exists($fallbackPath)) {
+                            $filePath = $fallbackPath;
+                        }
+                    }
+
                     if (file_exists($filePath)) {
                         unlink($filePath);
                     }
 
-                    // Excluir o registro do banco de dados
                     $anexoModel->delete($anexo['id']);
                 }
             }
 
             if ($pagadorData) {
                 session()->setFlashdata('msg', 'Pagamento atualizado com sucesso!');
-                session()->setFlashdata('msg_type', 'success'); // Define o tipo como sucesso
+                session()->setFlashdata('msg_type', 'success');
             } else {
                 session()->setFlashdata('msg', 'Erro ao atualizar pagamento.');
-                session()->setFlashdata('msg_type', 'error'); // Define o tipo como erro
+                session()->setFlashdata('msg_type', 'error');
             }
         }
 
@@ -282,29 +308,32 @@ class Pagamento extends BaseController
         $pagamentoModel = new PagamentoModel();
         $anexoModel = new AnexoModel();
 
-        // Verificar se o pagamento existe
         $pagamento = $pagamentoModel->find($id);
 
         if (!$pagamento) {
             return redirect()->to('/pagamentos')->with('msg', 'Pagamento não encontrado.')->with('msg_type', 'error');
         }
 
-        // Excluir anexos relacionados, se existirem
         $anexos = $anexoModel->where('form', 'PAGAMENTO')->where('identifier', $id)->findAll();
 
         foreach ($anexos as $anexo) {
+            // --- FALLBACK DE DELETE ---
             $filePath = WRITEPATH . 'uploads/' . $anexo['stored_name'];
 
-            // Remover arquivo físico, se existir
+            if (!file_exists($filePath)) {
+                $fallbackPath = WRITEPATH . 'uploads/' . basename($anexo['stored_name']);
+                if (file_exists($fallbackPath)) {
+                    $filePath = $fallbackPath;
+                }
+            }
+
             if (file_exists($filePath)) {
                 unlink($filePath);
             }
 
-            // Excluir registro do anexo no banco
             $anexoModel->delete($anexo['id']);
         }
 
-        // Excluir o pagamento
         if ($pagamentoModel->delete($id)) {
             return redirect()->to('/pagamentos')->with('msg', 'Pagamento excluído com sucesso!')->with('msg_type', 'success');
         } else {
@@ -312,57 +341,65 @@ class Pagamento extends BaseController
         }
     }
 
-
     public function gerarPagamentosForm()
     {
-
         $data['link'] = '/pagamentos';
         $data['titulo'] = 'Gerar Pagamentos';
         $data['acao'] = 'Gerar';
-
         return view('pagamento/gerar_pagamentos', $data);
     }
 
     public function gerarPagamentos()
     {
-        // Recupera o ano do formulário
         $ano = $this->request->getPost('ano');
         if (!$ano) {
             return redirect()->to('/gerarPagamentos')->with('msg_alert', 'Informe o ano!');
         }
         try {
-            // Executa a procedure no banco de dados
             $db = Database::connect();
             $db->query("CALL gerar_pagamentos_ano_flexivel($ano)");
-            // Retorno de sucesso
             return redirect()->to('/gerarPagamentos')->with('msg_success', 'Pagamentos para o ano ' . $ano . ' gerados com sucesso.');
         } catch (DatabaseException $e) {
-            // Caso ocorra algum erro na execução da procedure
             return redirect()->to('/gerarPagamentos')->with('msg_error', 'Erro ao gerar pagamentos. Contate o desenvolvedor.');
         }
     }
 
-    public function downloadPagamento($storedName)
+    // --- CORREÇÃO PRINCIPAL: Recebe ID em vez do nome ---
+    public function downloadPagamento($idAnexo)
     {
-        // Caminho completo do arquivo
-        $filePath = WRITEPATH . 'uploads/' . $storedName;
+        $anexoModel = new AnexoModel();
 
-        // Verifica se o arquivo existe
-        if (!file_exists($filePath)) {
-            // Define a mensagem de erro e redireciona
-            session()->setFlashdata('msg', 'O arquivo solicitado não foi encontrado. Verifique e tente novamente.');
-            session()->setFlashdata('msg_type', 'error'); // Define o tipo de mensagem como erro
+        // Busca o anexo pelo ID (evita problemas de barras na URL)
+        $anexo = $anexoModel->find($idAnexo);
 
-            return redirect()->back(); // Retorna para a página anterior
+        if (!$anexo) {
+            session()->setFlashdata('msg', 'Registro do arquivo não encontrado.');
+            session()->setFlashdata('msg_type', 'error');
+            return redirect()->back();
         }
 
-        // Determina o tipo MIME do arquivo
+        // Tenta o caminho completo do banco (Ex: uploads/2026/01/foto.jpg)
+        $filePath = WRITEPATH . 'uploads/' . $anexo['stored_name'];
+
+        // --- FALLBACK: Se não achar, tenta na raiz (para arquivos antigos: uploads/foto.jpg) ---
+        if (!file_exists($filePath)) {
+            $onlyName = basename($anexo['stored_name']);
+            $fallbackPath = WRITEPATH . 'uploads/' . $onlyName;
+
+            if (file_exists($fallbackPath)) {
+                $filePath = $fallbackPath;
+            } else {
+                session()->setFlashdata('msg', 'O arquivo físico não foi encontrado no servidor.');
+                session()->setFlashdata('msg_type', 'error');
+                return redirect()->back();
+            }
+        }
+
         $mimeType = mime_content_type($filePath);
 
-        // Retorna o arquivo como resposta para visualização no navegador
         return $this->response
             ->setHeader('Content-Type', $mimeType)
-            ->setHeader('Content-Disposition', 'inline; filename="' . basename($storedName) . '"')
+            ->setHeader('Content-Disposition', 'inline; filename="' . $anexo['original_name'] . '"')
             ->setBody(file_get_contents($filePath));
     }
 }

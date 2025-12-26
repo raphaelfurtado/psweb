@@ -1,0 +1,79 @@
+<?php echo $this->include('header'); ?>
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Relatório de Inadimplência</h4>
+
+                <form method="get" class="form-inline mb-4 d-print-none">
+                    <div class="form-group mr-2">
+                        <label class="mr-2">Referência:</label>
+                        <select name="referencia" class="form-control">
+                            <?php foreach ($meses as $mes): ?>
+                                <option value="<?= $mes ?>" <?= ($mes == $referencia) ? 'selected' : '' ?>><?= $mes ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="form-group mr-2">
+                        <label class="mr-2">Quadra:</label>
+                        <input type="number" name="quadra" class="form-control" value="<?= $quadra ?>"
+                            placeholder="Todas">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Filtrar</button>
+                </form>
+
+                <div class="table-responsive mt-4">
+                    <table class="table table-hover datatable">
+                        <thead>
+                            <tr>
+                                <th>Morador</th>
+                                <th>Telefone</th>
+                                <th>Quadra</th>
+                                <th>Casa</th>
+                                <th>Vencimento</th>
+                                <th>Situação</th>
+                                <th class="text-right">Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $totalEmAberto = 0;
+                            foreach ($inadimplentes as $item):
+                                $totalEmAberto += $item->valor;
+                                ?>
+                                <tr>
+                                    <td><?= $item->nome ?></td>
+                                    <td><?= $item->telefone ?></td>
+                                    <td><?= $item->quadra ?></td>
+                                    <td><?= $item->numero ?></td>
+                                    <td><?= date('d/m/Y', strtotime($item->data_vencimento)) ?></td>
+                                    <td>
+                                        <label
+                                            class="badge badge-<?= ($item->situacao == 'ABERTO') ? 'info' : 'warning' ?>">
+                                            <?= $item->situacao ?>
+                                        </label>
+                                    </td>
+                                    <td class="text-right">R$ <?= number_format($item->valor, 2, ',', '.') ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr class="font-weight-bold bg-light">
+                                <td colspan="6" class="text-right">TOTAL EM ABERTO:</td>
+                                <td class="text-right">R$ <?= number_format($totalEmAberto, 2, ',', '.') ?></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="mt-4 d-print-none">
+                    <button onclick="window.print()" class="btn btn-light"><i class="mdi mdi-printer"></i>
+                        Imprimir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php echo $this->include('footer'); ?>

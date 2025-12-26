@@ -104,6 +104,18 @@ $routes->group('', ['filter' => 'role:admin'], function ($routes) {
     # DASHBOARD ROTAS PRIVADAS
     $routes->post('/caixa/(:num)', 'Dashboard::getCaixaResumo/$1');
 
+    # RELATÓRIOS
+    $routes->get('/relatorios', 'Relatorio::index');
+    $routes->get('/relatorios/fluxo-caixa', 'Relatorio::fluxoCaixa');
+    $routes->get('/relatorios/inadimplencia', 'Relatorio::inadimplencia');
+    $routes->get('/relatorios/folha-pagamento', 'Relatorio::folhaPagamento');
+    $routes->get('/relatorios/prestacao-contas', 'Relatorio::prestacaoContas');
+    $routes->get('/relatorios/gerar-pdf-prestacao', 'Relatorio::gerarPdfPrestacao');
+    $routes->get('/relatorios/receitas-categoria', 'Relatorio::receitasPorCategoria');
+    $routes->get('/relatorios/gerar-pdf-receitas', 'Relatorio::gerarPdfReceitasCategoria');
+    $routes->get('/relatorios/resumo-caixa', 'Relatorio::resumoCaixa');
+    $routes->get('/relatorios/gerar-pdf-resumo-caixa', 'Relatorio::gerarPdfResumoCaixa');
+
 });
 
 # ANEXO ROTAS PUBLICAS
