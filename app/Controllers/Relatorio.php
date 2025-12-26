@@ -200,8 +200,12 @@ class Relatorio extends BaseController
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
 
-        // Output do PDF para o browser
-        $dompdf->stream("prestacao_contas_{$referencia}.pdf", ["Attachment" => false]);
+        // Retornar resposta formatada para evitar quebra de cabeçalhos em produção
+        $output = $dompdf->output();
+        return $this->response
+            ->setHeader('Content-Type', 'application/pdf')
+            ->setHeader('Content-Disposition', 'inline; filename="prestacao_contas_' . $referencia . '.pdf"')
+            ->setBody($output);
     }
 
     public function receitasPorCategoria()
@@ -267,7 +271,11 @@ class Relatorio extends BaseController
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
 
-        $dompdf->stream("receitas_por_categoria_{$referencia}.pdf", ["Attachment" => false]);
+        $output = $dompdf->output();
+        return $this->response
+            ->setHeader('Content-Type', 'application/pdf')
+            ->setHeader('Content-Disposition', 'inline; filename="receitas_por_categoria_' . $referencia . '.pdf"')
+            ->setBody($output);
     }
 
     public function resumoCaixa()
@@ -383,7 +391,11 @@ class Relatorio extends BaseController
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
 
-        $dompdf->stream("resumo_caixa_{$referencia}.pdf", ["Attachment" => false]);
+        $output = $dompdf->output();
+        return $this->response
+            ->setHeader('Content-Type', 'application/pdf')
+            ->setHeader('Content-Disposition', 'inline; filename="resumo_caixa_' . $referencia . '.pdf"')
+            ->setBody($output);
     }
 
     private function getMesExtenso($referencia)
