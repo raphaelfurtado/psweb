@@ -131,9 +131,9 @@
                     <h4>Resumo de Caixa - <small style="color: #fff;"><?= $mes_extenso ?></small></h4>
                 </div>
                 <div class="d-print-none">
-                    <a href="<?= base_url('relatorios/gerar-pdf-resumo-caixa?referencia=' . $referencia) ?>"
-                        class="btn btn-light btn-rounded font-weight-bold" target="_blank">
-                        <i class="mdi mdi-file-pdf text-danger"></i> Gerar PDF Premium
+                    <a href="<?= base_url('relatorios/gerar-pdf-resumo-caixa?' . (isset($referencia_inicio) && isset($referencia_fim) ? 'referencia_inicio=' . $referencia_inicio . '&referencia_fim=' . $referencia_fim : 'referencia=' . $referencia)) ?>"
+                        class="btn btn-warning btn-sm ml-2" target="_blank">
+                        <i class="mdi mdi-file-pdf"></i> Exportar PDF
                     </a>
                 </div>
             </div>
@@ -141,10 +141,17 @@
             <div class="card-body p-4">
                 <form method="get" class="form-inline d-print-none filter-section">
                     <div class="form-group mr-3">
-                        <label class="mr-2 font-weight-bold">Referência:</label>
-                        <select name="referencia" class="form-control form-control-sm">
+                        <label class="mr-2">De:</label>
+                        <select name="referencia_inicio" class="form-control mr-3">
                             <?php foreach ($meses as $mes): ?>
-                                <option value="<?= $mes ?>" <?= ($mes == $referencia) ? 'selected' : '' ?>><?= $mes ?></option>
+                                <option value="<?= $mes ?>" <?= ($mes == ($referencia_inicio ?? $referencia)) ? 'selected' : '' ?>><?= $mes ?></option>
+                            <?php endforeach; ?>
+                        </select>
+
+                        <label class="mr-2">Até:</label>
+                        <select name="referencia_fim" class="form-control">
+                            <?php foreach ($meses as $mes): ?>
+                                <option value="<?= $mes ?>" <?= ($mes == ($referencia_fim ?? $referencia)) ? 'selected' : '' ?>><?= $mes ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -192,7 +199,8 @@
                                         <tr>
                                             <td><strong><?= $entrada->descricao ?></strong></td>
                                             <td class="text-right text-success font-weight-bold">R$
-                                                <?= number_format($entrada->total, 2, ',', '.') ?></td>
+                                                <?= number_format($entrada->total, 2, ',', '.') ?>
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>
@@ -223,7 +231,8 @@
                                             <td><span class="category-badge"><?= $detalhe->categoria ?></span></td>
                                             <td><?= $detalhe->observacao ?></td>
                                             <td class="text-right font-weight-bold text-danger">R$
-                                                <?= number_format($detalhe->valor, 2, ',', '.') ?></td>
+                                                <?= number_format($detalhe->valor, 2, ',', '.') ?>
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>

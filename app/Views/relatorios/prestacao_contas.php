@@ -42,10 +42,17 @@
 
                 <form method="get" class="form-inline mb-4 d-print-none">
                     <div class="form-group mr-2">
-                        <label class="mr-2">Mês/Ano:</label>
-                        <select name="referencia" class="form-control">
+                        <label class="mr-2">De:</label>
+                        <select name="referencia_inicio" class="form-control mr-3">
                             <?php foreach ($meses as $mes): ?>
-                                <option value="<?= $mes ?>" <?= ($mes == $referencia) ? 'selected' : '' ?>><?= $mes ?></option>
+                                <option value="<?= $mes ?>" <?= ($mes == ($referencia_inicio ?? $referencia)) ? 'selected' : '' ?>><?= $mes ?></option>
+                            <?php endforeach; ?>
+                        </select>
+
+                        <label class="mr-2">Até:</label>
+                        <select name="referencia_fim" class="form-control">
+                            <?php foreach ($meses as $mes): ?>
+                                <option value="<?= $mes ?>" <?= ($mes == ($referencia_fim ?? $referencia)) ? 'selected' : '' ?>><?= $mes ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -53,9 +60,9 @@
                     <button type="button" onclick="window.print()" class="btn btn-success ml-2">
                         <i class="mdi mdi-printer"></i> Imprimir
                     </button>
-                    <a href="<?= base_url('relatorios/gerar-pdf-prestacao?referencia=' . $referencia) ?>"
-                        class="btn btn-info ml-2" target="_blank">
-                        <i class="mdi mdi-file-pdf"></i> Exportar DOMPDF
+                    <a href="<?= base_url('relatorios/gerar-pdf-prestacao?' . (isset($referencia_inicio) && isset($referencia_fim) ? 'referencia_inicio=' . $referencia_inicio . '&referencia_fim=' . $referencia_fim : 'referencia=' . $referencia)) ?>"
+                        class="btn btn-warning ml-2" target="_blank">
+                        <i class="mdi mdi-file-pdf"></i> Exportar PDF (DOMPDF)
                     </a>
                 </form>
 

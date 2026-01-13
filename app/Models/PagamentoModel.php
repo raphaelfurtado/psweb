@@ -20,11 +20,11 @@ class PagamentoModel extends Model
             ->getRow();
     }
 
-    public function getInfoMensalidadePorReferencia()
+    public function getInfoMensalidadePorReferencia($year = null)
     {
         $currentMonth = date('m'); // Mês atual
-        $currentYear = date('Y'); // Ano atual
-        $lastYear = $currentYear - 1; // Ano anterior
+        $selectedYear = $year ?? date('Y'); // Ano selecionado ou atual
+        $lastYear = $selectedYear - 1; // Ano anterior ao selecionado
 
         $query = $this->select("
             DISTINCT 
@@ -60,16 +60,20 @@ class PagamentoModel extends Model
             COUNT(*) AS total_quantidade_geral
         ", FALSE);
 
-        if ($currentMonth == 1) {
-            // Janeiro: incluir dezembro do ano anterior e ano atual
+        // Se o ano for o atual e estivermos em janeiro, mostramos dezembro do ano passado
+        // Se for um ano passado específico simplificamos para mostrar o ano todo?
+        // Vou manter a lógica original adaptada para o ano selecionado
+
+        if ($currentMonth == 1 && $selectedYear == date('Y')) {
+            // Janeiro do ano atual: incluir dezembro do ano anterior e ano atual
             $query->where("(
                 (SUBSTR(referencia, 1, 2) = '12' AND SUBSTR(referencia, 3, 4) = '{$lastYear}') 
                 OR 
-                (SUBSTR(referencia, 3, 4) = '{$currentYear}')
+                (SUBSTR(referencia, 3, 4) = '{$selectedYear}')
             )", NULL, FALSE);
         } else {
-            // Outros meses: apenas ano corrente
-            $query->where("SUBSTR(referencia, 3, 4) = '{$currentYear}'", NULL, FALSE);
+            // Outros meses ou anos passados: mostra o ano selecionado
+            $query->where("SUBSTR(referencia, 3, 4) = '{$selectedYear}'", NULL, FALSE);
         }
 
         // Inclui o filtro para `id_tipo_pagamento`
@@ -154,10 +158,19 @@ class PagamentoModel extends Model
         return $query->getResult();
     }
 
-    public function getMonthsList() {
+    public function getMonthsList()
+    {
         $months = [];
         $currentYear = date('Y');
+        $lastYear = $currentYear - 1;
         $nextYear = $currentYear + 1;
+
+        // Adiciona os meses do ano anterior
+        for ($month = 1; $month <= 12; $month++) {
+            $key = str_pad($month, 2, '0', STR_PAD_LEFT) . $lastYear;
+            $months[$key] = $key;
+        }
+
         // Adiciona os meses do ano corrente
         for ($month = 1; $month <= 12; $month++) {
             $key = str_pad($month, 2, '0', STR_PAD_LEFT) . $currentYear;
@@ -168,7 +181,7 @@ class PagamentoModel extends Model
             $key = str_pad($month, 2, '0', STR_PAD_LEFT) . $nextYear;
             $months[$key] = $key;
         }
-    
+
         return (object) $months;
     }
 }

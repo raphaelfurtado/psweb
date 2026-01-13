@@ -18,32 +18,91 @@ class Relatorio extends BaseController
         return view('relatorios/index', $data);
     }
 
+    private function handleDateRange()
+    {
+        $referencia = $this->request->getGet('referencia');
+        $referencia_inicio = $this->request->getGet('referencia_inicio');
+        $referencia_fim = $this->request->getGet('referencia_fim');
+
+        if ($referencia) {
+            // Legacy behavior or single month selection
+            return [
+                'inicio' => $referencia,
+                'fim' => $referencia,
+                'is_periodo' => false
+            ];
+        }
+
+        if ($referencia_inicio && $referencia_fim) {
+            return [
+                'inicio' => $referencia_inicio,
+                'fim' => $referencia_fim,
+                'is_periodo' => true
+            ];
+        }
+
+        // Default to current month
+        $current = date('mY');
+        return [
+            'inicio' => $current,
+            'fim' => $current,
+            'is_periodo' => false
+        ];
+    }
+
+    private function applyDateRangeFilter($query, $table, $inicio, $fim)
+    {
+        // Convert mY strings to dates for comparison
+        // Using string substitution to create a comparable YYYYMM format would be safer/faster but let's stick to standard SQL
+        // Actually, since format is mmYYYY, we can't just compare directly.
+        // We can reconstruct dates: STR_TO_DATE(CONCAT('01', referencia), '%d%m%Y')
+
+        $coluna = "$table.referencia";
+        $query->where("STR_TO_DATE(CONCAT('01', $coluna), '%d%m%Y') BETWEEN STR_TO_DATE(CONCAT('01', '$inicio'), '%d%m%Y') AND STR_TO_DATE(CONCAT('01', '$fim'), '%d%m%Y')");
+
+        return $query;
+    }
+
     public function fluxoCaixa()
     {
         $pagamentoModel = new PagamentoModel();
         $saidaModel = new SaidaModel();
 
-        $referencia = $this->request->getGet('referencia') ?? date('mY');
+        $range = $this->handleDateRange();
 
         // Entradas agrupadas por tipo
-        $entradas = $pagamentoModel->select('tipo_pagamento.descricao, SUM(pagamento.valor) as total')
+        $entradasQuery = $pagamentoModel->select('tipo_pagamento.descricao, SUM(pagamento.valor) as total')
             ->join('tipo_pagamento', 'tipo_pagamento.codigo = pagamento.id_tipo_pagamento')
-            ->where('pagamento.situacao', 'PAGO')
-            ->where('pagamento.referencia', $referencia)
-            ->groupBy(['pagamento.id_tipo_pagamento', 'tipo_pagamento.descricao'])
+            ->where('pagamento.situacao', 'PAGO');
+
+        $this->applyDateRangeFilter($entradasQuery, 'pagamento', $range['inicio'], $range['fim']);
+
+        $entradas = $entradasQuery->groupBy(['pagamento.id_tipo_pagamento', 'tipo_pagamento.descricao'])
             ->findAll();
 
         // Saídas agrupadas por tipo
-        $saidas = $saidaModel->select('tipo_pagamento.descricao, SUM(saida.valor) as total')
-            ->join('tipo_pagamento', 'tipo_pagamento.codigo = saida.id_tipo_pagamento')
-            //->where('saida.situacao', 'PAGO')
-            ->where('saida.referencia', $referencia)
-            ->groupBy(['saida.id_tipo_pagamento', 'tipo_pagamento.descricao'])
+        $saidasQuery = $saidaModel->select('tipo_pagamento.descricao, SUM(saida.valor) as total')
+            ->join('tipo_pagamento', 'tipo_pagamento.codigo = saida.id_tipo_pagamento');
+        //->where('saida.situacao', 'PAGO')
+
+        $this->applyDateRangeFilter($saidasQuery, 'saida', $range['inicio'], $range['fim']);
+
+        $saidas = $saidasQuery->groupBy(['saida.id_tipo_pagamento', 'tipo_pagamento.descricao'])
             ->findAll();
 
         $data['titulo'] = 'Relatório de Fluxo de Caixa';
-        $data['referencia'] = $referencia;
-        $data['mes_extenso'] = $this->getMesExtenso($referencia);
+
+        if ($range['is_periodo']) {
+            $data['referencia'] = $this->getMesExtenso($range['inicio']) . ' até ' . $this->getMesExtenso($range['fim']);
+            $data['referencia_inicio'] = $range['inicio'];
+            $data['referencia_fim'] = $range['fim'];
+            $data['is_periodo'] = true;
+        } else {
+            $data['referencia'] = $range['inicio'];
+            $data['mes_extenso'] = $this->getMesExtenso($range['inicio']);
+            $data['is_periodo'] = false;
+        }
+
         $data['entradas'] = $entradas;
         $data['saidas'] = $saidas;
         $data['meses'] = $pagamentoModel->getMonthsList();
@@ -55,14 +114,15 @@ class Relatorio extends BaseController
     {
         $pagamentoModel = new PagamentoModel();
 
-        $referencia = $this->request->getGet('referencia') ?? date('mY');
+        $range = $this->handleDateRange();
         $quadra = $this->request->getGet('quadra');
 
         $query = $pagamentoModel->select('users.nome, users.telefone, endereco.quadra, endereco.numero, pagamento.valor, pagamento.data_vencimento, pagamento.situacao')
             ->join('users', 'users.id = pagamento.id_usuario')
             ->join('endereco', 'endereco.id_usuario = users.id')
-            ->whereIn('pagamento.situacao', ['ABERTO', 'PENDENTE'])
-            ->where('pagamento.referencia', $referencia);
+            ->whereIn('pagamento.situacao', ['ABERTO', 'PENDENTE']);
+
+        $this->applyDateRangeFilter($query, 'pagamento', $range['inicio'], $range['fim']);
 
         if ($quadra) {
             $query->where('endereco.quadra', $quadra);
@@ -73,8 +133,18 @@ class Relatorio extends BaseController
             ->findAll();
 
         $data['titulo'] = 'Relatório de Inadimplência';
-        $data['referencia'] = $referencia;
-        $data['mes_extenso'] = $this->getMesExtenso($referencia);
+
+        if ($range['is_periodo']) {
+            $data['referencia'] = $this->getMesExtenso($range['inicio']) . ' até ' . $this->getMesExtenso($range['fim']);
+            $data['referencia_inicio'] = $range['inicio'];
+            $data['referencia_fim'] = $range['fim'];
+            $data['is_periodo'] = true;
+        } else {
+            $data['referencia'] = $range['inicio'];
+            $data['mes_extenso'] = $this->getMesExtenso($range['inicio']);
+            $data['is_periodo'] = false;
+        }
+
         $data['quadra'] = $quadra;
         $data['meses'] = $pagamentoModel->getMonthsList();
 
@@ -84,18 +154,31 @@ class Relatorio extends BaseController
     public function folhaPagamento()
     {
         $saidaModel = new SaidaModel();
-        $referencia = $this->request->getGet('referencia') ?? date('mY');
 
-        $data['pagamentos'] = $saidaModel->select('funcionarios.nome_completo, saida.valor, saida.data_pagamento, saida.observacao, tipo_saida.descricao as tipo')
+        $range = $this->handleDateRange();
+
+        $query = $saidaModel->select('funcionarios.nome_completo, saida.valor, saida.data_pagamento, saida.observacao, tipo_saida.descricao as tipo')
             ->join('funcionarios', 'funcionarios.id = saida.id_funcionario')
             ->join('tipo_saida', 'tipo_saida.codigo = saida.id_tipo_saida', 'left')
-            ->where('saida.id_funcionario IS NOT NULL')
-            ->where('saida.referencia', $referencia)
-            ->findAll();
+            ->where('saida.id_funcionario IS NOT NULL');
+
+        $this->applyDateRangeFilter($query, 'saida', $range['inicio'], $range['fim']);
+
+        $data['pagamentos'] = $query->findAll();
 
         $data['titulo'] = 'Relatório de Folha de Pagamento';
-        $data['referencia'] = $referencia;
-        $data['mes_extenso'] = $this->getMesExtenso($referencia);
+
+        if ($range['is_periodo']) {
+            $data['referencia'] = $this->getMesExtenso($range['inicio']) . ' até ' . $this->getMesExtenso($range['fim']);
+            $data['referencia_inicio'] = $range['inicio'];
+            $data['referencia_fim'] = $range['fim'];
+            $data['is_periodo'] = true;
+        } else {
+            $data['referencia'] = $range['inicio'];
+            $data['mes_extenso'] = $this->getMesExtenso($range['inicio']);
+            $data['is_periodo'] = false;
+        }
+
         $data['meses'] = (new PagamentoModel())->getMonthsList();
 
         return view('relatorios/folha_pagamento', $data);
@@ -106,20 +189,22 @@ class Relatorio extends BaseController
         $pagamentoModel = new PagamentoModel();
         $saidaModel = new SaidaModel();
 
-        $referencia = $this->request->getGet('referencia') ?? date('mY');
+        $range = $this->handleDateRange();
 
         // 1. Detalhamento de Receitas
-        $data['receitas_detalhe'] = $pagamentoModel->select('users.nome, endereco.quadra, endereco.numero, pagamento.valor, pagamento.data_pagamento, pagamento.observacao, tipo_pagamento.descricao as categoria')
+        $receitasQuery = $pagamentoModel->select('users.nome, endereco.quadra, endereco.numero, pagamento.valor, pagamento.data_pagamento, pagamento.observacao, tipo_pagamento.descricao as categoria')
             ->join('users', 'users.id = pagamento.id_usuario')
             ->join('endereco', 'endereco.id_usuario = users.id')
             ->join('tipo_pagamento', 'tipo_pagamento.codigo = pagamento.id_tipo_pagamento')
-            ->where('pagamento.situacao', 'PAGO')
-            ->where('pagamento.referencia', $referencia)
-            ->orderBy('pagamento.data_pagamento', 'ASC')
+            ->where('pagamento.situacao', 'PAGO');
+
+        $this->applyDateRangeFilter($receitasQuery, 'pagamento', $range['inicio'], $range['fim']);
+
+        $data['receitas_detalhe'] = $receitasQuery->orderBy('pagamento.data_pagamento', 'ASC')
             ->findAll();
 
         // 2. Detalhamento de Despesas (Unificando funcionários e outros recebedores)
-        $data['despesas_detalhe'] = $saidaModel->select('
+        $despesasQuery = $saidaModel->select('
                 saida.valor, 
                 saida.data_pagamento, 
                 saida.observacao, 
@@ -128,10 +213,12 @@ class Relatorio extends BaseController
             ')
             ->join('tipo_pagamento', 'tipo_pagamento.codigo = saida.id_tipo_pagamento')
             ->join('funcionarios', 'funcionarios.id = saida.id_funcionario', 'left')
-            ->join('recebedor', 'recebedor.id = saida.id_recebedor', 'left')
-            //->where('saida.situacao', 'PAGO')
-            ->where('saida.referencia', $referencia)
-            ->orderBy('saida.data_pagamento', 'ASC')
+            ->join('recebedor', 'recebedor.id = saida.id_recebedor', 'left');
+        //->where('saida.situacao', 'PAGO')
+
+        $this->applyDateRangeFilter($despesasQuery, 'saida', $range['inicio'], $range['fim']);
+
+        $data['despesas_detalhe'] = $despesasQuery->orderBy('saida.data_pagamento', 'ASC')
             ->findAll();
 
         // 3. Totais para o Resumo
@@ -139,8 +226,18 @@ class Relatorio extends BaseController
         $data['total_despesas'] = array_sum(array_column($data['despesas_detalhe'], 'valor'));
 
         $data['titulo'] = 'Prestação de Contas Detalhada';
-        $data['referencia'] = $referencia;
-        $data['mes_extenso'] = $this->getMesExtenso($referencia);
+
+        if ($range['is_periodo']) {
+            $data['referencia'] = $this->getMesExtenso($range['inicio']) . ' até ' . $this->getMesExtenso($range['fim']);
+            $data['referencia_inicio'] = $range['inicio'];
+            $data['referencia_fim'] = $range['fim'];
+            $data['is_periodo'] = true;
+        } else {
+            $data['referencia'] = $range['inicio'];
+            $data['mes_extenso'] = $this->getMesExtenso($range['inicio']);
+            $data['is_periodo'] = false;
+        }
+
         $data['meses'] = $pagamentoModel->getMonthsList();
 
         return view('relatorios/prestacao_contas', $data);
@@ -151,19 +248,21 @@ class Relatorio extends BaseController
         $pagamentoModel = new PagamentoModel();
         $saidaModel = new SaidaModel();
 
-        $referencia = $this->request->getGet('referencia') ?? date('mY');
+        $range = $this->handleDateRange();
 
         // Mesma lógica de dados para garantir consistência
-        $receitas_detalhe = $pagamentoModel->select('users.nome, endereco.quadra, endereco.numero, pagamento.valor, pagamento.data_pagamento, pagamento.observacao, tipo_pagamento.descricao as categoria')
+        $receitasQuery = $pagamentoModel->select('users.nome, endereco.quadra, endereco.numero, pagamento.valor, pagamento.data_pagamento, pagamento.observacao, tipo_pagamento.descricao as categoria')
             ->join('users', 'users.id = pagamento.id_usuario')
             ->join('endereco', 'endereco.id_usuario = users.id')
             ->join('tipo_pagamento', 'tipo_pagamento.codigo = pagamento.id_tipo_pagamento')
-            ->where('pagamento.situacao', 'PAGO')
-            ->where('pagamento.referencia', $referencia)
-            ->orderBy('pagamento.data_pagamento', 'ASC')
+            ->where('pagamento.situacao', 'PAGO');
+
+        $this->applyDateRangeFilter($receitasQuery, 'pagamento', $range['inicio'], $range['fim']);
+
+        $receitas_detalhe = $receitasQuery->orderBy('pagamento.data_pagamento', 'ASC')
             ->findAll();
 
-        $despesas_detalhe = $saidaModel->select('
+        $despesasQuery = $saidaModel->select('
                 saida.valor, 
                 saida.data_pagamento, 
                 saida.observacao, 
@@ -172,15 +271,17 @@ class Relatorio extends BaseController
             ')
             ->join('tipo_pagamento', 'tipo_pagamento.codigo = saida.id_tipo_pagamento')
             ->join('funcionarios', 'funcionarios.id = saida.id_funcionario', 'left')
-            ->join('recebedor', 'recebedor.id = saida.id_recebedor', 'left')
-            //->where('saida.situacao', 'PAGO')
-            ->where('saida.referencia', $referencia)
-            ->orderBy('saida.data_pagamento', 'ASC')
+            ->join('recebedor', 'recebedor.id = saida.id_recebedor', 'left');
+        //->where('saida.situacao', 'PAGO')
+
+        $this->applyDateRangeFilter($despesasQuery, 'saida', $range['inicio'], $range['fim']);
+
+        $despesas_detalhe = $despesasQuery->orderBy('saida.data_pagamento', 'ASC')
             ->findAll();
 
         $data = [
-            'referencia' => $referencia,
-            'mes_extenso' => $this->getMesExtenso($referencia),
+            'referencia' => $range['is_periodo'] ? $this->getMesExtenso($range['inicio']) . ' até ' . $this->getMesExtenso($range['fim']) : $this->getMesExtenso($range['inicio']),
+            'mes_extenso' => $range['is_periodo'] ? $this->getMesExtenso($range['inicio']) . ' até ' . $this->getMesExtenso($range['fim']) : $this->getMesExtenso($range['inicio']),
             'receitas_detalhe' => $receitas_detalhe,
             'despesas_detalhe' => $despesas_detalhe,
             'total_receitas' => array_sum(array_column($receitas_detalhe, 'valor')),
@@ -200,35 +301,44 @@ class Relatorio extends BaseController
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
 
-        // Retornar resposta formatada para evitar quebra de cabeçalhos em produção
-        $output = $dompdf->output();
-        return $this->response
-            ->setHeader('Content-Type', 'application/pdf')
-            ->setHeader('Content-Disposition', 'inline; filename="prestacao_contas_' . $referencia . '.pdf"')
-            ->setBody($output);
+        $refName = $range['is_periodo'] ? "{$range['inicio']}_{$range['fim']}" : $range['inicio'];
+        $dompdf->stream("prestacao_contas_{$refName}.pdf", ["Attachment" => false]);
     }
 
     public function receitasPorCategoria()
     {
         $pagamentoModel = new PagamentoModel();
-        $referencia = $this->request->getGet('referencia') ?? date('mY');
 
-        $data['agrupado'] = $pagamentoModel->select('
+        $range = $this->handleDateRange();
+
+        $query = $pagamentoModel->select('
                 tipo_pagamento.codigo,
                 tipo_pagamento.descricao, 
                 COUNT(pagamento.id) as quantidade, 
                 SUM(pagamento.valor) as total
             ')
             ->join('tipo_pagamento', 'tipo_pagamento.codigo = pagamento.id_tipo_pagamento')
-            ->where('pagamento.situacao', 'PAGO')
-            ->where('pagamento.referencia', $referencia)
-            ->groupBy(['tipo_pagamento.codigo', 'tipo_pagamento.descricao'])
+            ->where('pagamento.situacao', 'PAGO');
+
+        $this->applyDateRangeFilter($query, 'pagamento', $range['inicio'], $range['fim']);
+
+        $data['agrupado'] = $query->groupBy(['tipo_pagamento.codigo', 'tipo_pagamento.descricao'])
             ->orderBy('total', 'DESC')
             ->findAll();
 
         $data['titulo'] = 'Receitas por Categoria';
-        $data['referencia'] = $referencia;
-        $data['mes_extenso'] = $this->getMesExtenso($referencia);
+
+        if ($range['is_periodo']) {
+            $data['referencia'] = $this->getMesExtenso($range['inicio']) . ' até ' . $this->getMesExtenso($range['fim']);
+            $data['referencia_inicio'] = $range['inicio'];
+            $data['referencia_fim'] = $range['fim'];
+            $data['is_periodo'] = true;
+        } else {
+            $data['referencia'] = $range['inicio'];
+            $data['mes_extenso'] = $this->getMesExtenso($range['inicio']);
+            $data['is_periodo'] = false;
+        }
+
         $data['meses'] = $pagamentoModel->getMonthsList();
 
         return view('relatorios/receitas_categoria', $data);
@@ -237,24 +347,27 @@ class Relatorio extends BaseController
     public function gerarPdfReceitasCategoria()
     {
         $pagamentoModel = new PagamentoModel();
-        $referencia = $this->request->getGet('referencia') ?? date('mY');
 
-        $agrupado = $pagamentoModel->select('
+        $range = $this->handleDateRange();
+
+        $query = $pagamentoModel->select('
                 tipo_pagamento.codigo,
                 tipo_pagamento.descricao, 
                 COUNT(pagamento.id) as quantidade, 
                 SUM(pagamento.valor) as total
             ')
             ->join('tipo_pagamento', 'tipo_pagamento.codigo = pagamento.id_tipo_pagamento')
-            ->where('pagamento.situacao', 'PAGO')
-            ->where('pagamento.referencia', $referencia)
-            ->groupBy(['tipo_pagamento.codigo', 'tipo_pagamento.descricao'])
+            ->where('pagamento.situacao', 'PAGO');
+
+        $this->applyDateRangeFilter($query, 'pagamento', $range['inicio'], $range['fim']);
+
+        $agrupado = $query->groupBy(['tipo_pagamento.codigo', 'tipo_pagamento.descricao'])
             ->orderBy('total', 'DESC')
             ->findAll();
 
         $data = [
-            'referencia' => $referencia,
-            'mes_extenso' => $this->getMesExtenso($referencia),
+            'referencia' => $range['is_periodo'] ? $this->getMesExtenso($range['inicio']) . ' até ' . $this->getMesExtenso($range['fim']) : $this->getMesExtenso($range['inicio']),
+            'mes_extenso' => $range['is_periodo'] ? $this->getMesExtenso($range['inicio']) . ' até ' . $this->getMesExtenso($range['fim']) : $this->getMesExtenso($range['inicio']),
             'agrupado' => $agrupado,
             'total_geral' => array_sum(array_column($agrupado, 'total')),
             'qtd_geral' => array_sum(array_column($agrupado, 'quantidade'))
@@ -271,11 +384,8 @@ class Relatorio extends BaseController
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
 
-        $output = $dompdf->output();
-        return $this->response
-            ->setHeader('Content-Type', 'application/pdf')
-            ->setHeader('Content-Disposition', 'inline; filename="receitas_por_categoria_' . $referencia . '.pdf"')
-            ->setBody($output);
+        $refName = $range['is_periodo'] ? "{$range['inicio']}_{$range['fim']}" : $range['inicio'];
+        $dompdf->stream("receitas_por_categoria_{$refName}.pdf", ["Attachment" => false]);
     }
 
     public function resumoCaixa()
@@ -283,49 +393,53 @@ class Relatorio extends BaseController
         $pagamentoModel = new PagamentoModel();
         $saidaModel = new SaidaModel();
 
-        $referencia = $this->request->getGet('referencia') ?? date('mY');
+        $range = $this->handleDateRange();
 
         // Entradas Agrupadas (inner join para garantir categorias válidas se desejado)
-        $entradas = $pagamentoModel->select('
+        $entradasQuery = $pagamentoModel->select('
                 tipo_pagamento.codigo,
                 tipo_pagamento.descricao, 
                 SUM(pagamento.valor) as total
             ')
             ->join('tipo_pagamento', 'tipo_pagamento.codigo = pagamento.id_tipo_pagamento')
-            ->where('pagamento.situacao', 'PAGO')
-            ->where('pagamento.referencia', $referencia)
-            ->groupBy(['tipo_pagamento.codigo', 'tipo_pagamento.descricao'])
+            ->where('pagamento.situacao', 'PAGO');
+
+        $this->applyDateRangeFilter($entradasQuery, 'pagamento', $range['inicio'], $range['fim']);
+
+        $entradas = $entradasQuery->groupBy(['tipo_pagamento.codigo', 'tipo_pagamento.descricao'])
             ->findAll();
 
         // Saídas Agrupadas (usando JOIN com tipo_pagamento conforme solicitado)
-        $saidas = $saidaModel->select('
+        $saidasQuery = $saidaModel->select('
                 tipo_pagamento.codigo,
                 tipo_pagamento.descricao, 
                 SUM(saida.valor) as total
             ')
-            ->join('tipo_pagamento', 'tipo_pagamento.codigo = saida.id_tipo_pagamento')
-            //->where('saida.situacao', 'PAGO')
-            ->where('saida.referencia', $referencia)
-            ->groupBy(['tipo_pagamento.codigo', 'tipo_pagamento.descricao'])
+            ->join('tipo_pagamento', 'tipo_pagamento.codigo = saida.id_tipo_pagamento');
+        //->where('saida.situacao', 'PAGO')
+
+        $this->applyDateRangeFilter($saidasQuery, 'saida', $range['inicio'], $range['fim']);
+
+        $saidas = $saidasQuery->groupBy(['tipo_pagamento.codigo', 'tipo_pagamento.descricao'])
             ->findAll();
 
         // Saídas Detalhadas (para listar cada uma)
-        $saidas_detalhe = $saidaModel->select('
+        $saidasDetalheQuery = $saidaModel->select('
                 saida.valor, 
                 saida.data_pagamento, 
                 saida.observacao, 
                 tipo_pagamento.descricao as categoria
             ')
-            ->join('tipo_pagamento', 'tipo_pagamento.codigo = saida.id_tipo_pagamento')
-            //->where('saida.situacao', 'PAGO')
-            ->where('saida.referencia', $referencia)
-            ->orderBy('saida.data_pagamento', 'ASC')
+            ->join('tipo_pagamento', 'tipo_pagamento.codigo = saida.id_tipo_pagamento');
+        //->where('saida.situacao', 'PAGO')
+
+        $this->applyDateRangeFilter($saidasDetalheQuery, 'saida', $range['inicio'], $range['fim']);
+
+        $saidas_detalhe = $saidasDetalheQuery->orderBy('saida.data_pagamento', 'ASC')
             ->findAll();
 
         $data = [
             'titulo' => 'Resumo de Caixa por Tipo',
-            'referencia' => $referencia,
-            'mes_extenso' => $this->getMesExtenso($referencia),
             'entradas' => $entradas,
             'saidas' => $saidas,
             'saidas_detalhe' => $saidas_detalhe,
@@ -333,6 +447,19 @@ class Relatorio extends BaseController
             'total_saidas' => array_sum(array_column($saidas_detalhe, 'valor')),
             'meses' => $pagamentoModel->getMonthsList()
         ];
+
+        if ($range['is_periodo']) {
+            $data['referencia'] = $this->getMesExtenso($range['inicio']) . ' até ' . $this->getMesExtenso($range['fim']);
+            $data['referencia_inicio'] = $range['inicio'];
+            $data['referencia_fim'] = $range['fim'];
+            $data['is_periodo'] = true;
+            $data['mes_extenso'] = $this->getMesExtenso($range['inicio']) . ' até ' . $this->getMesExtenso($range['fim']);
+        } else {
+            $data['referencia'] = $range['inicio'];
+            $data['mes_extenso'] = $this->getMesExtenso($range['inicio']);
+            $data['is_periodo'] = false;
+        }
+
 
         return view('relatorios/resumo_caixa', $data);
     }
@@ -342,37 +469,43 @@ class Relatorio extends BaseController
         $pagamentoModel = new PagamentoModel();
         $saidaModel = new SaidaModel();
 
-        $referencia = $this->request->getGet('referencia') ?? date('mY');
+        $range = $this->handleDateRange();
 
-        $entradas = $pagamentoModel->select('tipo_pagamento.codigo, tipo_pagamento.descricao, SUM(pagamento.valor) as total')
+        $entradasQuery = $pagamentoModel->select('tipo_pagamento.codigo, tipo_pagamento.descricao, SUM(pagamento.valor) as total')
             ->join('tipo_pagamento', 'tipo_pagamento.codigo = pagamento.id_tipo_pagamento')
-            ->where('pagamento.situacao', 'PAGO')
-            ->where('pagamento.referencia', $referencia)
-            ->groupBy(['tipo_pagamento.codigo', 'tipo_pagamento.descricao'])
+            ->where('pagamento.situacao', 'PAGO');
+
+        $this->applyDateRangeFilter($entradasQuery, 'pagamento', $range['inicio'], $range['fim']);
+
+        $entradas = $entradasQuery->groupBy(['tipo_pagamento.codigo', 'tipo_pagamento.descricao'])
             ->findAll();
 
-        $saidas = $saidaModel->select('tipo_pagamento.codigo, tipo_pagamento.descricao, SUM(saida.valor) as total')
-            ->join('tipo_pagamento', 'tipo_pagamento.codigo = saida.id_tipo_pagamento')
-            //->where('saida.situacao', 'PAGO')
-            ->where('saida.referencia', $referencia)
-            ->groupBy(['tipo_pagamento.codigo', 'tipo_pagamento.descricao'])
+        $saidasQuery = $saidaModel->select('tipo_pagamento.codigo, tipo_pagamento.descricao, SUM(saida.valor) as total')
+            ->join('tipo_pagamento', 'tipo_pagamento.codigo = saida.id_tipo_pagamento');
+        //->where('saida.situacao', 'PAGO')
+
+        $this->applyDateRangeFilter($saidasQuery, 'saida', $range['inicio'], $range['fim']);
+
+        $saidas = $saidasQuery->groupBy(['tipo_pagamento.codigo', 'tipo_pagamento.descricao'])
             ->findAll();
 
-        $saidas_detalhe = $saidaModel->select('
+        $saidasDetalheQuery = $saidaModel->select('
                 saida.valor, 
                 saida.data_pagamento, 
                 saida.observacao, 
                 tipo_pagamento.descricao as categoria
             ')
-            ->join('tipo_pagamento', 'tipo_pagamento.codigo = saida.id_tipo_pagamento')
-            //->where('saida.situacao', 'PAGO')
-            ->where('saida.referencia', $referencia)
-            ->orderBy('saida.data_pagamento', 'ASC')
+            ->join('tipo_pagamento', 'tipo_pagamento.codigo = saida.id_tipo_pagamento');
+        //->where('saida.situacao', 'PAGO')
+
+        $this->applyDateRangeFilter($saidasDetalheQuery, 'saida', $range['inicio'], $range['fim']);
+
+        $saidas_detalhe = $saidasDetalheQuery->orderBy('saida.data_pagamento', 'ASC')
             ->findAll();
 
         $data = [
-            'referencia' => $referencia,
-            'mes_extenso' => $this->getMesExtenso($referencia),
+            'referencia' => $range['is_periodo'] ? $this->getMesExtenso($range['inicio']) . ' até ' . $this->getMesExtenso($range['fim']) : $this->getMesExtenso($range['inicio']),
+            'mes_extenso' => $range['is_periodo'] ? $this->getMesExtenso($range['inicio']) . ' até ' . $this->getMesExtenso($range['fim']) : $this->getMesExtenso($range['inicio']),
             'entradas' => $entradas,
             'saidas' => $saidas,
             'saidas_detalhe' => $saidas_detalhe,
@@ -391,11 +524,8 @@ class Relatorio extends BaseController
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
 
-        $output = $dompdf->output();
-        return $this->response
-            ->setHeader('Content-Type', 'application/pdf')
-            ->setHeader('Content-Disposition', 'inline; filename="resumo_caixa_' . $referencia . '.pdf"')
-            ->setBody($output);
+        $refName = $range['is_periodo'] ? "{$range['inicio']}_{$range['fim']}" : $range['inicio'];
+        $dompdf->stream("resumo_caixa_{$refName}.pdf", ["Attachment" => false]);
     }
 
     private function getMesExtenso($referencia)
