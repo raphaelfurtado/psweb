@@ -302,7 +302,10 @@ class Relatorio extends BaseController
         $dompdf->render();
 
         $refName = $range['is_periodo'] ? "{$range['inicio']}_{$range['fim']}" : $range['inicio'];
-        $dompdf->stream("prestacao_contas_{$refName}.pdf", ["Attachment" => false]);
+        $this->response->setContentType('application/pdf');
+        $this->response->setHeader('Content-Disposition', 'inline; filename="prestacao_contas_' . $refName . '.pdf"');
+        $this->response->setBody($dompdf->output());
+        return $this->response;
     }
 
     public function receitasPorCategoria()
@@ -385,7 +388,10 @@ class Relatorio extends BaseController
         $dompdf->render();
 
         $refName = $range['is_periodo'] ? "{$range['inicio']}_{$range['fim']}" : $range['inicio'];
-        $dompdf->stream("receitas_por_categoria_{$refName}.pdf", ["Attachment" => false]);
+        $this->response->setContentType('application/pdf');
+        $this->response->setHeader('Content-Disposition', 'inline; filename="receitas_por_categoria_' . $refName . '.pdf"');
+        $this->response->setBody($dompdf->output());
+        return $this->response;
     }
 
     public function resumoCaixa()
@@ -525,7 +531,10 @@ class Relatorio extends BaseController
         $dompdf->render();
 
         $refName = $range['is_periodo'] ? "{$range['inicio']}_{$range['fim']}" : $range['inicio'];
-        $dompdf->stream("resumo_caixa_{$refName}.pdf", ["Attachment" => false]);
+        $this->response->setContentType('application/pdf');
+        $this->response->setHeader('Content-Disposition', 'inline; filename="resumo_caixa_' . $refName . '.pdf"');
+        $this->response->setBody($dompdf->output());
+        return $this->response;
     }
 
     private function getMesExtenso($referencia)
