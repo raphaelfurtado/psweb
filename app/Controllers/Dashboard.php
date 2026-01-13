@@ -18,12 +18,15 @@ class Dashboard extends BaseController
             return redirect()->to('/login');
         }
 
+        $year = $this->request->getGet('year') ?? date('Y');
+
         $data['titulo'] = 'Início';
         $data['nome'] = session()->get('user_nome');
         $data['role'] = session()->get('user_role');
-        $data['informacoes'] = $pagamentoModel->getInfoMensalidadePorReferencia();
+        $data['informacoes'] = $pagamentoModel->getInfoMensalidadePorReferencia($year);
         $data['contas'] = $anexoModel->getDocPrestacaoContas();
         $data['referencias_caixa'] = $pagamentoModel->getMonthsList();
+        $data['selected_year'] = $year;
 
         // var_dump($pagamentoModel->getMonthsList());
         // die();

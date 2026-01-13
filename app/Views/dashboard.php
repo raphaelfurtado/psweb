@@ -14,8 +14,23 @@
 <?php endif; ?>
 
 
-<h5 class="mb-0 d-inline-block">Bem-vindo, <?php echo $nome; ?></h5>
-<br /><br />
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h5 class="mb-0">Bem-vindo, <?php echo $nome; ?></h5>
+    <form method="get" class="form-inline">
+        <label class="mr-2">Ano:</label>
+        <select name="year" class="form-control form-control-sm" onchange="this.form.submit()">
+            <?php
+            $currentYear = date('Y');
+            $lastYear = $currentYear - 1;
+            ?>
+            <option value="<?= $lastYear ?>" <?= ($selected_year == $lastYear) ? 'selected' : '' ?>><?= $lastYear ?>
+            </option>
+            <option value="<?= $currentYear ?>" <?= ($selected_year == $currentYear) ? 'selected' : '' ?>>
+                <?= $currentYear ?></option>
+        </select>
+    </form>
+</div>
+<br />
 
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
