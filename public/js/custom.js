@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const acordoTextarea = document.getElementById('acordo'); // Textarea
     const salarioInput = document.getElementById('salario'); // Campo de salário
     const refCaixa = document.getElementById('ref_caixa');
+    const refConcreto = document.getElementById('ref_concreto');
     const resumoUrlDiv = document.getElementById('resumo-url');
     const BASE_URL = resumoUrlDiv ? resumoUrlDiv.getAttribute('data-url-resumo') : '';
 
@@ -34,9 +35,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    function atualizarResumo() {
-        if (refCaixa && BASE_URL) {
-            fetch(`${BASE_URL}/${refCaixa.value}`, {
+    function atualizarResumo(ref, type) {
+        if (ref && BASE_URL) {
+            fetch(`${BASE_URL}/${ref}`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -44,17 +45,34 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
                 .then(response => response.json())
                 .then(data => {
-                    // Verifique se o valor está presente e, se não, defina como 0
-                    const entrada = data.entrada[0].entrada || "0,00"; // Se for nulo, usa "0,00"
-                    const saida = data.saida[0].saida || "0,00"; // Se for nulo, usa "0,00"
-                    const valorCaixa = data.valor_caixa[0].total_em_caixa || "0,00"; // Se for nulo, usa "0,00"
+                    if (type === 'caixa') {
+                        const entrada = data.entrada[0].entrada || "0,00";
+                        const saida = data.saida[0].saida || "0,00";
+                        const valorCaixa = data.valor_caixa[0].total_em_caixa || "0,00";
 
-                    document.getElementById("entrada").textContent = `R$ ${entrada}`;
-                    document.getElementById("saida").textContent = `R$ ${saida}`;
-                    document.getElementById("valor_caixa").textContent = `R$ ${valorCaixa}`;
+                        const elEntrada = document.getElementById("entrada");
+                        const elSaida = document.getElementById("saida");
+                        const elValorCaixa = document.getElementById("valor_caixa");
+
+                        if (elEntrada) elEntrada.textContent = `R$ ${entrada}`;
+                        if (elSaida) elSaida.textContent = `R$ ${saida}`;
+                        if (elValorCaixa) elValorCaixa.textContent = `R$ ${valorCaixa}`;
+                    } else if (type === 'concreto') {
+                        const entradaConcreto = data.entrada_concreto[0].entrada || "0,00";
+                        const saidaConcreto = data.saida_concreto[0].saida || "0,00";
+                        const valorCaixaConcreto = data.valor_caixa_concreto[0].total_em_caixa || "0,00";
+
+                        const elEntradaConc = document.getElementById("entrada_concreto");
+                        const elSaidaConc = document.getElementById("saida_concreto");
+                        const elValorCaixaConc = document.getElementById("valor_caixa_concreto");
+
+                        if (elEntradaConc) elEntradaConc.textContent = `R$ ${entradaConcreto}`;
+                        if (elSaidaConc) elSaidaConc.textContent = `R$ ${saidaConcreto}`;
+                        if (elValorCaixaConc) elValorCaixaConc.textContent = `R$ ${valorCaixaConcreto}`;
+                    }
                 })
                 .catch((error) => {
-                    console.error(error); // Para ver detalhes no console
+                    console.error(`Error updating ${type}:`, error);
                 });
         }
     }
@@ -64,7 +82,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     if (refCaixa) {
-        refCaixa.addEventListener('change', atualizarResumo);
+        refCaixa.addEventListener('change', () => atualizarResumo(refCaixa.value, 'caixa'));
+    }
+
+    if (refConcreto) {
+        refConcreto.addEventListener('change', () => atualizarResumo(refConcreto.value, 'concreto'));
     }
 
     document.getElementsByName('possui_acordo').forEach(radio => {
@@ -77,5 +99,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     toggleMoradorSelect();
     toggleAcordoTextarea();
-    atualizarResumo();
+    if (refCaixa) atualizarResumo(refCaixa.value, 'caixa');
+    if (refConcreto) atualizarResumo(refConcreto.value, 'concreto');
 });

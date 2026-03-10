@@ -187,6 +187,7 @@
     </div>
 </div>
 
+<!--
 <div class="row">
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
@@ -202,20 +203,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($contas as $conta): ?>
+                            <?php //foreach ($contas as $conta): ?>
                                 <tr>
-                                    <td><?php echo mb_strtoupper($conta->subject); ?></td>
-                                    <td><?php echo $conta->created_at; ?></td>
+                                    <td><?php //echo mb_strtoupper($conta->subject); ?></td>
+                                    <td><?php //echo $conta->created_at; ?></td>
                                     <td>
                                         <!-- Botão para abrir o arquivo em uma nova aba -->
-                                        <button title="Abrir Arquivo" type="button"
+                                        <!-- <button title="Abrir Arquivo" type="button"
                                             class="btn btn-primary btn-rounded btn-icon"
-                                            onclick="window.open('<?php echo base_url('anexo/download/' . $conta->stored_name); ?>', '_blank');">
+                                            onclick="window.open('<?php //echo base_url('anexo/download/' . $conta->stored_name); ?>', '_blank');">
                                             <i class="mdi mdi-eye icon-sm"></i>
-                                        </button>
-                                    </td>
+                                        </button> -->
+                                    <!-- </td>
                                 </tr>
-                            <?php endforeach; ?>
+                            <?php //endforeach; ?> 
                         </tbody>
                     </table>
                 </div>
@@ -223,6 +224,7 @@
         </div>
     </div>
 </div>
+-->
 
 <?php if ($role === 'admin'): ?>
     <div class="row">
@@ -260,6 +262,46 @@
                         <div class="d-flex flex-column justify-content-around">
                             <small class="mb-1 text-muted">Valor em caixa:</small>
                             <h5 class="mr-2 mb-0" id="valor_caixa">R$ 0</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Resumo de Concreto</h4>
+                    <div class="form-group">
+                        <label for="ref_concreto">Referência:</label>
+                        <select class="form-control form-control-sm" id="ref_concreto" name="ref_concreto">
+                            <?php foreach ($referencias_caixa as $referencia): ?>
+                                <option value="<?= $referencia; ?>"><?= $referencia; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="d-flex border-md-right flex-grow-1 align-items-left justify-content-left p-3 item">
+                        <i class="mdi mdi-truck mr-3 icon-lg text-success"></i>
+                        <div class="d-flex flex-column justify-content-around">
+                            <small class="mb-1 text-muted">Entrada (concreto):</small>
+                            <h5 class="mr-2 mb-0" id="entrada_concreto">R$ 0</h5>
+                        </div>
+                    </div>
+
+                    <div class="d-flex border-md-right flex-grow-1 align-items-left justify-content-left p-3 item">
+                        <i class="mdi mdi-truck mr-3 icon-lg text-danger"></i>
+                        <div class="d-flex flex-column justify-content-around">
+                            <small class="mb-1 text-muted">Saída (concreto):</small>
+                            <h5 class="mr-2 mb-0" id="saida_concreto">R$ 0</h5>
+                        </div>
+                    </div>
+
+                    <div class="d-flex border-md-right flex-grow-1 align-items-left justify-content-left p-3 item">
+                        <i class="mdi mdi-truck mr-3 icon-lg text-primary"></i>
+                        <div class="d-flex flex-column justify-content-around">
+                            <small class="mb-1 text-muted">Valor em caixa (concreto):</small>
+                            <h5 class="mr-2 mb-0" id="valor_caixa_concreto">R$ 0</h5>
                         </div>
                     </div>
                 </div>

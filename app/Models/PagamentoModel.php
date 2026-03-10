@@ -136,14 +136,14 @@ class PagamentoModel extends Model
 
     public function getEntrada($referencia)
     {
-        $sql = "SELECT FORMAT(SUM(valor), 2, 'pt_BR') AS entrada FROM pagamento WHERE id_tipo_pagamento in (3,4,5) AND situacao = 'PAGO' AND referencia = ?";
+        $sql = "SELECT FORMAT(IFNULL(SUM(valor), 0), 2, 'pt_BR') AS entrada FROM pagamento WHERE id_tipo_pagamento in (3,4,5) AND situacao = 'PAGO' AND referencia = ?";
         $query = $this->db->query($sql, [$referencia]);
         return $query->getResult();
     }
 
     public function getSaida($referencia)
     {
-        $sql = "SELECT FORMAT(SUM(valor), 2, 'pt_BR') AS saida FROM saida WHERE referencia = ?";
+        $sql = "SELECT FORMAT(IFNULL(SUM(valor), 0), 2, 'pt_BR') AS saida FROM saida WHERE referencia = ?";
         $query = $this->db->query($sql, [$referencia]);
         return $query->getResult();
     }
@@ -151,8 +151,32 @@ class PagamentoModel extends Model
     public function getTotalCaixa($referencia)
     {
         $sql = "SELECT FORMAT(
-                    (SELECT SUM(valor) FROM pagamento WHERE id_tipo_pagamento in (3,4,5) AND situacao = 'PAGO' AND referencia = ?) -
-                    (SELECT SUM(valor) FROM saida WHERE referencia = ?), 
+                    IFNULL((SELECT SUM(valor) FROM pagamento WHERE id_tipo_pagamento in (3,4,5) AND situacao = 'PAGO' AND referencia = ?), 0) -
+                    IFNULL((SELECT SUM(valor) FROM saida WHERE referencia = ?), 0), 
+                    2, 'pt_BR') AS total_em_caixa";
+        $query = $this->db->query($sql, [$referencia, $referencia]);
+        return $query->getResult();
+    }
+
+    public function getEntradaConcreto($referencia)
+    {
+        $sql = "SELECT FORMAT(IFNULL(SUM(valor), 0), 2, 'pt_BR') AS entrada FROM pagamento WHERE id_tipo_pagamento = 4 AND situacao = 'PAGO' AND referencia = ?";
+        $query = $this->db->query($sql, [$referencia]);
+        return $query->getResult();
+    }
+
+    public function getSaidaConcreto($referencia)
+    {
+        $sql = "SELECT FORMAT(IFNULL(SUM(valor), 0), 2, 'pt_BR') AS saida FROM saida WHERE id_tipo_pagamento = 4 AND referencia = ?";
+        $query = $this->db->query($sql, [$referencia]);
+        return $query->getResult();
+    }
+
+    public function getTotalCaixaConcreto($referencia)
+    {
+        $sql = "SELECT FORMAT(
+                    IFNULL((SELECT SUM(valor) FROM pagamento WHERE id_tipo_pagamento = 4 AND situacao = 'PAGO' AND referencia = ?), 0) -
+                    IFNULL((SELECT SUM(valor) FROM saida WHERE id_tipo_pagamento = 4 AND referencia = ?), 0), 
                     2, 'pt_BR') AS total_em_caixa";
         $query = $this->db->query($sql, [$referencia, $referencia]);
         return $query->getResult();
@@ -160,28 +184,35 @@ class PagamentoModel extends Model
 
     public function getMonthsList()
     {
-        $months = [];
-        $currentYear = date('Y');
-        $lastYear = $currentYear - 1;
-        $nextYear = $currentYear + 1;
+        // Busca referências únicas de ambas as tabelas
+        $queryPagamento = $this->db->table('pagamento')->select('referencia')->distinct()->get()->getResult();
+        $querySaida = $this->db->table('saida')->select('referencia')->distinct()->get()->getResult();
 
-        // Adiciona os meses do ano anterior
-        for ($month = 1; $month <= 12; $month++) {
-            $key = str_pad($month, 2, '0', STR_PAD_LEFT) . $lastYear;
-            $months[$key] = $key;
+        $references = [];
+        foreach ($queryPagamento as $row) {
+            $references[$row->referencia] = $row->referencia;
+        }
+        foreach ($querySaida as $row) {
+            $references[$row->referencia] = $row->referencia;
         }
 
-        // Adiciona os meses do ano corrente
-        for ($month = 1; $month <= 12; $month++) {
-            $key = str_pad($month, 2, '0', STR_PAD_LEFT) . $currentYear;
-            $months[$key] = $key;
-        }
-        // Adiciona os três primeiros meses do próximo ano
-        for ($month = 1; $month <= 3; $month++) {
-            $key = str_pad($month, 2, '0', STR_PAD_LEFT) . $nextYear;
-            $months[$key] = $key;
-        }
+        // Adiciona o mês atual como fallback garantido
+        $currentMonthRef = date('mY');
+        $references[$currentMonthRef] = $currentMonthRef;
 
-        return (object) $months;
+        // Ordenação personalizada (MMYYYY -> YYYYMM para ordenar corretamente)
+        uksort($references, function ($a, $b) {
+            $yearA = substr($a, 2, 4);
+            $monthA = substr($a, 0, 2);
+            $yearB = substr($b, 2, 4);
+            $monthB = substr($b, 0, 2);
+
+            $sortA = $yearA . $monthA;
+            $sortB = $yearB . $monthB;
+
+            return strcmp($sortB, $sortA); // Descendente
+        });
+
+        return (object) $references;
     }
 }

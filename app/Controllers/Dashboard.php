@@ -43,7 +43,10 @@ class Dashboard extends BaseController
         $dadosCaixa = [
             'entrada' => $pagamentoModel->getEntrada($refCaixa), // Simulação de valores
             'saida' => $pagamentoModel->getSaida($refCaixa),
-            'valor_caixa' => $pagamentoModel->getTotalCaixa($refCaixa)
+            'valor_caixa' => $pagamentoModel->getTotalCaixa($refCaixa),
+            'entrada_concreto' => $pagamentoModel->getEntradaConcreto($refCaixa),
+            'saida_concreto' => $pagamentoModel->getSaidaConcreto($refCaixa),
+            'valor_caixa_concreto' => $pagamentoModel->getTotalCaixaConcreto($refCaixa)
         ];
         return $this->response->setJSON($dadosCaixa);
     }
