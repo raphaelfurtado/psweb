@@ -130,6 +130,17 @@ function renderMenu($role)
                     </li>
                 <?php endif; ?>
 
+                <?php if ($role !== 'admin'): ?>
+                    <hr class="sidebar-divider mt-0">
+                    <li class="nav-item nav-category"><strong>Financeiro</strong></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo base_url('/relatorios/resumo-caixa'); ?>">
+                            <i class="mdi mdi-file-chart menu-icon"></i>
+                            <span class="menu-title">Resumo de Caixa</span>
+                        </a>
+                    </li>
+                <?php endif; ?>
+
                 <!-- <li class="nav-item">
                 <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
                     <i class="mdi mdi-account menu-icon"></i>

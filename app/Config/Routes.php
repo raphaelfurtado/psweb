@@ -113,9 +113,6 @@ $routes->group('', ['filter' => 'role:admin'], function ($routes) {
     $routes->get('/relatorios/gerar-pdf-prestacao', 'Relatorio::gerarPdfPrestacao');
     $routes->get('/relatorios/receitas-categoria', 'Relatorio::receitasPorCategoria');
     $routes->get('/relatorios/gerar-pdf-receitas', 'Relatorio::gerarPdfReceitasCategoria');
-    $routes->get('/relatorios/resumo-caixa', 'Relatorio::resumoCaixa');
-    $routes->get('/relatorios/gerar-pdf-resumo-caixa', 'Relatorio::gerarPdfResumoCaixa');
-
 });
 
 # ANEXO ROTAS PUBLICAS
@@ -140,6 +137,10 @@ $routes->post('/consent/policy', 'Auth::updatePolicy');  // Atualiza o consentim
 # ROTAS PROTEGIDAS COM O FILTRO DE AUTENTICAÇÃO E CONSENTIMENTO
 $routes->get('/', 'Dashboard::index', ['filter' => 'auth']);  // Página inicial, requer login e consentimento
 $routes->post('/user/alteraSenha', 'User::updateSenhaUsuario', ['filter' => 'auth']);  // Alteração de senha, requer login e consentimento
+
+# RELATÓRIOS PUBLICOS (TRANSPARÊNCIA)
+$routes->get('/relatorios/resumo-caixa', 'Relatorio::resumoCaixa', ['filter' => 'auth']);
+$routes->get('/relatorios/gerar-pdf-resumo-caixa', 'Relatorio::gerarPdfResumoCaixa', ['filter' => 'auth']);
 
 
 

@@ -226,6 +226,25 @@
 </div>
 -->
 
+<?php if ($role !== 'admin'): ?>
+    <div class="row mt-4">
+        <div class="col-lg-12">
+            <div class="card shadow-sm border-0" style="border-radius: 15px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                <div class="card-body p-4 text-center">
+                    <div class="mb-3">
+                        <i class="mdi mdi-file-document-box-outline text-primary" style="font-size: 48px;"></i>
+                    </div>
+                    <h4 class="font-weight-bold text-dark mb-2">Transparência Financeira</h4>
+                    <p class="text-muted mb-4">Acompanhe todos os lançamentos de entrada e saída do condomínio de forma detalhada.</p>
+                    <a href="<?php echo base_url('/relatorios/resumo-caixa'); ?>" class="btn btn-primary btn-rounded btn-lg px-5">
+                        <i class="mdi mdi-eye mr-2"></i> Visualizar Resumo de Caixa
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
 <?php if ($role === 'admin'): ?>
     <div class="row">
         <div class="col-md-6 grid-margin stretch-card">
