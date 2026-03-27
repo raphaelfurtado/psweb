@@ -26,13 +26,24 @@
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <div class="template-demo">
-                    <a href="<?php echo base_url($link) ?>" class="btn btn-primary text-white">
-                        <i class="mdi mdi-plus btn-icon-prepend"></i>
-                        Adicionar
-                    </a>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div class="template-demo">
+                        <a href="<?php echo base_url($link) ?>" class="btn btn-primary text-white">
+                            <i class="mdi mdi-plus btn-icon-prepend"></i>
+                            Adicionar
+                        </a>
+                    </div>
+                    <form method="get" class="form-inline">
+                        <label class="mr-2 font-weight-bold">Ano:</label>
+                        <select name="year" class="form-control form-control-sm" onchange="this.form.submit()">
+                            <?php foreach ($anos_disponiveis as $ano): ?>
+                                <option value="<?= $ano ?>" <?= $ano == $selected_year ? 'selected' : '' ?>>
+                                    <?= $ano ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </form>
                 </div>
-                <br />
                 <h4 class="card-title"><?php echo $titulo ?></h4>
                 <div class="table-responsive">
                     <table id="dataTablePagamentos" class="datatable table table-striped nowrap table-hover"

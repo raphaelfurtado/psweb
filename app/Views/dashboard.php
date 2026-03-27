@@ -250,12 +250,12 @@
         <div class="col-md-6 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Resumo de Caixa</h4>
+                    <h4 class="card-title">Resumo de Caixa - Mensalidade</h4>
                     <div class="form-group">
                         <label for="ref_caixa">Referência:</label>
                         <select class="form-control form-control-sm" id="ref_caixa" name="ref_caixa">
                             <?php foreach ($referencias_caixa as $referencia): ?>
-                                <option value="<?= $referencia; ?>"><?= $referencia; ?></option>
+                                <option value="<?= $referencia; ?>" <?= $referencia == date('mY') ? 'selected' : '' ?>><?= $referencia; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -290,12 +290,12 @@
         <div class="col-md-6 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Resumo de Concreto</h4>
+                    <h4 class="card-title">Resumo de Caixa - Concreto</h4>
                     <div class="form-group">
                         <label for="ref_concreto">Referência:</label>
                         <select class="form-control form-control-sm" id="ref_concreto" name="ref_concreto">
                             <?php foreach ($referencias_caixa as $referencia): ?>
-                                <option value="<?= $referencia; ?>"><?= $referencia; ?></option>
+                                <option value="<?= $referencia; ?>" <?= $referencia == date('mY') ? 'selected' : '' ?>><?= $referencia; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
