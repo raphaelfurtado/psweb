@@ -27,7 +27,17 @@ class Pagamento extends BaseController
         $data['link'] = 'pagamento/inserir';
         $data['tituloRedirect'] = '+ Inserir Novo Pagamento';
 
-        // Seleciona files.id como id_anexo para usar no link de download
+        // Ano selecionado via GET, padrão: ano atual
+        $selectedYear = $this->request->getGet('year') ?? date('Y');
+
+        // Busca os anos disponíveis no banco (campo referencia = MMYYYY)
+        $anosResult = $pagadorModel->db->table('pagamento')
+            ->select('DISTINCT SUBSTR(referencia, 3, 4) AS ano')
+            ->orderBy('ano', 'DESC')
+            ->get()->getResultArray();
+        $data['anos_disponiveis'] = array_column($anosResult, 'ano');
+        $data['selected_year'] = $selectedYear;
+
         $data['pagamentos'] = $pagadorModel
             ->select('pagamento.*, 
                 pagamento.id as id_pagamento,
@@ -45,6 +55,7 @@ class Pagamento extends BaseController
             ->join('tipo_pagamento', 'tipo_pagamento.codigo = pagamento.id_tipo_pagamento')
             ->join('forma_pagamento', 'forma_pagamento.codigo = pagamento.id_forma_pagamento', 'left')
             ->join('files', 'files.id_morador = pagamento.id_usuario AND files.identifier = pagamento.id AND files.form = "PAGAMENTO"', 'left')
+            ->where("SUBSTR(pagamento.referencia, 3, 4)", $selectedYear)
             ->orderBy('pagamento.data_pagamento, users.nome', 'ASC')->findAll();
 
         $data['totalPago'] = $totalPago->total ?? 0;
