@@ -181,4 +181,24 @@ class Funcionario extends BaseController
 
         return view('funcionario/funcionario_form_editar', $data);
     }
+
+    public function excluir($id)
+    {
+
+        $funcionarioModel = new FuncionarioModel();
+
+        // Verifica se o funcionário existe
+        $funcionario = $funcionarioModel->find($id);
+        if (!$funcionario) {
+            return redirect()->to('/funcionarios')->with('msg_error', 'Funcionário não encontrado!');
+        }
+
+        // Tenta excluir o funcionário
+        if ($funcionarioModel->delete($id)) {
+            return redirect()->to('/funcionarios')->with('msg_success', 'Funcionário excluído com sucesso!');
+        } else {
+            return redirect()->to('/funcionarios')->with('msg_error', 'Erro ao excluir funcionário!');
+        }
+    }
 }
+
