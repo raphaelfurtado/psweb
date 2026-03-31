@@ -52,6 +52,12 @@
                                             onclick="window.location.href='<?php echo base_url('/funcionario/editar/' . $funcionario['id']) ?>'">
                                             <i class="mdi mdi-pen icon-sm"></i>
                                         </button>
+                                        <button title="Excluir Registro" type="button"
+                                            class="btn btn-danger btn-rounded btn-icon"
+                                            onclick="if(confirm('Deseja realmente excluir este funcionário?')) { window.location.href='<?php echo base_url('/funcionario/excluir/' . $funcionario['id']) ?>'; }">
+                                            <i class="mdi mdi-delete icon-sm"></i>
+                                        </button>
+
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

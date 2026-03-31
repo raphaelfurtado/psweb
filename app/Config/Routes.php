@@ -92,6 +92,8 @@ $routes->group('', ['filter' => 'role:admin'], function ($routes) {
     $routes->get('/funcionario/cadastrar', 'Funcionario::cadastrar');
     $routes->post('/funcionario/cadastrar', 'Funcionario::cadastrar');
     $routes->match(['get', 'post'], 'funcionario/editar/(:num)', 'Funcionario::editar/$1');
+    $routes->get('/funcionario/excluir/(:num)', 'Funcionario::excluir/$1');
+
 
     # TIPO SAÍDA ROTAS PRIVADAS
     $routes->get('/tipoSaida', 'TipoSaida::index');

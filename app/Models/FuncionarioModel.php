@@ -38,25 +38,26 @@ class FuncionarioModel extends Model
     // Configurações de validação
     protected $validationRules = [
         'nome_completo' => 'required|max_length[255]',
-        'data_nascimento' => 'required|valid_date',
-        'cpf' => 'required|exact_length[11]|is_unique[funcionarios.cpf,id,{id}]', // Verifica unicidade no CPF
-        'rg' => 'required|max_length[20]',
-        'endereco_completo' => 'required|max_length[255]',
-        'cidade' => 'required|max_length[100]',
-        'estado' => 'required|exact_length[2]',
-        'cep' => 'required|exact_length[8]',
-        'telefone_whatsapp' => 'required|max_length[20]',
-        'salario' => 'required',
-        'nome_titular_conta' => 'required|max_length[255]',
-        'banco' => 'required|max_length[100]',
-        'agencia' => 'required|max_length[20]',
-        'numero_conta' => 'required|max_length[50]',
-        'tipo_conta' => 'required|in_list[01,02,03]',
-        'chave_pix' => 'required|max_length[255]',
+        'data_nascimento' => 'permit_empty|valid_date',
+        'cpf' => 'permit_empty|exact_length[11]|is_unique[funcionarios.cpf,id,{id}]', // Verifica unicidade no CPF
+        'rg' => 'permit_empty|max_length[20]',
+        'endereco_completo' => 'permit_empty|max_length[255]',
+        'cidade' => 'permit_empty|max_length[100]',
+        'estado' => 'permit_empty|exact_length[2]',
+        'cep' => 'permit_empty|exact_length[8]',
+        'telefone_whatsapp' => 'permit_empty|max_length[20]',
+        'salario' => 'permit_empty',
+        'nome_titular_conta' => 'permit_empty|max_length[255]',
+        'banco' => 'permit_empty|max_length[100]',
+        'agencia' => 'permit_empty|max_length[20]',
+        'numero_conta' => 'permit_empty|max_length[50]',
+        'tipo_conta' => 'permit_empty|in_list[01,02,03]',
+        'chave_pix' => 'permit_empty|max_length[255]',
         'observacao' => 'permit_empty',
         'usuario_criacao' => 'required|integer',
         'usuario_atualizacao' => 'permit_empty|integer'
     ];
+
 
     // Configurações de mensagens personalizadas de validação
     protected $validationMessages = [
